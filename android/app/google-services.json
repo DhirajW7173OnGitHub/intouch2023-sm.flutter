@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "262694334042",
+    "project_id": "intouch-app-2905d",
+    "storage_bucket": "intouch-app-2905d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262694334042:android:87a1661f95159e9022b263",
+        "android_client_info": {
+          "package_name": "com.example.stock_management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCE2vVR6w9F9vWhEk2jw2nl85TjHStUYKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
