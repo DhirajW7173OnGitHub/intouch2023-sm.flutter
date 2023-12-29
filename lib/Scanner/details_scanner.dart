@@ -36,6 +36,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
   String? _getScannedData = '';
 
   int? count = 1;
+  int? _selectId;
 
   String? _selectProductName;
 
@@ -87,6 +88,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
       setState(() {
         productItem.add(
           ItemOfStockDetails(
+            id: _selectId,
             code: _getScannedData,
             count: count,
             productName: _selectProductName ?? _getScannedData,
@@ -98,6 +100,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
         _getScannedData = '';
         _selectValue == null;
         _isSelectProduct = true;
+        _selectId = null;
         _selectProductName = "";
         _isAddInDetail = true;
       });
@@ -150,6 +153,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
       for (var i = 0; i < productItem.length; i++) {
         item = {
           "name": productItem[i].productName,
+          "prod_id": productItem[i].id,
           "quantity": productItem[i].count,
         };
         print('ProductItem : $item');
@@ -371,6 +375,10 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                             .data!
                                             .map((product) => "${product.name}")
                                             .toList();
+                                        List<String> productId = snapshot.data!
+                                            .map((product) => "${product.id}")
+                                            .toList();
+
                                         List<String> productCode = snapshot
                                             .data!
                                             .map((product) => "${product.code}")
@@ -381,7 +389,13 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                           _selectProductName = productNames[
                                               productCode
                                                   .indexOf(_getScannedData!)];
+                                          _selectId = int.parse(
+                                            productId[productCode
+                                                .indexOf(_getScannedData!)],
+                                          );
                                         }
+                                        log('@@@@@@@@@@@@:${_selectId}');
+
                                         // else {
                                         //   globalUtils.showNegativeSnackBar(
                                         //       message:
@@ -444,6 +458,10 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                             .data!
                                             .map((product) => "${product.name}")
                                             .toList();
+                                        List<String> productId = snapshot.data!
+                                            .map((product) => "${product.id}")
+                                            .toList();
+
                                         List<String> productCode = snapshot
                                             .data!
                                             .map((product) => "${product.code}")
@@ -455,6 +473,10 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                           _selectProductName = productNames[
                                               productCode
                                                   .indexOf(_getScannedData!)];
+                                          // _selectId = int.parse(
+                                          //   productNames[productId
+                                          //       .indexOf(_selectProductName!)],
+                                          // );
                                         }
 
                                         return Padding(
@@ -495,6 +517,9 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                                 print(
                                                     "Selected Product: $value");
                                                 _selectProductName = value;
+                                                _selectId = int.parse(productId[
+                                                    productNames
+                                                        .indexOf(value!)]);
                                               });
                                             },
                                           ),
@@ -580,6 +605,15 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                               children: [
                                                 Text(
                                                   '${productItem[index].code} ',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                ),
+                                                Text(
+                                                  "Product ID : ${productItem[index].id} ",
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyLarge!

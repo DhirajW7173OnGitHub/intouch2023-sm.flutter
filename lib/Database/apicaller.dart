@@ -5,7 +5,7 @@ import 'package:stock_management/Database/apiwrapper.dart';
 //from This class give call to ApiWrapper
 class ApiCaller {
   //UserLoginData
-  Future<Map> getUserLoginData(Map body) async {
+  Future<Map<String, dynamic>> getUserLoginData(Map body) async {
     var endPoint = 'userlogin';
     try {
       final res = await ApiWrapper.post(endPoint, body);

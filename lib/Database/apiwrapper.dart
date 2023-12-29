@@ -3,8 +3,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:stock_management/Database/storage_utils.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
 import 'package:stock_management/utils/base_url_domain.dart';
+import 'package:stock_management/utils/local_storage.dart';
 
 import 'app_exception.dart';
 
@@ -22,11 +24,12 @@ class ApiWrapper {
     String endpoint,
     dynamic body,
   ) async {
+    final token = StorageUtil.getString(localStorageKey.TOKEN!);
     final url = Uri.parse('$baseUrl/$endpoint');
     log('Url : $url' + 'Body Data : $body');
     final res = await http.post(
       url,
-      //  headers: <String, String>{"Authorization":},
+      headers: <String, String>{"Authorization": "Bearer $token"},
       body: body,
     );
 

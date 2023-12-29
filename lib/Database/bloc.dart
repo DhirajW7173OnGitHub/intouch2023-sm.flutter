@@ -44,7 +44,7 @@ class GlobalBloc {
       "password": password,
       "phone": mobileNu,
     };
-    Map res = await apiCaller.getUserLoginData(bodyData);
+    Map<String, dynamic> res = await apiCaller.getUserLoginData(bodyData);
 
     // if (res["errorcode"] == 1) {
     //   print('@@@@@@@@@@@@@@: ${res["errorcode"]} && ${res["msg"]}');
@@ -54,6 +54,7 @@ class GlobalBloc {
     // }
 
     var userData = User.fromJson(res["user"]);
+    var response = UserDataModel.fromJson(res["token"]);
 
     await StorageUtil.putString(localStorageKey.NAME!, "${userData.name}");
     StorageUtil.putString(localStorageKey.EMAIL!, "${userData.email}");
@@ -66,6 +67,8 @@ class GlobalBloc {
         localStorageKey.MALLID!.toString(), "${userData.mallIds}");
     StorageUtil.putString(
         localStorageKey.ROLLID!.toString(), "${userData.roleId}");
+
+    StorageUtil.putString(localStorageKey.TOKEN!, "${response.token}");
 
     EasyLoading.dismiss();
     _liveUserLogindata.add(res);
