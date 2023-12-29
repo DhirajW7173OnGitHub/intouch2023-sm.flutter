@@ -138,7 +138,6 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
         if (res != null) {
           if (res["errorcode"] == 1) {
             globalUtils.showValidationError(res["msg"]);
-            // globalUtils.showSnackBar(res["msg"]);
           } else {
             await globalBloc.doFetchUserLoginData(
                 mobileNu: mobileController.text, password: passController.text);
@@ -148,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
             sharedPreference.setBool(KEYLOGIN, true);
 
             Future.delayed(
-              const Duration(microseconds: 500),
+              const Duration(microseconds: 000),
               () => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(

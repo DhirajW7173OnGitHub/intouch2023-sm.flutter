@@ -5,11 +5,28 @@ import 'package:stock_management/Database/apiwrapper.dart';
 //from This class give call to ApiWrapper
 class ApiCaller {
   //UserLoginData
-  Future<Map<String, dynamic>> getUserLoginData(Map body) async {
+  Future<Map> getUserLoginData(Map body) async {
     var endPoint = 'userlogin';
     try {
-      final res = await ApiWrapper.post(endPoint, body);
+      final res = await ApiWrapper.loginPost(endPoint, body);
       log('getUserLoginData Body Data  :$body and response : $res');
+      // var userData = User.fromJson(res["user"]);
+      // // var response = UserDataModel.fromJson(res["token"]);
+
+      // await StorageUtil.putString(localStorageKey.NAME!, "${userData.name}");
+      // StorageUtil.putString(localStorageKey.EMAIL!, "${userData.email}");
+      // StorageUtil.putString(localStorageKey.MALLID!, "${userData.mallIds}");
+      // StorageUtil.putString(localStorageKey.PHONE!, "${userData.phone}");
+      // StorageUtil.putString(localStorageKey.ID!.toString(), "${userData.id}");
+      // StorageUtil.putString(
+      //     localStorageKey.INACTIVE!.toString(), "${userData.inactive}");
+      // StorageUtil.putString(
+      //     localStorageKey.MALLID!.toString(), "${userData.mallIds}");
+      // StorageUtil.putString(
+      //     localStorageKey.ROLLID!.toString(), "${userData.roleId}");
+      // StorageUtil.putString(
+      //     localStorageKey.TOKEN!.toString(), "${res["token"]}");
+
       return res;
     } catch (e) {
       log('CATCH API ERROR : $e');
@@ -34,7 +51,7 @@ class ApiCaller {
     var endPoint = "active-pages";
     try {
       final res = await ApiWrapper.post(endPoint, body);
-      log('getMenuList bodyData :$body-- res :$res ');
+      log(' bodyData :$body-- res :$res ');
       return res;
     } catch (e) {
       log('CATCH API ERROR : $e');

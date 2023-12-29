@@ -19,6 +19,21 @@ class ApiWrapper {
     return _processResponse(res);
   }
 
+  static Future<Map<String, dynamic>> loginPost(
+    String endpoint,
+    dynamic body,
+  ) async {
+    // final token = StorageUtil.getString(localStorageKey.TOKEN!);
+    final url = Uri.parse('$baseUrl/$endpoint');
+    log('Url : $url' + 'Body Data : $body');
+    final res = await http.post(
+      url,
+      body: body,
+    );
+
+    return _processResponse(res);
+  }
+
   //Make Post Request Api
   static Future<Map<String, dynamic>> post(
     String endpoint,
@@ -29,7 +44,9 @@ class ApiWrapper {
     log('Url : $url' + 'Body Data : $body');
     final res = await http.post(
       url,
-      headers: <String, String>{"Authorization": "Bearer $token"},
+      headers: <String, String>{
+        "Authorization": "Bearer 200|VfiS0j1pzvYzP25cBSvHBcftTdDVAkQ7lkEORHJo"
+      },
       body: body,
     );
 

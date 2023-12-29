@@ -39,8 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     sessionManager.updateLoggedInTimeAndLoggedStatus();
 
-    globalBloc.getMenuListData(
-        StorageUtil.getString(localStorageKey.ROLLID.toString()));
+    globalBloc
+        .getMenuListData(StorageUtil.getString(localStorageKey.ID!.toString()));
   }
 
   _profileIconClick() {
