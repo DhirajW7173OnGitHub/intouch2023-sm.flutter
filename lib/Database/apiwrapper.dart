@@ -44,9 +44,7 @@ class ApiWrapper {
     log('Url : $url' + 'Body Data : $body');
     final res = await http.post(
       url,
-      headers: <String, String>{
-        "Authorization": "Bearer 200|VfiS0j1pzvYzP25cBSvHBcftTdDVAkQ7lkEORHJo"
-      },
+      headers: <String, String>{"Authorization": "Bearer $token"},
       body: body,
     );
 

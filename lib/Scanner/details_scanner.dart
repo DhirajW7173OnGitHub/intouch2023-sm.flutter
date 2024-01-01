@@ -127,7 +127,8 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
     );
     //Setup Dialog
     AlertDialog alert = AlertDialog(
-      title: const Text('Are you sure you want to submit this Stock List?'),
+      title: Text(
+          "Are you sure you want to ${_selectValue.toString().toLowerCase() == 'in' ? 'ADD' : 'REMOVE'} this Stock List?"),
       actions: [
         cancelButton,
         continueButton,
@@ -196,7 +197,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                 SizedBox(
                   height: 12,
                 ),
-                Text("Congratulations! You have succesfully added}"),
+                Text("Congratulations! You have succesfully added"),
                 SizedBox(height: 12),
                 ElevatedButton(
                   onPressed: () {
@@ -239,7 +240,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                 SizedBox(
                   height: 12,
                 ),
-                Text("Congratulations! You have succesfully remove}"),
+                Text("Congratulations! You have succesfully remove"),
                 SizedBox(height: 12),
                 ElevatedButton(
                   onPressed: () {
@@ -316,8 +317,13 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
         child: Card(
           child: Column(
             children: [
-              Card(
-                elevation: 8,
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.only(
                       bottom: 10, top: 8, left: 6, right: 8),
@@ -561,210 +567,221 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 6,
               ),
               Expanded(
-                child: Scrollbar(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          (productItem.isEmpty)
-                              ? Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.5,
-                                  child: Center(
-                                    child: Text(
-                                      'Data Not added',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .copyWith(
-                                              fontWeight: FontWeight.w500),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                  ),
+                  child: Scrollbar(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            (productItem.isEmpty)
+                                ? Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.5,
+                                    child: Center(
+                                      child: Text(
+                                        'Data Not added',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge!
+                                            .copyWith(
+                                                fontWeight: FontWeight.w500),
+                                      ),
                                     ),
-                                  ),
-                                )
-                              : Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: List.generate(
-                                    productItem.length,
-                                    (index) {
-                                      print('Length : ${productItem.length}');
-                                      // log('Data of List :${item[index]}');
-                                      return Card(
-                                        elevation: 8,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SizedBox(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '${productItem[index].code} ',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge!
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                ),
-                                                Text(
-                                                  "Product ID : ${productItem[index].id} ",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge!
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                ),
-                                                Text(
-                                                  "Product Name : ${productItem[index].productName} ",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge!
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                ),
-                                                // Text(
-                                                //   "Condition : ${productItem[index].condition} ",
-                                                //   style: Theme.of(context)
-                                                //       .textTheme
-                                                //       .bodyLarge!
-                                                //       .copyWith(
-                                                //           fontWeight:
-                                                //               FontWeight.bold),
-                                                // ),
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: Container(
-                                                        height: 30,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                const BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            5)),
-                                                            border: Border.all(
-                                                                color: Colors
-                                                                    .black)),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal: 0,
-                                                                  vertical: 2),
-                                                          child: Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              Visibility(
-                                                                visible: true,
-                                                                child:
-                                                                    GestureDetector(
-                                                                  onTap: () {
-                                                                    print(
-                                                                        'MINUS PRESS');
-                                                                    _updateItemCount(
-                                                                        index,
-                                                                        -1);
-                                                                  },
-                                                                  child: Text(
-                                                                    '-',
-                                                                    style: Theme.of(context).textTheme.headline1!.copyWith(
-                                                                        fontSize:
-                                                                            24,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
-                                                                        height:
-                                                                            1,
-                                                                        color: Colors
-                                                                            .grey[800]),
+                                  )
+                                : Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: List.generate(
+                                      productItem.length,
+                                      (index) {
+                                        print('Length : ${productItem.length}');
+                                        // log('Data of List :${item[index]}');
+                                        return Card(
+                                          elevation: 8,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '${productItem[index].code} ',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge!
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                  ),
+                                                  // Text(
+                                                  //   "Product ID : ${productItem[index].id} ",
+                                                  //   style: Theme.of(context)
+                                                  //       .textTheme
+                                                  //       .bodyLarge!
+                                                  //       .copyWith(
+                                                  //           fontWeight:
+                                                  //               FontWeight.bold),
+                                                  // ),
+                                                  Text(
+                                                    "Product Name : ${productItem[index].productName} ",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge!
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                  ),
+                                                  // Text(
+                                                  //   "Condition : ${productItem[index].condition} ",
+                                                  //   style: Theme.of(context)
+                                                  //       .textTheme
+                                                  //       .bodyLarge!
+                                                  //       .copyWith(
+                                                  //           fontWeight:
+                                                  //               FontWeight.bold),
+                                                  // ),
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        flex: 1,
+                                                        child: Container(
+                                                          height: 30,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  const BorderRadius
+                                                                      .all(
+                                                                      Radius.circular(
+                                                                          5)),
+                                                              border: Border.all(
+                                                                  color: Colors
+                                                                      .black)),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        0,
+                                                                    vertical:
+                                                                        2),
+                                                            child: Row(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceEvenly,
+                                                              children: [
+                                                                Visibility(
+                                                                  visible: true,
+                                                                  child:
+                                                                      GestureDetector(
+                                                                    onTap: () {
+                                                                      print(
+                                                                          'MINUS PRESS');
+                                                                      _updateItemCount(
+                                                                          index,
+                                                                          -1);
+                                                                    },
+                                                                    child: Text(
+                                                                      '-',
+                                                                      style: Theme.of(context).textTheme.headline1!.copyWith(
+                                                                          fontSize:
+                                                                              24,
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          height:
+                                                                              1,
+                                                                          color:
+                                                                              Colors.grey[800]),
+                                                                    ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 10,
-                                                              ),
-                                                              Text(productItem[
-                                                                      index]
-                                                                  .count
-                                                                  .toString()),
-                                                              const SizedBox(
-                                                                width: 10,
-                                                              ),
-                                                              Visibility(
-                                                                visible: true,
-                                                                child:
-                                                                    GestureDetector(
-                                                                  onTap: () {
-                                                                    print(
-                                                                        'MINUS PRESS');
-                                                                    _updateItemCount(
-                                                                        index,
-                                                                        1);
-                                                                  },
-                                                                  child: Text(
-                                                                    '+',
-                                                                    style: Theme.of(context).textTheme.headline1!.copyWith(
-                                                                        fontSize:
-                                                                            24,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
-                                                                        height:
-                                                                            1,
-                                                                        color: Colors
-                                                                            .grey[800]),
+                                                                const SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                                Text(productItem[
+                                                                        index]
+                                                                    .count
+                                                                    .toString()),
+                                                                const SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                                Visibility(
+                                                                  visible: true,
+                                                                  child:
+                                                                      GestureDetector(
+                                                                    onTap: () {
+                                                                      print(
+                                                                          'MINUS PRESS');
+                                                                      _updateItemCount(
+                                                                          index,
+                                                                          1);
+                                                                    },
+                                                                    child: Text(
+                                                                      '+',
+                                                                      style: Theme.of(context).textTheme.headline1!.copyWith(
+                                                                          fontSize:
+                                                                              24,
+                                                                          fontWeight: FontWeight
+                                                                              .w500,
+                                                                          height:
+                                                                              1,
+                                                                          color:
+                                                                              Colors.grey[800]),
+                                                                    ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                            ],
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Expanded(
-                                                        flex: 2,
-                                                        child: Container()),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: IconButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            productItem
-                                                                .removeAt(
-                                                                    index);
-                                                          });
-                                                        },
-                                                        icon: const Icon(
-                                                          Icons.delete,
-                                                          color: Colors.red,
+                                                      Expanded(
+                                                          flex: 2,
+                                                          child: Container()),
+                                                      Expanded(
+                                                        flex: 1,
+                                                        child: IconButton(
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              productItem
+                                                                  .removeAt(
+                                                                      index);
+                                                            });
+                                                          },
+                                                          icon: const Icon(
+                                                            Icons.delete,
+                                                            color: Colors.red,
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      );
-                                    },
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
