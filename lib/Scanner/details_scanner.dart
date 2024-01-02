@@ -7,14 +7,14 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:stock_management/Database/apicaller.dart';
 import 'package:stock_management/Database/bloc.dart';
 import 'package:stock_management/Database/storage_utils.dart';
+import 'package:stock_management/Scanner/Model/product_list_model.dart';
 import 'package:stock_management/Scanner/scanner_screen.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
 import 'package:stock_management/home_screen.dart';
-import 'package:stock_management/model/product_list_model.dart';
 import 'package:stock_management/utils/local_storage.dart';
 
-import '../model/item_data.dart';
 import '../utils/session_manager.dart';
+import 'Model/item_data.dart';
 
 class ScannerDetailsScreen extends StatefulWidget {
   const ScannerDetailsScreen({
@@ -45,9 +45,25 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
   List<String> dropdownItem = ["IN", "OUT"];
   String? _selectValue = "IN";
 
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
+
+    Future.microtask(
+      () {
+        _isLoading = false;
+        Future.delayed(
+          const Duration(seconds: 2),
+          () {
+            setState(() {
+              _isLoading = true;
+            });
+          },
+        );
+      },
+    );
 
     sessionManager.updateLoggedInTimeAndLoggedStatus();
 
@@ -408,40 +424,58 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                         //           'Product Does not Exist in list.');
                                         // }
 
-                                        return Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10.0, right: 10),
-                                          child: Container(
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                child: Row(
-                                                  children: [
-                                                    //check _getScannedData exist in list or not
-                                                    Text(
-                                                      productCode.contains(
-                                                              _getScannedData!)
-                                                          ? "${productNames[productCode.indexOf(_getScannedData!)]}"
-                                                          : "Scanned Correct code.Product Does Not Exist in List",
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyLarge,
-                                                    )
-                                                  ],
+                                        return _isLoading
+                                            ? Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10.0, right: 10),
+                                                child: Container(
+                                                  height: 50,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                          ),
-                                        );
+                                              )
+                                            : Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10.0, right: 10),
+                                                child: Container(
+                                                  height: 50,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      scrollDirection:
+                                                          Axis.horizontal,
+                                                      child: Row(
+                                                        children: [
+                                                          //check _getScannedData exist in list or not
+                                                          Text(
+                                                            productCode.contains(
+                                                                    _getScannedData!)
+                                                                ? "${productNames[productCode.indexOf(_getScannedData!)]}"
+                                                                : "Scanned Correct code.Product Does Not Exist in List",
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyLarge,
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
                                       }),
                                     )
                                   : StreamBuilder<List<Product>>(

@@ -36,7 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   google_fonts: ^6.1.0
  
-  flutter_easyloading: ^3.0.5 
+  #flutter_easyloading: ^3.0.5 
   cloud_firestore: ^4.13.0
   firebase_core: ^2.22.0
   firebase_crashlytics: ^3.4.8
@@ -60,7 +60,8 @@ dependencies:
   shared_preferences: ^2.2.2
   image_cropper: ^5.0.1 
   dropdown_search: ^5.0.6
-  shimmer_effect: ^1.0.4
+ 
+  shimmer: ^3.0.0
   
  
  

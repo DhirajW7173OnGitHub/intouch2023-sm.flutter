@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+// import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:stock_management/Database/storage_utils.dart';
 import 'package:stock_management/auth/auth_apicaller.dart';
@@ -18,7 +18,7 @@ class AuthBloc {
   // final BehaviorSubject<CheckOtpModel>
 
   Future<Map> doCheckOtp(String? mobileNu) async {
-    EasyLoading.show(dismissOnTap: false);
+    // EasyLoading.show(dismissOnTap: false);
 
     Map<String, dynamic> bodyData = {"phone": mobileNu};
 
@@ -29,13 +29,13 @@ class AuthBloc {
 
     log('doCheckOtp BodyData : $bodyData -----Response :$res');
 
-    EasyLoading.dismiss();
+    // EasyLoading.dismiss();
     return res;
   }
 
   Future<Map> doCreatePassword(
       {String? mobileNu, String? passW, String? otp}) async {
-    EasyLoading.show(dismissOnTap: false);
+    // EasyLoading.show(dismissOnTap: false);
     Map<String, dynamic> bodyData = {
       "phone": mobileNu,
       "password": passW,
@@ -44,7 +44,7 @@ class AuthBloc {
     var res = await _apiCaller.getCreatePass(bodyData);
     log('doCreatePassword BodyData : $bodyData -----Response :$res');
     var response = CreatePasswordModel.fromJson(res);
-    EasyLoading.dismiss();
+    //  EasyLoading.dismiss();
     _liveCreatePassword.add(response);
     return res;
   }
