@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+// import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:stock_management/Database/apicaller.dart';
 import 'package:stock_management/Database/storage_utils.dart';
@@ -39,7 +39,7 @@ class GlobalBloc {
     String? mobileNu,
     String? password,
   }) async {
-    EasyLoading.show(dismissOnTap: false);
+    //EasyLoading.show(dismissOnTap: false);
     Map bodyData = {
       "password": password,
       "phone": mobileNu,
@@ -69,7 +69,7 @@ class GlobalBloc {
 
     StorageUtil.putString(localStorageKey.TOKEN!, "${res["token"]}");
 
-    EasyLoading.dismiss();
+    // EasyLoading.dismiss();
 
     _liveUserLogindata.add(res);
     _liveUserdata.add(userData);
@@ -78,7 +78,7 @@ class GlobalBloc {
 
   //---------------Menu List------------------------------//
   Future<MenuModel> getMenuListData(String roleId) async {
-    EasyLoading.show(dismissOnTap: false);
+    //EasyLoading.show(dismissOnTap: false);
     Map<String, dynamic> bodyData = {
       "role": roleId,
     };
@@ -87,7 +87,7 @@ class GlobalBloc {
       log('getMenuListData BodyData : $bodyData');
       var responseData = MenuModel.fromJson(res);
       _liveMenuListData.add(responseData);
-      EasyLoading.dismiss();
+      //  EasyLoading.dismiss();
       return responseData;
     } catch (e) {
       throw "Something went wrong $e";
@@ -97,7 +97,7 @@ class GlobalBloc {
   //product List
 
   Future<List<Product>> doFetchProductList({String? userId}) async {
-    EasyLoading.show(dismissOnTap: false);
+    // EasyLoading.show(dismissOnTap: false);
     Map<String, dynamic> bodyData = {
       "userid": userId,
       // "token": CommonString.TOKEN,
@@ -108,7 +108,7 @@ class GlobalBloc {
       print("doFetchProductList Body Data : $bodyData----Response: $res");
       var data = ProductListModel.fromJson(res);
       _liveProductListData.add(data.products);
-      EasyLoading.dismiss();
+      //  EasyLoading.dismiss();
       return (data.products);
     } catch (e) {
       throw "Something went wrong :$e";

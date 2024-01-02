@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:stock_management/Database/bloc.dart';
 import 'package:stock_management/Database/storage_utils.dart';
 import 'package:stock_management/Report/report_screen.dart';
@@ -25,6 +26,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
+  bool _isLoading = false;
+
   List<MenuData> _menuList = [];
 
   var connectivityResult = ConnectivityResult.none;
@@ -35,6 +38,23 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
+    Future.microtask(
+      () {
+        _isLoading = true;
+        Future.delayed(
+          const Duration(seconds: 2),
+          () {
+            setState(
+              () {
+                _isLoading = false;
+              },
+            );
+          },
+        );
+      },
+    );
+
     log('GetInstance : ${StorageUtil.getString(localStorageKey.ID!.toString())} ');
 
     sessionManager.updateLoggedInTimeAndLoggedStatus();
@@ -249,7 +269,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey[600],
+        unselectedItemColor: Colors.grey[700],
         backgroundColor: Colors.white,
         currentIndex: _selectedIndex,
       ),
@@ -271,87 +291,120 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (!snapshot.hasData) {
                       return Container();
                     }
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
+                    // if (snapshot.connectionState == ConnectionState.waiting) {
+                    //   return const Center(
+                    //     child: CircularProgressIndicator(),
+                    //   );
+                    // }
 
                     _menuList = snapshot.data?.menu ?? [];
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20.0, right: 20, top: 40, bottom: 8),
-                      child: GridView.count(
-                        crossAxisCount: 2,
-                        childAspectRatio: 20 / 15,
-                        mainAxisSpacing: 40,
-                        crossAxisSpacing: 40,
-                        children: List.generate(_menuList.length, (index) {
-                          String? imageName = "assets/icon/organization.png";
-                          Color splashColor = Colors.blue.withAlpha(30);
-                          String menuTitle = _menuList[index].menuTitle!;
-
-                          if (_menuList[index].id! == "1") {
-                            imageName = "assets/icon/organization.png";
-                          } else if (_menuList[index].id! == "2") {
-                            imageName = "assets/icon/menu.png";
-                          } else if (_menuList[index].id! == "3") {
-                            imageName = "assets/icon/report.png";
-                          }
-
-                          return Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.black),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(8),
+                    return _isLoading
+                        ? Shimmer.fromColors(
+                            baseColor: Colors.white54,
+                            highlightColor: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, right: 20, top: 40, bottom: 8),
+                              child: GridView.count(
+                                crossAxisCount: 2,
+                                childAspectRatio: 20 / 15,
+                                mainAxisSpacing: 40,
+                                crossAxisSpacing: 40,
+                                children: List.generate(
+                                  _menuList.length,
+                                  (index) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Color(0xffD6D6D6)),
+                                        borderRadius: BorderRadius.circular(6),
+                                        color: Colors.white,
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ),
-                            child: InkWell(
-                              onTap: () {
-                                _menuNavigator(_menuList[index].id.toString());
-                              },
-                              splashColor: splashColor,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 80,
-                                    width: 80,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(imageName.toString()),
-                                        fit: BoxFit.cover,
-                                      ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.only(
+                                left: 20.0, right: 20, top: 40, bottom: 8),
+                            child: GridView.count(
+                              crossAxisCount: 2,
+                              childAspectRatio: 20 / 15,
+                              mainAxisSpacing: 40,
+                              crossAxisSpacing: 40,
+                              children:
+                                  List.generate(_menuList.length, (index) {
+                                String? imageName =
+                                    "assets/icon/organization.png";
+                                Color splashColor = Colors.blue.withAlpha(30);
+                                String menuTitle = _menuList[index].menuTitle!;
+
+                                if (_menuList[index].id! == "1") {
+                                  imageName = "assets/icon/organization.png";
+                                } else if (_menuList[index].id! == "2") {
+                                  imageName = "assets/icon/menu.png";
+                                } else if (_menuList[index].id! == "3") {
+                                  imageName = "assets/icon/report.png";
+                                }
+
+                                return Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(color: Colors.black),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(8),
                                     ),
                                   ),
-                                  Align(
-                                    alignment: Alignment.center,
-                                    child: SizedBox(
-                                      width: 150,
-                                      child: Text(
-                                        menuTitle,
-                                        maxLines: 3,
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black,
-                                          // fontWeight: FontWeight.bold
+                                  child: InkWell(
+                                    onTap: () {
+                                      _menuNavigator(
+                                          _menuList[index].id.toString());
+                                    },
+                                    splashColor: splashColor,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          height: 80,
+                                          width: 80,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: AssetImage(
+                                                  imageName.toString()),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: SizedBox(
+                                            width: 150,
+                                            child: Text(
+                                              menuTitle,
+                                              maxLines: 3,
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black,
+                                                // fontWeight: FontWeight.bold
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
+                                );
+                              }),
                             ),
                           );
-                        }),
-                      ),
-                    );
                   }),
             ),
           ),
