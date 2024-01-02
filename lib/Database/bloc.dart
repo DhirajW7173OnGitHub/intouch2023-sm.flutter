@@ -4,8 +4,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:stock_management/Database/apicaller.dart';
 import 'package:stock_management/Database/storage_utils.dart';
+import 'package:stock_management/Scanner/Model/product_list_model.dart';
 import 'package:stock_management/model/menu_list_model.dart';
-import 'package:stock_management/model/product_list_model.dart';
 import 'package:stock_management/model/user_login_data_model.dart';
 import 'package:stock_management/utils/local_storage.dart';
 

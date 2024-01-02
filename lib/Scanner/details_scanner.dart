@@ -7,13 +7,13 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:stock_management/Database/apicaller.dart';
 import 'package:stock_management/Database/bloc.dart';
 import 'package:stock_management/Database/storage_utils.dart';
+import 'package:stock_management/Scanner/Model/item_data.dart';
+import 'package:stock_management/Scanner/Model/product_list_model.dart';
 import 'package:stock_management/Scanner/scanner_screen.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
 import 'package:stock_management/home_screen.dart';
-import 'package:stock_management/model/product_list_model.dart';
 import 'package:stock_management/utils/local_storage.dart';
 
-import '../model/item_data.dart';
 import '../utils/session_manager.dart';
 
 class ScannerDetailsScreen extends StatefulWidget {
