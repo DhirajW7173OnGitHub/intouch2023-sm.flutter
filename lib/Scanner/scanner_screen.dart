@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qr_scanner_overlay/qr_scanner_overlay.dart';
+import 'package:stock_management/Database/bloc.dart';
+import 'package:stock_management/Database/storage_utils.dart';
+import 'package:stock_management/utils/local_storage.dart';
 
 import '../utils/session_manager.dart';
 
@@ -29,6 +32,11 @@ class _ScannerScreenState extends State<ScannerScreen> {
     super.initState();
 
     sessionManager.updateLoggedInTimeAndLoggedStatus();
+
+    // var globalBloc.doFetchProductList(
+    //     userId: StorageUtil.getString(localStorageKey.ID!.toString()));
+
+    // log('*************:${res["Products"]}');
   }
 
   _clickOnImageIcon() async {
@@ -39,12 +47,13 @@ class _ScannerScreenState extends State<ScannerScreen> {
         var selectedImage = File(img.path);
         log('Selected Image :${selectedImage.path}');
         controller.analyzeImage(selectedImage.path);
+        isScanCompleted = false;
       }
     });
   }
 
   void closeScan() {
-    isScanCompleted = true;
+    isScanCompleted = false;
   }
 
   @override
@@ -65,7 +74,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                   MobileScanner(
                     controller: controller,
                     allowDuplicates: true,
-                    onDetect: (barcode, args) {
+                    onDetect: (barcode, args) async {
                       if (!isScanCompleted) {
                         setState(() {
                           scannedCode = barcode.rawValue ?? '--';
@@ -76,6 +85,68 @@ class _ScannerScreenState extends State<ScannerScreen> {
                           );
                         });
 
+                        var productList = await globalBloc.doFetchProductList(
+                            userId: StorageUtil.getString(
+                                localStorageKey.ID!.toString()));
+                        //check Scanned code Present in product list
+                        bool codeExist = productList
+                            .any((product) => product.code == scannedCode);
+                        setState(
+                          () {
+                            if (codeExist) {
+                              isScanCompleted = true;
+                              Navigator.pop(context, scannedCode);
+                            } else {
+                              isScanCompleted = false;
+
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Scanned Code Data is not exist in list",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!
+                                              .copyWith(
+                                                fontSize: 20,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          "Please, Scanned Correct Code",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!
+                                              .copyWith(
+                                                color: Colors.black,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                          },
+                        );
+
                         // Navigator.pushReplacement(
                         //   context,
                         //   MaterialPageRoute(
@@ -84,7 +155,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                         //     ),
                         //   ),
                         // );
-                        Navigator.pop(context, scannedCode);
+                        // Navigator.pop(context, scannedCode);
                       }
                     },
                   ),

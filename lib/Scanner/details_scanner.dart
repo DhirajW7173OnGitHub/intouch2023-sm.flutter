@@ -12,6 +12,7 @@ import 'package:stock_management/Scanner/Model/product_list_model.dart';
 import 'package:stock_management/Scanner/scanner_screen.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
 import 'package:stock_management/home_screen.dart';
+import 'package:stock_management/userProfile/user_profile_screen.dart';
 import 'package:stock_management/utils/local_storage.dart';
 
 import '../utils/session_manager.dart';
@@ -28,6 +29,8 @@ class ScannerDetailsScreen extends StatefulWidget {
 }
 
 class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
+  int _selectedIndexForBottomBar = 1;
+
   final _apiCaller = ApiCaller();
   TextEditingController searchController = TextEditingController();
 
@@ -197,7 +200,11 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                 SizedBox(
                   height: 12,
                 ),
-                Text("Congratulations! You have succesfully added"),
+                Text("Congratulations! You have succesfully added."),
+                SizedBox(
+                  height: 8,
+                ),
+                Text('Request Id ${res["id"]}'),
                 SizedBox(height: 12),
                 ElevatedButton(
                   onPressed: () {
@@ -240,7 +247,11 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                 SizedBox(
                   height: 12,
                 ),
-                Text("Congratulations! You have succesfully remove"),
+                Text("Congratulations! You have succesfully remove."),
+                SizedBox(
+                  height: 8,
+                ),
+                Text('Request Id ${res["id"]}'),
                 SizedBox(height: 12),
                 ElevatedButton(
                   onPressed: () {
@@ -261,56 +272,115 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
     }
   }
 
+  _homeBottomBarIconClick() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (ctx) => const HomeScreen(),
+      ),
+    );
+  }
+
+  _personBottomBarIconClick() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (ctx) => const UserProfileScreen(),
+      ),
+    );
+  }
+
+  _selecctBottomNavigationBar(int index) {
+    switch (index) {
+      case 0:
+        _homeBottomBarIconClick();
+        break;
+      case 2:
+        _personBottomBarIconClick();
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Stock Detail'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              //this code refresh _getScannedData
-              setState(() {
-                _getScannedData = "";
-              });
-            },
-            icon: const Icon(Icons.sync),
+        title: const Text('Stock IN-OUT'),
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       //this code refresh _getScannedData
+        //       setState(() {
+        //         _getScannedData = "";
+        //       });
+        //     },
+        //     icon: const Icon(Icons.sync),
+        //   ),
+        // ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (int index) {
+          setState(() {
+            _selecctBottomNavigationBar(index);
+          });
+        },
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        backgroundColor: Colors.white,
+        currentIndex: _selectedIndexForBottomBar!,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: 'Stock IN-OUT',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Person',
           ),
         ],
       ),
-      bottomSheet: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                //By for loop we can remove added data from 0 to productItem.length
-                for (int i = 0; i < productItem.length; i++) {
-                  productItem.removeAt(i);
-                  break;
-                }
-                // _isAddInDetail = false;
-              });
-            },
-            child: const Text(
-              'CANCEL',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          ElevatedButton(
+      bottomSheet: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
               onPressed: () {
-                //check for displaying click submit button
-                if (productItem.length > 0) {
-                  _clickSubmit();
-                } else {
-                  globalUtils.showValidationError('No,Product Added yet');
-                }
+                setState(() {
+                  //By for loop we can remove added data from 0 to productItem.length
+                  for (int i = 0; i < productItem.length; i++) {
+                    productItem.removeAt(i);
+                    break;
+                  }
+                  // _isAddInDetail = false;
+                });
               },
               child: const Text(
-                'SUBMIT',
-                // style: TextStyle(color: Colors.white),
-              ))
-        ],
+                'CANCEL',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  //check for displaying click submit button
+                  if (productItem.length > 0) {
+                    _clickSubmit();
+                  } else {
+                    globalUtils.showValidationError('No,Product Added yet');
+                  }
+                },
+                child: const Text(
+                  'SUBMIT',
+                  // style: TextStyle(color: Colors.white),
+                ))
+          ],
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(2.0),
@@ -331,23 +401,28 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                     children: [
                       Row(
                         children: [
-                          Container(
-                            margin: const EdgeInsets.only(left: 12),
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            child: DropdownButton(
-                              isExpanded: true,
-                              value: _selectValue,
-                              items: dropdownItem.map((String item) {
-                                return DropdownMenuItem(
-                                  value: item,
-                                  child: Text(item),
-                                );
-                              }).toList(),
-                              onChanged: (String? value) {
-                                setState(() {
-                                  _selectValue = value;
-                                });
-                              },
+                          Card(
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 12),
+                              // decoration:
+                              //     const BoxDecoration(color: Colors.white),
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              child: DropdownButton(
+                                dropdownColor: Colors.white,
+                                isExpanded: true,
+                                value: _selectValue,
+                                items: dropdownItem.map((String item) {
+                                  return DropdownMenuItem(
+                                    value: item,
+                                    child: Text(item),
+                                  );
+                                }).toList(),
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    _selectValue = value;
+                                  });
+                                },
+                              ),
                             ),
                           ),
                         ],
@@ -362,56 +437,56 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                             Expanded(
                               flex: 4,
                               child: _getScannedData!.isNotEmpty
-                                  ? StreamBuilder<List<Product>>(
-                                      stream: globalBloc
-                                          .getProductListofItem.stream,
-                                      builder: ((context, snapshot) {
-                                        if (!snapshot.hasData) {
-                                          return Container();
-                                        }
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return const CircularProgressIndicator();
-                                        }
-                                        print(
-                                            "Route List Length: ${snapshot.data!.length}");
+                                  ? Card(
+                                      child: StreamBuilder<List<Product>>(
+                                        stream: globalBloc
+                                            .getProductListofItem.stream,
+                                        builder: ((context, snapshot) {
+                                          if (!snapshot.hasData) {
+                                            return Container();
+                                          }
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return const CircularProgressIndicator();
+                                          }
+                                          print(
+                                              "Route List Length: ${snapshot.data!.length}");
 
-                                        // Map List<Product> to List<String>
-                                        List<String> productNames = snapshot
-                                            .data!
-                                            .map((product) => "${product.name}")
-                                            .toList();
-                                        List<String> productId = snapshot.data!
-                                            .map((product) => "${product.id}")
-                                            .toList();
+                                          // Map List<Product> to List<String>
+                                          List<String> productNames = snapshot
+                                              .data!
+                                              .map((product) =>
+                                                  "${product.name}")
+                                              .toList();
+                                          List<String> productId = snapshot
+                                              .data!
+                                              .map((product) => "${product.id}")
+                                              .toList();
 
-                                        List<String> productCode = snapshot
-                                            .data!
-                                            .map((product) => "${product.code}")
-                                            .toList();
-                                        if (_getScannedData!.isNotEmpty &&
-                                            productCode
-                                                .contains(_getScannedData)) {
-                                          _selectProductName = productNames[
+                                          List<String> productCode = snapshot
+                                              .data!
+                                              .map((product) =>
+                                                  "${product.code}")
+                                              .toList();
+                                          if (_getScannedData!.isNotEmpty &&
                                               productCode
-                                                  .indexOf(_getScannedData!)];
-                                          _selectId = int.parse(
-                                            productId[productCode
-                                                .indexOf(_getScannedData!)],
-                                          );
-                                        }
-                                        log('@@@@@@@@@@@@:${_selectId}');
+                                                  .contains(_getScannedData)) {
+                                            _selectProductName = productNames[
+                                                productCode
+                                                    .indexOf(_getScannedData!)];
+                                            _selectId = int.parse(
+                                              productId[productCode
+                                                  .indexOf(_getScannedData!)],
+                                            );
+                                          }
 
-                                        // else {
-                                        //   globalUtils.showNegativeSnackBar(
-                                        //       message:
-                                        //           'Product Does not Exist in list.');
-                                        // }
-
-                                        return Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10.0, right: 10),
-                                          child: Container(
+                                          // else {
+                                          //   globalUtils.showNegativeSnackBar(
+                                          //       message:
+                                          //           'Product Does not Exist in list.');
+                                          // }
+                                          // log("@@@@@@@@@@@@@@@:${productCode.contains(_getScannedData!)}");
+                                          return Container(
                                             height: 50,
                                             decoration: BoxDecoration(
                                               border: Border.all(),
@@ -427,6 +502,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                                 child: Row(
                                                   children: [
                                                     //check _getScannedData exist in list or not
+
                                                     Text(
                                                       productCode.contains(
                                                               _getScannedData!)
@@ -440,55 +516,56 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        );
-                                      }),
+                                          );
+                                        }),
+                                      ),
                                     )
-                                  : StreamBuilder<List<Product>>(
-                                      stream: globalBloc
-                                          .getProductListofItem.stream,
-                                      builder: ((context, snapshot) {
-                                        if (!snapshot.hasData ||
-                                            snapshot.data == null) {
-                                          return Container();
-                                        }
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return const CircularProgressIndicator();
-                                        }
-                                        print(
-                                            "Route List Length: ${snapshot.data!.length}");
+                                  : Card(
+                                      child: StreamBuilder<List<Product>>(
+                                        stream: globalBloc
+                                            .getProductListofItem.stream,
+                                        builder: ((context, snapshot) {
+                                          if (!snapshot.hasData ||
+                                              snapshot.data == null) {
+                                            return Container();
+                                          }
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return const CircularProgressIndicator();
+                                          }
+                                          print(
+                                              "Route List Length: ${snapshot.data!.length}");
 
-                                        // Map List<Product> to List<String>
-                                        List<String> productNames = snapshot
-                                            .data!
-                                            .map((product) => "${product.name}")
-                                            .toList();
-                                        List<String> productId = snapshot.data!
-                                            .map((product) => "${product.id}")
-                                            .toList();
+                                          // Map List<Product> to List<String>
+                                          List<String> productNames = snapshot
+                                              .data!
+                                              .map((product) =>
+                                                  "${product.name}")
+                                              .toList();
+                                          List<String> productId = snapshot
+                                              .data!
+                                              .map((product) => "${product.id}")
+                                              .toList();
 
-                                        List<String> productCode = snapshot
-                                            .data!
-                                            .map((product) => "${product.code}")
-                                            .toList();
-                                        //check is right then _selectProductName pass for next logic
-                                        if (_getScannedData!.isNotEmpty &&
-                                            productCode
-                                                .contains(_getScannedData)) {
-                                          _selectProductName = productNames[
+                                          List<String> productCode = snapshot
+                                              .data!
+                                              .map((product) =>
+                                                  "${product.code}")
+                                              .toList();
+                                          //check is right then _selectProductName pass for next logic
+                                          if (_getScannedData!.isNotEmpty &&
                                               productCode
-                                                  .indexOf(_getScannedData!)];
-                                          // _selectId = int.parse(
-                                          //   productNames[productId
-                                          //       .indexOf(_selectProductName!)],
-                                          // );
-                                        }
+                                                  .contains(_getScannedData)) {
+                                            _selectProductName = productNames[
+                                                productCode
+                                                    .indexOf(_getScannedData!)];
+                                            // _selectId = int.parse(
+                                            //   productNames[productId
+                                            //       .indexOf(_selectProductName!)],
+                                            // );
+                                          }
 
-                                        return Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10.0, right: 10),
-                                          child: DropdownSearch<String>(
+                                          return DropdownSearch<String>(
                                             //required to search bar label and more
                                             dropdownDecoratorProps:
                                                 const DropDownDecoratorProps(
@@ -499,7 +576,12 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                                     fontWeight:
                                                         FontWeight.w600),
                                                 enabledBorder:
-                                                    OutlineInputBorder(),
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(12),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                             popupProps: const PopupProps.menu(
@@ -528,9 +610,9 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                                         .indexOf(value!)]);
                                               });
                                             },
-                                          ),
-                                        );
-                                      }),
+                                          );
+                                        }),
+                                      ),
                                     ),
                             ),
                             Expanded(
