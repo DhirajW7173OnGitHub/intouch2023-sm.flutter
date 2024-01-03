@@ -41,7 +41,6 @@ dependencies:
   firebase_core: ^2.22.0
   firebase_crashlytics: ^3.4.8
   firebase_auth: ^4.13.0
-  image_picker: ^1.0.4
   http: ^1.1.2
   internet_connection_checker: ^1.0.0+1
   connectivity_plus: ^5.0.2
@@ -58,8 +57,9 @@ dependencies:
   fluttertoast: ^8.2.4
   rxdart: ^0.27.7
   shared_preferences: ^2.2.2
-  image_cropper: ^5.0.1 
   dropdown_search: ^5.0.6
+  image_picker: ^1.0.5
+  image_cropper: ^5.0.1
   
  
  

@@ -5,6 +5,8 @@ import 'package:rxdart/subjects.dart';
 import 'package:stock_management/Database/apicaller.dart';
 import 'package:stock_management/Database/storage_utils.dart';
 import 'package:stock_management/Scanner/Model/product_list_model.dart';
+import 'package:stock_management/StockList/Model/stock_details_model.dart';
+import 'package:stock_management/StockList/Model/stock_list_model.dart';
 import 'package:stock_management/model/menu_list_model.dart';
 import 'package:stock_management/model/user_login_data_model.dart';
 import 'package:stock_management/utils/local_storage.dart';
@@ -113,6 +115,55 @@ class GlobalBloc {
     } catch (e) {
       throw "Something went wrong :$e";
     }
+  }
+
+  //Fetch List Of Stock
+
+  BehaviorSubject<List<Stockdiary>> get getStockListdata => _liveStockList;
+
+  final BehaviorSubject<List<Stockdiary>> _liveStockList =
+      BehaviorSubject<List<Stockdiary>>();
+
+  Future<List<Stockdiary>> doFetchListOfStockByDate({
+    String? userId,
+    String? startDate,
+    String? endDate,
+  }) async {
+    Map<String, dynamic> bodyData = {
+      "userid": userId,
+      "sdate": startDate,
+      "edate": endDate,
+    };
+
+    Map<String, dynamic> res = await apiCaller.getStockListData(bodyData);
+    log("doFetchListOfStockByDate BodyDate : $bodyData --- Response : $res");
+
+    var data = StockListModel.fromJson(res);
+    _liveStockList.add(data.stockdiaries);
+    return (data.stockdiaries);
+  }
+
+  //DoFetch Product Details
+  BehaviorSubject<List<StockDatum>> get getProductDetails =>
+      _liveProductDetails;
+
+  final BehaviorSubject<List<StockDatum>> _liveProductDetails =
+      BehaviorSubject<List<StockDatum>>();
+
+  Future<List<StockDatum>> dofetchStockDetailsData(
+      {String? userId, String? reqId}) async {
+    Map<String, dynamic> bodyData = {
+      "reqid": reqId,
+      "userid": userId,
+    };
+
+    Map<String, dynamic> res = await apiCaller.getProductDetailsData(bodyData);
+    log('dofetchStockDetailsData BodyData : $bodyData --- Response : $res');
+
+    var data = StockDetailsModel.fromJson(res);
+
+    _liveProductDetails.add(data.stockDetails);
+    return (data.stockDetails);
   }
 }
 

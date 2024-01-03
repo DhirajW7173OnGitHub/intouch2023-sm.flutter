@@ -91,4 +91,35 @@ class ApiCaller {
       throw "Something Went wrong in placedStockedInOutBySubmit :$e";
     }
   }
+
+  //Do Fetch List Of Stock
+  Future<Map<String, dynamic>> getStockListData(
+      Map<String, dynamic> body) async {
+    var endPoint = "requestdetail";
+
+    try {
+      final res = await ApiWrapper.post(endPoint, body);
+      print("getStockListData Response : $res");
+      return res;
+    } catch (e) {
+      log('getStockListData get Error :$e');
+      throw "Something Went Wrong :$e";
+    }
+  }
+
+  //Do Fetch Product Details
+  Future<Map<String, dynamic>> getProductDetailsData(
+      Map<String, dynamic> body) async {
+    var endPoint = "requestinformation";
+
+    try {
+      final res = await ApiWrapper.post(endPoint, body);
+      print("getProductDetailsData Response : $res");
+
+      return res;
+    } catch (e) {
+      log("getProductDetailsData Error :$e");
+      throw "Something went wrong :$e";
+    }
+  }
 }

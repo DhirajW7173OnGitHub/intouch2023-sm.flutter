@@ -48,13 +48,18 @@ class ProfileImageWidget extends StatelessWidget {
                       // ),
                     ),
                     child: file == null
-                        ? defaultWidget ??
-                            const Icon(
-                              Icons.image,
-                              size: 32,
-                              color: Colors.white,
-                              // fill: 1,
-                            )
+                        ? const CircleAvatar(
+                            backgroundImage:
+                                AssetImage('assets/icon/user.jpeg'),
+                          )
+
+                        // defaultWidget ??
+                        //     const Icon(
+                        //       Icons.image,
+                        //       size: 32,
+                        //       color: Colors.white,
+                        //       // fill: 1,
+                        //     )
                         : Image.file(
                             file!,
                             fit: BoxFit.cover,

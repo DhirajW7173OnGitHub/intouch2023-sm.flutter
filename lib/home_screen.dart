@@ -74,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => const StackListScreen(),
+        settings: const RouteSettings(arguments: {'userSelectedIndex': 0}),
       ),
     );
   }
@@ -266,97 +267,98 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               child: StreamBuilder<MenuModel>(
-                  stream: globalBloc.getMenuListForUser.stream,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return Container();
-                    }
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-
-                    _menuList = snapshot.data?.menu ?? [];
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20.0, right: 20, top: 40, bottom: 8),
-                      child: GridView.count(
-                        crossAxisCount: 2,
-                        childAspectRatio: 20 / 15,
-                        mainAxisSpacing: 40,
-                        crossAxisSpacing: 40,
-                        children: List.generate(_menuList.length, (index) {
-                          String? imageName = "assets/icon/organization.png";
-                          Color splashColor = Colors.blue.withAlpha(30);
-                          String menuTitle = _menuList[index].menuTitle!;
-
-                          if (_menuList[index].id! == "1") {
-                            imageName = "assets/icon/organization.png";
-                          } else if (_menuList[index].id! == "2") {
-                            imageName = "assets/icon/menu.png";
-                          } else if (_menuList[index].id! == "3") {
-                            imageName = "assets/icon/report.png";
-                          }
-
-                          return Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.black),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(8),
-                              ),
-                            ),
-                            child: InkWell(
-                              onTap: () {
-                                _menuNavigator(_menuList[index].id.toString());
-                              },
-                              splashColor: splashColor,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 80,
-                                    width: 80,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(imageName.toString()),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.center,
-                                    child: SizedBox(
-                                      width: 150,
-                                      child: Text(
-                                        menuTitle,
-                                        maxLines: 3,
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black,
-                                          // fontWeight: FontWeight.bold
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }),
-                      ),
+                stream: globalBloc.getMenuListForUser.stream,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Container();
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
-                  }),
+                  }
+
+                  _menuList = snapshot.data?.menu ?? [];
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                        left: 20.0, right: 20, top: 40, bottom: 8),
+                    child: GridView.count(
+                      crossAxisCount: 2,
+                      childAspectRatio: 20 / 15,
+                      mainAxisSpacing: 40,
+                      crossAxisSpacing: 40,
+                      children: List.generate(_menuList.length, (index) {
+                        String? imageName = "assets/icon/organization.png";
+                        Color splashColor = Colors.blue.withAlpha(30);
+                        String menuTitle = _menuList[index].menuTitle!;
+
+                        if (_menuList[index].id! == "1") {
+                          imageName = "assets/icon/organization.png";
+                        } else if (_menuList[index].id! == "2") {
+                          imageName = "assets/icon/menu.png";
+                        } else if (_menuList[index].id! == "3") {
+                          imageName = "assets/icon/report.png";
+                        }
+
+                        return Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.black),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(8),
+                            ),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              _menuNavigator(_menuList[index].id.toString());
+                            },
+                            splashColor: splashColor,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 80,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage(imageName.toString()),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: SizedBox(
+                                    width: 150,
+                                    child: Text(
+                                      menuTitle,
+                                      maxLines: 3,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                        // fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ],
       ),
+      // extendBody: true,
     );
   }
 }

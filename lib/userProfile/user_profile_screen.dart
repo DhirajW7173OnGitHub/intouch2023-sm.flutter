@@ -89,26 +89,26 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
-  getImageFromCam() async {
-    var img = await image.pickImage(source: ImageSource.camera);
+  Future<void> getImageFromCam() async {
+    var img = await ImagePicker().pickImage(source: ImageSource.camera);
 
     if (img!.path != null) {
-      setState(() {
-        file = File(img.path);
-      });
-      // CroppedFile? imageCropper = await cropImage.cropImage(
-      //   sourcePath: img.path,
-      //   aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
-      //   maxWidth: 512,
-      //   maxHeight: 512,
-      // );
+      CroppedFile? imageCropper = await cropImage.cropImage(
+        sourcePath: img.path,
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+        maxWidth: 512,
+        maxHeight: 512,
+      );
 
-      // if (imageCropper != null) {
-      //   setState(() {
-      //     file = File(imageCropper.path);
-      //     log('Cropped Image : $file');
-      //   });
-      // }
+      if (imageCropper != null) {
+        setState(() {
+          file = File(imageCropper.path);
+          log('Cropped Image : $file');
+        });
+        //    setState(() {
+        //   file = File(img.path);
+        // });
+      }
     }
   }
 
@@ -118,9 +118,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
     if (img!.path != null) {
       log('Selected Image Path : ${img.path}');
-      setState(() {
-        file = File(img.path);
-      });
+      // setState(() {
+      //   file = File(img.path);
+      // });
+      CroppedFile? imageCropper = await cropImage.cropImage(
+        sourcePath: img.path,
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+        maxWidth: 512,
+        maxHeight: 512,
+      );
+
+      if (imageCropper != null) {
+        setState(() {
+          file = File(imageCropper.path);
+          log('Cropped Image : $file');
+        });
+      }
     }
   }
 
@@ -162,16 +175,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ],
               ),
               const Spacer(),
-              IconButton(
-                onPressed: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: (context)=>,),);
-                },
-                icon: const Icon(
-                  Icons.notifications,
-                  size: 22,
-                  color: Colors.white,
-                ),
-              ),
+              // IconButton(
+              //   onPressed: () {
+              //     // Navigator.push(context, MaterialPageRoute(builder: (context)=>,),);
+              //   },
+              //   icon: const Icon(
+              //     Icons.notifications,
+              //     size: 22,
+              //     color: Colors.white,
+              //   ),
+              // ),
               const SizedBox(
                 width: 30,
               ),
@@ -268,7 +281,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         height: 30,
                       ),
                       ProfileImageWidget(
-                        file: file == null ? File("") : file!,
+                        file: file,
                         onTap: getImage,
                         editIcon: ClipRRect(
                           borderRadius: const BorderRadius.all(
