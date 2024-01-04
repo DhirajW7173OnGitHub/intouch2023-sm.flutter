@@ -92,7 +92,7 @@ class GlobalBloc {
       EasyLoading.dismiss();
       return responseData;
     } catch (e) {
-      throw "Something went wrong $e";
+      throw "In getMenuListData Something went wrong $e";
     }
   }
 
@@ -113,7 +113,7 @@ class GlobalBloc {
       EasyLoading.dismiss();
       return (data.products);
     } catch (e) {
-      throw "Something went wrong :$e";
+      throw "In doFetchProductList Something went wrong :$e";
     }
   }
 
