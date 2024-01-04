@@ -30,7 +30,7 @@ class ApiCaller {
       return res;
     } catch (e) {
       log('CATCH API ERROR : $e');
-      throw "Something went wrong $e";
+      throw "IN getUserLoginData Something went wrong $e";
     }
   }
 
@@ -42,7 +42,7 @@ class ApiCaller {
       return res;
     } catch (e) {
       log('CATCH API ERROR : $e');
-      throw "Something went wrong $e";
+      throw "In getUserErrorCodeData Something went wrong $e";
     }
   }
 
@@ -55,7 +55,7 @@ class ApiCaller {
       return res;
     } catch (e) {
       log('CATCH API ERROR : $e');
-      throw "Something went wrong for getMenuList :$e";
+      throw "in getMenuList Something went wrong for getMenuList :$e";
     }
   }
 
@@ -69,7 +69,7 @@ class ApiCaller {
       return res;
     } catch (e) {
       log('CATCH API ERROR : $e');
-      throw "Something Went wrong for product List :$e";
+      throw "In getProductList Something Went wrong for product List :$e";
     }
   }
 
@@ -88,7 +88,7 @@ class ApiCaller {
       return res;
     } catch (e) {
       log('CATCH API ERROR : $e');
-      throw "Something Went wrong in placedStockedInOutBySubmit :$e";
+      throw "In placedStockedInOutBySubmit Something Went wrong :$e";
     }
   }
 
@@ -103,7 +103,7 @@ class ApiCaller {
       return res;
     } catch (e) {
       log('getStockListData get Error :$e');
-      throw "Something Went Wrong :$e";
+      throw "I getStockListData Something Went Wrong :$e";
     }
   }
 
@@ -119,7 +119,7 @@ class ApiCaller {
       return res;
     } catch (e) {
       log("getProductDetailsData Error :$e");
-      throw "Something went wrong :$e";
+      throw "IN getProductDetailsData Something went wrong :$e";
     }
   }
 }

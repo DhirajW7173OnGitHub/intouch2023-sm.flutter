@@ -32,7 +32,7 @@ class StockListWidget extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "Product Id : ",
+                        "Request id : ",
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
