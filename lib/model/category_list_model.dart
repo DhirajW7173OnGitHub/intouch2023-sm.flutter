@@ -42,9 +42,7 @@ class Category {
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"],
         name: (["", null, false, 0].contains(json["name"])) ? "" : json["name"],
-        parentId: (["", null, false, 0].contains(json["parent_id"]))
-            ? ""
-            : json["parent_id"],
+        parentId: json["parent_id"],
       );
 
   Map<String, dynamic> toJson() => {

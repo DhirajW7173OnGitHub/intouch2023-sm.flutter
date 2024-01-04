@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stock_management/globalFile/global_style_editor.dart';
 
 class StockListWidget extends StatelessWidget {
   const StockListWidget({
@@ -23,6 +24,7 @@ class StockListWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 10.0, right: 10, top: 8),
           child: Card(
+            color: CommonColor.CARD_COLOR,
             elevation: 8,
             child: Padding(
               padding: const EdgeInsets.all(8.0),

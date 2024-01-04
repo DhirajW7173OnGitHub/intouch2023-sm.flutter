@@ -250,7 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey[900],
+        unselectedItemColor: Colors.grey[600],
         backgroundColor: Colors.white,
         currentIndex: _selectedIndex,
       ),

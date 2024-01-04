@@ -64,10 +64,12 @@ class Product {
         hsnCode: (["", null, false, 0].contains(json["hsn_code"]))
             ? ""
             : json["hsn_code"],
-        mrp: (["", null, false, 0].contains(json["mrp"])) ? "" : json["mrp"],
-        sellPrice: (["", null, false, 0].contains(json["sell_price"]))
-            ? ""
-            : json["sell_price"],
+        mrp: json["mrp"],
+        //  (json["mrp"] is int) ? json["mrp"] : int.tryParse(json["mrp"]) ?? 0,
+        sellPrice: json["sell_price"],
+        //  (json["sell_price"] is int)
+        //     ? json["sell_price"]
+        //     : int.tryParse(json["sell_price"]) ?? 0,
       );
 
   Map<String, dynamic> toJson() => {

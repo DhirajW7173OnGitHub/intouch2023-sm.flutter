@@ -106,7 +106,6 @@ class _NewSplashScreenState extends State<NewSplashScreen>
       if (isLogin) {
         final currentTime = DateTime.now();
         final lastLoggedTime = DateTime.parse(lastLoginTime);
-        log('**********:$lastLoggedTime');
 
         final differenceTime = currentTime.difference(lastLoggedTime);
         log("Time of login Session : ${differenceTime.inHours}");
@@ -134,14 +133,15 @@ class _NewSplashScreenState extends State<NewSplashScreen>
           ),
         );
       }
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
-        ),
-      );
     }
+    // else {
+    // Navigator.pushReplacement(
+    // context,
+    // MaterialPageRoute(
+    // builder: (context) => const LoginScreen(),
+    // ),
+    // );
+    // }
   }
 
   @override
