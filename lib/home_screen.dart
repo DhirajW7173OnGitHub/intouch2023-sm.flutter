@@ -284,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         left: 20.0, right: 20, top: 40, bottom: 8),
                     child: GridView.count(
                       crossAxisCount: 2,
-                      childAspectRatio: 20 / 15,
+                      childAspectRatio: 12 / 9,
                       mainAxisSpacing: 40,
                       crossAxisSpacing: 40,
                       children: List.generate(_menuList.length, (index) {
@@ -319,8 +319,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  height: 80,
-                                  width: 80,
+                                  height: 50,
+                                  width: 50,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: AssetImage(imageName.toString()),

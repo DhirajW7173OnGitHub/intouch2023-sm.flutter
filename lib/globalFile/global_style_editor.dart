@@ -26,6 +26,6 @@ class GlobalStyleEditor {
 GlobalStyleEditor gse = GlobalStyleEditor();
 
 class CommonColor {
-  static const CARD_COLOR = Color.fromARGB(255, 161, 207, 245);
-  static const CONTAINER_COLOR = Color.fromARGB(255, 189, 220, 245);
+  static const CARD_COLOR = Color.fromARGB(255, 230, 227, 227);
+  static const CONTAINER_COLOR = Color.fromARGB(255, 230, 227, 227);
 }

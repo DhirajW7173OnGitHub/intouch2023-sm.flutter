@@ -286,11 +286,12 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
   }
 
   _homeBottomBarIconClick() {
-    Navigator.push(
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
         builder: (ctx) => const HomeScreen(),
       ),
+      (route) => false,
     );
   }
 
