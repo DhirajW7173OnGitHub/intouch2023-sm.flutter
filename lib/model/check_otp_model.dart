@@ -25,7 +25,8 @@ class CheckOtpModel {
   factory CheckOtpModel.fromJson(Map<String, dynamic> json) => CheckOtpModel(
         phone:
             (["", null, 0, false].contains(json["phone"])) ? "" : json["phone"],
-        otp: (["", null, 0, false].contains(json["otp"])) ? "" : json["otp"],
+        otp:
+            (json["otp"] is int) ? json["otp"] : int.tryParse(json["otp"]) ?? 0,
         errorCode: json["errorcode"],
         msg: (["", null, 0, false].contains(json["msg"])) ? "" : json["msg"],
       );

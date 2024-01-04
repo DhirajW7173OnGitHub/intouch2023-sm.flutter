@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stock_management/globalFile/global_style_editor.dart';
 
 class StockDetailsWidget extends StatelessWidget {
   const StockDetailsWidget({
@@ -15,8 +16,10 @@ class StockDetailsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Card(
+        elevation: 8,
+        color: CommonColor.CARD_COLOR,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(

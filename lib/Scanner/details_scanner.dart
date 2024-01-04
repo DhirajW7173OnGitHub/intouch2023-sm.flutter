@@ -11,6 +11,7 @@ import 'package:stock_management/Scanner/Model/item_data.dart';
 import 'package:stock_management/Scanner/Model/product_list_model.dart';
 import 'package:stock_management/Scanner/scanner_screen.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
+import 'package:stock_management/globalFile/global_style_editor.dart';
 import 'package:stock_management/home_screen.dart';
 import 'package:stock_management/userProfile/user_profile_screen.dart';
 import 'package:stock_management/utils/local_storage.dart';
@@ -106,6 +107,18 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
         _selectId = null;
         _selectProductName = "";
         _isAddInDetail = true;
+        Future.delayed(
+          const Duration(
+            milliseconds: 100,
+          ),
+          () {
+            if (_isAddInDetail) {
+              setState(() {
+                _isAddInDetail = false;
+              });
+            }
+          },
+        );
       });
     }
   }
@@ -344,8 +357,8 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
         ],
       ),
       bottomSheet: Container(
-        decoration: BoxDecoration(
-          color: Colors.grey[300],
+        decoration: const BoxDecoration(
+          color: CommonColor.CONTAINER_COLOR,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -388,8 +401,8 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
           child: Column(
             children: [
               Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
+                decoration: const BoxDecoration(
+                  color: CommonColor.CONTAINER_COLOR,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(20),
                   ),
@@ -569,13 +582,16 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                             // );
                                           }
 
+                                          log('@@@@@@@@@@@@@@:$_isAddInDetail');
+
                                           return DropdownSearch<String>(
                                             //required to search bar label and more
                                             dropdownDecoratorProps:
                                                 const DropDownDecoratorProps(
                                               dropdownSearchDecoration:
                                                   InputDecoration(
-                                                labelText: "Select Product",
+                                                hintText: "Select Product",
+                                                // labelText: "Select Product",
                                                 labelStyle: TextStyle(
                                                     fontWeight:
                                                         FontWeight.w600),
@@ -603,6 +619,8 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                             ),
                                             autoValidateMode: AutovalidateMode
                                                 .onUserInteraction,
+                                            compareFn: (item, selectItem) =>
+                                                item == selectItem,
                                             items: productNames,
                                             onChanged: (value) {
                                               setState(() {
@@ -614,6 +632,14 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                                         .indexOf(value!)]);
                                               });
                                             },
+                                            // selectedItem: _isAddInDetail
+                                            //     ? "select product"
+                                            //     : _selectProductName ??
+                                            //         "select product",
+                                            selectedItem: _isAddInDetail
+                                                ? _selectProductName ??
+                                                    "select product"
+                                                : "select product",
                                           );
                                         }),
                                       ),
@@ -657,9 +683,9 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
               ),
               Expanded(
                 child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: const BorderRadius.all(
+                  decoration: const BoxDecoration(
+                    color: CommonColor.CONTAINER_COLOR,
+                    borderRadius: BorderRadius.all(
                       Radius.circular(20),
                     ),
                   ),
