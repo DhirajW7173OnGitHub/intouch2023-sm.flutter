@@ -186,11 +186,12 @@ class _StackListScreenState extends State<StackListScreen> {
   }
 
   _homeBottomBarIconClick() {
-    Navigator.push(
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
         builder: (ctx) => const HomeScreen(),
       ),
+      (route) => false,
     );
   }
 
@@ -217,7 +218,7 @@ class _StackListScreenState extends State<StackListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.blueGrey,
+      // backgroundColor: Color.fromARGB(255, 230, 227, 227),
       appBar: AppBar(
         title: const Text('Stock List'),
       ),

@@ -30,11 +30,12 @@ class _ReportScreenState extends State<ReportScreen> {
   }
 
   _homeBottomBarIconClick() {
-    Navigator.push(
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
         builder: (ctx) => const HomeScreen(),
       ),
+      (route) => false,
     );
   }
 

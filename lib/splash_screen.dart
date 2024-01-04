@@ -133,15 +133,14 @@ class _NewSplashScreenState extends State<NewSplashScreen>
           ),
         );
       }
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
+        ),
+      );
     }
-    // else {
-    // Navigator.pushReplacement(
-    // context,
-    // MaterialPageRoute(
-    // builder: (context) => const LoginScreen(),
-    // ),
-    // );
-    // }
   }
 
   @override

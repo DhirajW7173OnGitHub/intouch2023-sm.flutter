@@ -18,6 +18,8 @@ class StockDetailScreen extends StatefulWidget {
 }
 
 class _StockDetailScreenState extends State<StockDetailScreen> {
+//  int? _selectedBottomBarindex = 1;
+
   @override
   void initState() {
     super.initState();
@@ -28,12 +30,64 @@ class _StockDetailScreenState extends State<StockDetailScreen> {
     );
   }
 
+  // _clickOnHomeIcon() {
+  //   Navigator.pushReplacement(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => const HomeScreen(),
+  //     ),
+  //   );
+  // }
+
+  // _clickOnPersonIcon() {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => const UserProfileScreen(),
+  //     ),
+  //   );
+  // }
+
+  // _selectedIndexFromBottomBar(int index) {
+  //   switch (index) {
+  //     case 0:
+  //       _clickOnHomeIcon();
+  //       break;
+  //     case 2:
+  //       _clickOnPersonIcon();
+  //       break;
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Details'),
       ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   currentIndex: _selectedBottomBarindex!,
+      //   onTap: (value) {
+      //     _selectedIndexFromBottomBar(value);
+      //   },
+      //   backgroundColor: Colors.white,
+      //   selectedItemColor: Colors.blue,
+      //   unselectedItemColor: Colors.grey,
+      //   items: const [
+      //     BottomNavigationBarItem(
+      //       label: 'Home',
+      //       icon: Icon(Icons.home),
+      //     ),
+      //     BottomNavigationBarItem(
+      //       label: 'Product Details',
+      //       icon: Icon(Icons.list),
+      //     ),
+      //     BottomNavigationBarItem(
+      //       label: 'Person',
+      //       icon: Icon(Icons.person),
+      //     ),
+      //   ],
+      // ),
       body: Column(
         children: [
           StreamBuilder<List<StockDatum>>(
