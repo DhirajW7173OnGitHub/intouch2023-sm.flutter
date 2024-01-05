@@ -300,52 +300,57 @@ class _HomeScreenState extends State<HomeScreen> {
                           imageName = "assets/icon/report.png";
                         }
 
-                        return Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: Colors.black),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(8),
+                        return Card(
+                          shadowColor: Colors.grey[900],
+                          elevation: 12,
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.black),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(8),
+                              ),
                             ),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              _menuNavigator(_menuList[index].id.toString());
-                            },
-                            splashColor: splashColor,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(imageName.toString()),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: SizedBox(
-                                    width: 150,
-                                    child: Text(
-                                      menuTitle,
-                                      maxLines: 3,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black,
-                                        // fontWeight: FontWeight.bold
+                            child: InkWell(
+                              onTap: () {
+                                _menuNavigator(_menuList[index].id.toString());
+                              },
+                              splashColor: splashColor,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 50,
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage(imageName.toString()),
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: SizedBox(
+                                      width: 150,
+                                      child: Text(
+                                        menuTitle,
+                                        maxLines: 3,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                          // fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );
