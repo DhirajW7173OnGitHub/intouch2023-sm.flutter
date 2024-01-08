@@ -6,6 +6,7 @@ import 'package:stock_management/globalFile/global_style_editor.dart';
 import 'package:stock_management/login_screen.dart';
 import 'package:stock_management/utils/check_internet.dart';
 import 'package:stock_management/utils/local_storage.dart';
+import 'package:stock_management/utils/session_manager.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -21,57 +22,60 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   TextEditingController currentPasswordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
-  _clickONChangePass() async {
-    if (currentPasswordController.text.isEmpty) {
-      globalUtils.showValidationError('Enter Current Password');
-    }
-    if (newPasswordController.text.isEmpty) {
-      globalUtils.showValidationError('Enter New Password');
-    }
-    if (confirmPasswordController.text.isEmpty) {
-      globalUtils.showValidationError('Enter Comfirm Password');
-    }
+  @override
+  void initState() {
+    super.initState();
+    sessionManager.updateLoggedInTimeAndLoggedStatus();
+  }
 
-    if (newPasswordController.text != confirmPasswordController.text) {
-      globalUtils.showValidationError(
-          'New Password and Confirm Password not matched.');
-    }
+  _clickONChangePass() async {
     String pattern =
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
     RegExp regExp = RegExp(pattern);
-    if (!regExp.hasMatch(newPasswordController.text)) {
+    if (currentPasswordController.text.isEmpty) {
+      globalUtils.showValidationError('Enter Current Password');
+      // globalUtils.showNegativeSnackBar(
+      //     context: context, message: 'Enter Current Password');
+    } else if (newPasswordController.text.isEmpty) {
+      globalUtils.showValidationError('Enter New Password');
+    } else if (confirmPasswordController.text.isEmpty) {
+      globalUtils.showValidationError('Enter Comfirm Password');
+    } else if (newPasswordController.text != confirmPasswordController.text) {
+      globalUtils.showValidationError(
+          'New Password and Confirm Password not matched.');
+    } else if (!regExp.hasMatch(newPasswordController.text)) {
       globalUtils.showValidationError(
           'Must have Lenght 8, 1 Number, 1 Lowercase, 1 Uppercase, 1 Special Character.');
-    }
-
-    CheckInternetConnection conn = CheckInternetConnection();
-    conn.checkInternet().then(
-      (internetConn) async {
-        if (internetConn) {
-          var res = await authBloc.doChangeOldPassword(
-            userId: StorageUtil.getString(localStorageKey.ID!.toString()),
-            currentPass: currentPasswordController.text,
-            newPass: newPasswordController.text,
-          );
-
-          if (res["errorcode"] == 0) {
-            print('${res['msg']}');
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const LoginScreen(),
-              ),
-              (Route<dynamic> route) => false,
+    } else {
+      CheckInternetConnection conn = CheckInternetConnection();
+      conn.checkInternet().then(
+        (internetConn) async {
+          if (internetConn) {
+            var res = await authBloc.doChangeOldPassword(
+              userId: StorageUtil.getString(localStorageKey.ID!.toString()),
+              currentPass: currentPasswordController.text,
+              newPass: newPasswordController.text,
             );
+
+            if (res["errorcode"] == 0) {
+              print('${res['msg']}');
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LoginScreen(),
+                ),
+                (Route<dynamic> route) => false,
+              );
+            } else {
+              print('Message :${res["msg"]}');
+              globalUtils.showValidationError('${res['msg']}');
+            }
           } else {
-            print('Message :${res["msg"]}');
-            globalUtils.showValidationError('${res['msg']}');
+            globalUtils.showValidationError('Please, Connect Internet');
           }
-        } else {
-          globalUtils.showValidationError('Please, Connect Internet');
-        }
-      },
-    );
+        },
+      );
+    }
   }
 
   _selectBottomBar(int index) {

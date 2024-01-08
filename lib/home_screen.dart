@@ -11,7 +11,6 @@ import 'package:stock_management/StockList/stock_list_screen.dart';
 import 'package:stock_management/globalFile/global_style_editor.dart';
 import 'package:stock_management/model/menu_list_model.dart';
 import 'package:stock_management/model/user_login_data_model.dart';
-import 'package:stock_management/userProfile/user_profile_screen.dart';
 import 'package:stock_management/utils/local_storage.dart';
 import 'package:stock_management/utils/session_manager.dart';
 
@@ -48,19 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
         .getMenuListData(StorageUtil.getString(localStorageKey.ID!.toString()));
   }
 
-  _profileIconClick() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const UserProfileScreen(),
-      ),
-    );
-  }
-
   _selectedIconScreen(int index) {
     switch (index) {
       case 1:
-        _profileIconClick();
+        CommonCall.personIconCall(context);
         break;
     }
   }
@@ -289,9 +279,9 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: Container(
               width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: const BorderRadius.only(
+              decoration: const BoxDecoration(
+                color: CommonColor.CONTAINER_COLOR,
+                borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
                 ),

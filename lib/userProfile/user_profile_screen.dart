@@ -7,7 +7,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock_management/Database/storage_utils.dart';
-import 'package:stock_management/globalFile/global_style_editor.dart';
 import 'package:stock_management/login_screen.dart';
 import 'package:stock_management/userProfile/change_password_screen.dart';
 import 'package:stock_management/userProfile/widget/profile_image_widget.dart';
@@ -314,7 +313,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
-                  color: CommonColor.CONTAINER_COLOR,
+                  color: Colors.white, //CommonColor.CONTAINER_COLOR,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
@@ -403,7 +402,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }) {
     return Card(
       color: Colors.white,
-      elevation: 8,
+      elevation: 2,
       shape: const UnderlineInputBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(8),

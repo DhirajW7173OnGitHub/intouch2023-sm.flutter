@@ -64,6 +64,7 @@ class GlobalUtils {
       toastLength: Toast.LENGTH_SHORT,
       timeInSecForIosWeb: 1,
     );
+    return;
   }
 
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =

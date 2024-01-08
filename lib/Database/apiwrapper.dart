@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:stock_management/Database/storage_utils.dart';
-import 'package:stock_management/globalFile/custom_dialog.dart';
 import 'package:stock_management/utils/base_url_domain.dart';
 import 'package:stock_management/utils/local_storage.dart';
 
@@ -76,8 +75,8 @@ class ApiWrapper {
 
       default:
         try {
-          globalUtils.showNegativeSnackBar(
-              message: jsonDecode(response.body)['data']['message']);
+          // globalUtils.showNegativeSnackBar(
+          //     message: jsonDecode(response.body)['data']['message']);
         } catch (e) {
           print(e);
         }

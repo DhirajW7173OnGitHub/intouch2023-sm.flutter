@@ -7,9 +7,9 @@ class DevelopmentConfiguration implements BaseConfig {
   @override
   String get domainHost => '';
 
-  @override
-  String get localDb => '';
+  // @override
+  // String get localDb => '';
 
-  @override
-  String get lastSyncId => '';
+  // @override
+  // String get lastSyncId => '';
 }
