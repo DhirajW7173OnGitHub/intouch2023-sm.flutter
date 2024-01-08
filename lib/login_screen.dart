@@ -3,11 +3,13 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock_management/Database/apicaller.dart';
 import 'package:stock_management/Database/bloc.dart';
+import 'package:stock_management/Database/storage_utils.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
 import 'package:stock_management/home_screen.dart';
 import 'package:stock_management/sign_up_screen.dart';
 import 'package:stock_management/splash_screen.dart';
 import 'package:stock_management/utils/check_internet.dart';
+import 'package:stock_management/utils/local_storage.dart';
 import 'package:stock_management/utils/session_manager.dart';
 
 import 'auth/mixins.dart';
@@ -276,20 +278,26 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                     height: 40,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment:
+                        StorageUtil.getString(localStorageKey.ID!.toString())
+                                .isEmpty
+                            ? MainAxisAlignment.spaceBetween
+                            : MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.36,
-                        child: ElevatedButton(
-                          onPressed: _SignUpKeyPress,
-                          child: const Text(
-                            'SING-UP',
-                            style: TextStyle(
-                              color: Colors.white,
+                      if (StorageUtil.getString(localStorageKey.ID!.toString())
+                          .isEmpty)
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.36,
+                          child: ElevatedButton(
+                            onPressed: _SignUpKeyPress,
+                            child: const Text(
+                              'SING-UP',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
-                      ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.36,
                         child: ElevatedButton(
@@ -304,6 +312,18 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                       ),
                     ],
                   ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  if (StorageUtil.getString(localStorageKey.ID!.toString())
+                      .isNotEmpty)
+                    TextButton(
+                      onPressed: forgatePasswordDialog(context),
+                      child: const Text(
+                        'Forgot Password?',
+                        style: TextStyle(fontSize: 16.0, color: Colors.white),
+                      ),
+                    ),
                 ],
               ),
             ),

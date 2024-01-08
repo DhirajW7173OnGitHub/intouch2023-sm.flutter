@@ -38,8 +38,6 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
     // var globalBloc.doFetchProductList(
     //     userId: StorageUtil.getString(localStorageKey.ID!.toString()));
-
-    // log('*************:${res["Products"]}');
   }
 
   _clickOnImageIcon() async {
