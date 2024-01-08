@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -23,6 +24,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
   String scannedCode = '';
 
   ImagePicker image = ImagePicker();
+
+  String? code;
 
   bool isFlashOn = false;
   bool isScanCompleted = false;
@@ -78,7 +81,12 @@ class _ScannerScreenState extends State<ScannerScreen> {
                       if (!isScanCompleted) {
                         setState(() {
                           scannedCode = barcode.rawValue ?? '--';
-                          log('BarCode Value : $scannedCode');
+                          //beacause Scanned Data get in json format hence decode it
+                          Map<String, dynamic> json = jsonDecode(scannedCode);
+                          // Decode Data user by String
+                          code = json['code'] ?? '--';
+
+                          log('BarCode Value : $scannedCode &&& Code : $code');
                           isScanCompleted = true;
                           Container(
                             color: Colors.red,
@@ -88,14 +96,15 @@ class _ScannerScreenState extends State<ScannerScreen> {
                         var productList = await globalBloc.doFetchProductList(
                             userId: StorageUtil.getString(
                                 localStorageKey.ID!.toString()));
-                        //check Scanned code Present in product list
-                        bool codeExist = productList
-                            .any((product) => product.code == scannedCode);
+                        //check decode Scanned code data Present in product list
+                        bool codeExist = productList.any(
+                          (product) => product.code == code,
+                        );
                         setState(
                           () {
                             if (codeExist) {
                               isScanCompleted = true;
-                              Navigator.pop(context, scannedCode);
+                              Navigator.pop(context, code);
                             } else {
                               isScanCompleted = false;
 

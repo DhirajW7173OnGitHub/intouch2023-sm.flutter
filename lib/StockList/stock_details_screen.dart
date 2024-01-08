@@ -20,14 +20,22 @@ class StockDetailScreen extends StatefulWidget {
 class _StockDetailScreenState extends State<StockDetailScreen> {
 //  int? _selectedBottomBarindex = 1;
 
+  List<StockDatum> listOfStockDetails = [];
+
   @override
   void initState() {
     super.initState();
-    // print('@@@@@@@@@@@@@:${widget.reqId}');
-    globalBloc.dofetchStockDetailsData(
+
+    _getDetailsOnStart();
+  }
+
+  _getDetailsOnStart() async {
+    var res = await globalBloc.dofetchStockDetailsData(
       userId: StorageUtil.getString(localStorageKey.ID!.toString()),
       reqId: widget.reqId.toString(),
     );
+
+    listOfStockDetails = res.stockDetails;
   }
 
   // _clickOnHomeIcon() {
@@ -62,6 +70,7 @@ class _StockDetailScreenState extends State<StockDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Product Details'),
       ),
@@ -71,8 +80,8 @@ class _StockDetailScreenState extends State<StockDetailScreen> {
       //     _selectedIndexFromBottomBar(value);
       //   },
       //   backgroundColor: Colors.white,
-      //   selectedItemColor: Colors.blue,
-      //   unselectedItemColor: Colors.grey,
+      //   selectedItemColor: CommonColor.BOTTOM_UNSELECT_COLOR,
+      //   unselectedItemColor:CommonColor.BOTTOM_SELECT_COLOR,
       //   items: const [
       //     BottomNavigationBarItem(
       //       label: 'Home',
@@ -90,28 +99,42 @@ class _StockDetailScreenState extends State<StockDetailScreen> {
       // ),
       body: Column(
         children: [
-          StreamBuilder<List<StockDatum>>(
+          StreamBuilder<StockDetailsModel>(
             stream: globalBloc.getProductDetails.stream,
             builder: (context, snapshot) {
-              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              if (!snapshot.hasData) {
                 return const Center(
                   child: Text('No data found'),
                 );
               }
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      StockDetailsWidget(
-                        id: snapshot.data![index].id,
-                        prodName: snapshot.data![index].name,
-                        qty: snapshot.data![index].qty,
-                      ),
-                    ],
-                  );
-                },
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              }
+              return Column(
+                children: [
+                  UserDetailsWidget(
+                    tCount: snapshot.data!.sumOfQty,
+                    userId: snapshot.data!.user.userId,
+                    userName: snapshot.data!.user.username,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: listOfStockDetails.length,
+                    itemBuilder: (context, index) {
+                      final listStock = listOfStockDetails[index];
+                      return Column(
+                        children: [
+                          StockDetailsWidget(
+                            stockData: listStock,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ],
               );
             },
           ),

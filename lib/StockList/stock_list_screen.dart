@@ -7,8 +7,7 @@ import 'package:stock_management/Database/storage_utils.dart';
 import 'package:stock_management/StockList/Model/stock_list_model.dart';
 import 'package:stock_management/StockList/Widget/stock_list_widget.dart';
 import 'package:stock_management/StockList/stock_details_screen.dart';
-import 'package:stock_management/home_screen.dart';
-import 'package:stock_management/userProfile/user_profile_screen.dart';
+import 'package:stock_management/globalFile/global_style_editor.dart';
 import 'package:stock_management/utils/local_storage.dart';
 import 'package:stock_management/utils/session_manager.dart';
 
@@ -185,32 +184,13 @@ class _StackListScreenState extends State<StackListScreen> {
     );
   }
 
-  _homeBottomBarIconClick() {
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (ctx) => const HomeScreen(),
-      ),
-      (route) => false,
-    );
-  }
-
-  _personBottomBarIconClick() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (ctx) => const UserProfileScreen(),
-      ),
-    );
-  }
-
   _selecctBottomNavigationBar(int index) {
     switch (index) {
       case 0:
-        _homeBottomBarIconClick();
+        CommonCall.homeIconCall(context);
         break;
       case 2:
-        _personBottomBarIconClick();
+        CommonCall.personIconCall(context);
         break;
     }
   }
@@ -228,8 +208,8 @@ class _StackListScreenState extends State<StackListScreen> {
             _selecctBottomNavigationBar(index);
           });
         },
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: CommonColor.BOTTOM_SELECT_COLOR,
+        unselectedItemColor: CommonColor.BOTTOM_UNSELECT_COLOR,
         backgroundColor: Colors.white,
         currentIndex: _selectedIndexForBottomBar!,
         items: const [
@@ -314,10 +294,7 @@ class _StackListScreenState extends State<StackListScreen> {
                   return Center(
                     child: Text(
                       'No data found',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(color: Colors.black),
+                      style: gse.textStyle,
                     ),
                   );
                 }

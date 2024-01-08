@@ -21,12 +21,12 @@ class GlobalUtils {
   showNegativeSnackBar({
     BuildContext? context,
     VoidCallback? onVisible,
-    required String message,
+    required String? message,
     int sec = 1,
   }) {
     ScaffoldMessenger.of(context!).showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Text(message!),
         backgroundColor: Colors.red,
         duration: Duration(seconds: sec),
         onVisible: onVisible,

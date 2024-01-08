@@ -8,7 +8,9 @@ import 'package:stock_management/Database/storage_utils.dart';
 import 'package:stock_management/Report/report_screen.dart';
 import 'package:stock_management/Scanner/details_scanner.dart';
 import 'package:stock_management/StockList/stock_list_screen.dart';
+import 'package:stock_management/globalFile/global_style_editor.dart';
 import 'package:stock_management/model/menu_list_model.dart';
+import 'package:stock_management/model/user_login_data_model.dart';
 import 'package:stock_management/userProfile/user_profile_screen.dart';
 import 'package:stock_management/utils/local_storage.dart';
 import 'package:stock_management/utils/session_manager.dart';
@@ -25,6 +27,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
+  User? user;
+
   List<MenuData> _menuList = [];
 
   var connectivityResult = ConnectivityResult.none;
@@ -35,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
     log('GetInstance : ${StorageUtil.getString(localStorageKey.ID!.toString())} ');
 
     sessionManager.updateLoggedInTimeAndLoggedStatus();
@@ -103,23 +108,42 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  _showDialogForPhoto() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Container(
+            width: 200,
+            height: 400,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              // boxShadow: const [
+              //   BoxShadow(
+              //     color: Colors.grey,
+              //     blurRadius: 5,
+              //     offset: Offset(0, 2),
+              //   ),
+              // ],
+            ),
+            child: Image.asset(
+              'assets/icon/user.jpeg',
+              fit: BoxFit.cover,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[500], // Color.fromARGB(255, 26, 78, 247),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(250),
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
-          // decoration: const BoxDecoration(
-          // gradient: LinearGradient(
-          //   begin: Alignment.topLeft,
-          //   colors: [
-          //     Color.fromARGB(255, 3, 95, 170),
-          //     Color.fromARGB(255, 33, 150, 243),
-          //   ],
-          // ),
-          // /    ),
           child: Padding(
             padding: const EdgeInsets.only(top: 80, left: 20),
             child: Column(
@@ -143,18 +167,21 @@ class _HomeScreenState extends State<HomeScreen> {
                             connectivityResult == ConnectivityResult.wifi)
                         ? Stack(
                             children: [
-                              ClipRRect(
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(35),
-                                ),
-                                child: Container(
-                                  height: 70,
-                                  width: 70,
-                                  decoration: const BoxDecoration(
-                                    image: DecorationImage(
-                                        image:
-                                            AssetImage('assets/icon/user.jpeg'),
-                                        fit: BoxFit.cover),
+                              GestureDetector(
+                                onTap: _showDialogForPhoto,
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(35),
+                                  ),
+                                  child: Container(
+                                    height: 70,
+                                    width: 70,
+                                    decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/icon/user.jpeg'),
+                                          fit: BoxFit.cover),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -177,18 +204,21 @@ class _HomeScreenState extends State<HomeScreen> {
                           )
                         : Stack(
                             children: [
-                              ClipRRect(
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(35),
-                                ),
-                                child: Container(
-                                  height: 70,
-                                  width: 70,
-                                  decoration: const BoxDecoration(
-                                    image: DecorationImage(
-                                      image:
-                                          AssetImage('assets/icon/user.jpeg'),
-                                      fit: BoxFit.cover,
+                              GestureDetector(
+                                onTap: _showDialogForPhoto,
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(35),
+                                  ),
+                                  child: Container(
+                                    height: 70,
+                                    width: 70,
+                                    decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                        image:
+                                            AssetImage('assets/icon/user.jpeg'),
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -249,8 +279,8 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'profile',
           ),
         ],
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey[600],
+        selectedItemColor: CommonColor.BOTTOM_SELECT_COLOR,
+        unselectedItemColor: CommonColor.BOTTOM_UNSELECT_COLOR,
         backgroundColor: Colors.white,
         currentIndex: _selectedIndex,
       ),

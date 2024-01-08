@@ -11,8 +11,7 @@ mixin ValidationMixin {
 
   String? validateLoginPassword(String? value) {
     if (!value!.isPasswordEasy() || value == null) {
-      return 'Password  contains 4 \nor above characters without any space.\n All in lowercase';
-      //'Password must contains 8 \nor above characters without any space.\nAtleast use a upercase,lowercase,\nnumber and special character.';
+      return 'Password must contains 8 \nor above characters without any space.\nAtleast use a upercase,lowercase,\nnumber and special character.';
     }
     return null;
   }

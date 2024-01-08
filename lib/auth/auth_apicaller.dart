@@ -22,10 +22,23 @@ class AuthApiCaller {
 
     try {
       final res = await ApiWrapper.post(endPoint, body);
-      log("*****************:$res");
+      log("Password Created Response : $res");
       return res;
     } catch (e) {
       throw "Something went wrong in getCreatePass :$e";
+    }
+  }
+
+  //update Password
+  Future<Map<String, dynamic>> getUpdatePasswordOfUser(
+      Map<String, dynamic> body) async {
+    var endPoint = "Usrpassupdate";
+    try {
+      final res = await ApiWrapper.post(endPoint, body);
+      print('doUpdatePasswordOfUser Response : $res');
+      return res;
+    } catch (e) {
+      throw "In doUpdatePasswordOfUser Something went wrong :$e";
     }
   }
 }
