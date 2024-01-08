@@ -12,23 +12,58 @@ String stockDetailsModelToJson(StockDetailsModel data) =>
 
 class StockDetailsModel {
   int errorcode;
+  UserDattum user;
   List<StockDatum> stockDetails;
+  String sumOfQty;
 
   StockDetailsModel({
     required this.errorcode,
     required this.stockDetails,
+    required this.sumOfQty,
+    required this.user,
   });
 
   factory StockDetailsModel.fromJson(Map<String, dynamic> json) =>
       StockDetailsModel(
         errorcode: json["errorcode"],
         stockDetails: List<StockDatum>.from(
-            json["stockdiaries"].map((x) => StockDatum.fromJson(x))),
+          json["stockdiaries"].map(
+            (x) => StockDatum.fromJson(x),
+          ),
+        ),
+        user: UserDattum.fromJson(json["user"]),
+        sumOfQty: json["sumOfQty"],
       );
 
   Map<String, dynamic> toJson() => {
         "errorcode": errorcode,
-        "stockdiaries": List<dynamic>.from(stockDetails.map((x) => x.toJson())),
+        "user": user.toJson(),
+        "stockdiaries": List<dynamic>.from(
+          stockDetails.map(
+            (x) => x.toJson(),
+          ),
+        ),
+        "sumOfQty": sumOfQty,
+      };
+}
+
+class UserDattum {
+  int userId;
+  String username;
+
+  UserDattum({
+    required this.userId,
+    required this.username,
+  });
+
+  factory UserDattum.fromJson(Map<String, dynamic> json) => UserDattum(
+        userId: json["userid"],
+        username: json["username"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "userid": userId,
+        "username": username,
       };
 }
 

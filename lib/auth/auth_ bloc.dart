@@ -48,6 +48,23 @@ class AuthBloc {
     _liveCreatePassword.add(response);
     return res;
   }
+
+  //Password Changes Api
+  Future<Map<String, dynamic>> doChangeOldPassword(
+      {String? userId, String? currentPass, String? newPass}) async {
+    EasyLoading.show(dismissOnTap: false);
+    Map<String, dynamic> bodyData = {
+      "userid": userId,
+      "current_password": currentPass,
+      "new_password": newPass,
+    };
+
+    Map<String, dynamic> res =
+        await _apiCaller.getUpdatePasswordOfUser(bodyData);
+    log("doChangeOldPassword Body Data : $bodyData ---- Response :$res ");
+    EasyLoading.dismiss();
+    return res;
+  }
 }
 
 AuthBloc authBloc = AuthBloc();

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stock_management/home_screen.dart';
-import 'package:stock_management/userProfile/user_profile_screen.dart';
+import 'package:stock_management/globalFile/global_style_editor.dart';
 import 'package:stock_management/utils/session_manager.dart';
 
 class ReportScreen extends StatefulWidget {
@@ -21,31 +20,12 @@ class _ReportScreenState extends State<ReportScreen> {
   _selecctBottomNavigationBar(int index) {
     switch (index) {
       case 0:
-        _homeBottomBarIconClick();
+        CommonCall.homeIconCall(context);
         break;
       case 2:
-        _personBottomBarIconClick();
+        CommonCall.personIconCall(context);
         break;
     }
-  }
-
-  _homeBottomBarIconClick() {
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (ctx) => const HomeScreen(),
-      ),
-      (route) => false,
-    );
-  }
-
-  _personBottomBarIconClick() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (ctx) => const UserProfileScreen(),
-      ),
-    );
   }
 
   @override
@@ -60,8 +40,8 @@ class _ReportScreenState extends State<ReportScreen> {
             _selecctBottomNavigationBar(index);
           });
         },
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: CommonColor.BOTTOM_SELECT_COLOR,
+        unselectedItemColor: CommonColor.BOTTOM_UNSELECT_COLOR,
         backgroundColor: Colors.white,
         currentIndex: _selectedIndexForBottomBar!,
         items: const [

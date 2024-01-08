@@ -49,7 +49,7 @@ class GlobalBloc {
     Map res = await apiCaller.getUserLoginData(bodyData);
 
     // if (res["errorcode"] == 1) {
-    //   print('@@@@@@@@@@@@@@: ${res["errorcode"]} && ${res["msg"]}');
+    //   print('@ ${res["errorcode"]} && ${res["msg"]}');
     //   EasyLoading.dismiss();
     //   globalUtils.showSnackBar(res["msg"]);
     //   return Future.error(res["msg"]);
@@ -129,6 +129,7 @@ class GlobalBloc {
     String? startDate,
     String? endDate,
   }) async {
+    EasyLoading.show(dismissOnTap: false);
     Map<String, dynamic> bodyData = {
       "userid": userId,
       "sdate": startDate,
@@ -140,18 +141,20 @@ class GlobalBloc {
 
     var data = StockListModel.fromJson(res);
     _liveStockList.add(data.stockdiaries);
+    EasyLoading.dismiss();
     return (data.stockdiaries);
   }
 
   //DoFetch Product Details
-  BehaviorSubject<List<StockDatum>> get getProductDetails =>
+  BehaviorSubject<StockDetailsModel> get getProductDetails =>
       _liveProductDetails;
 
-  final BehaviorSubject<List<StockDatum>> _liveProductDetails =
-      BehaviorSubject<List<StockDatum>>();
+  final BehaviorSubject<StockDetailsModel> _liveProductDetails =
+      BehaviorSubject<StockDetailsModel>();
 
-  Future<List<StockDatum>> dofetchStockDetailsData(
+  Future<StockDetailsModel> dofetchStockDetailsData(
       {String? userId, String? reqId}) async {
+    EasyLoading.show(dismissOnTap: false);
     Map<String, dynamic> bodyData = {
       "reqid": reqId,
       "userid": userId,
@@ -162,8 +165,9 @@ class GlobalBloc {
 
     var data = StockDetailsModel.fromJson(res);
 
-    _liveProductDetails.add(data.stockDetails);
-    return (data.stockDetails);
+    _liveProductDetails.add(data);
+    EasyLoading.dismiss();
+    return (StockDetailsModel.fromJson(res));
   }
 }
 

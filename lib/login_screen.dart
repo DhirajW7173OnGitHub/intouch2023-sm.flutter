@@ -5,7 +5,6 @@ import 'package:stock_management/Database/apicaller.dart';
 import 'package:stock_management/Database/bloc.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
 import 'package:stock_management/home_screen.dart';
-import 'package:stock_management/model/user_login_data_model.dart';
 import 'package:stock_management/sign_up_screen.dart';
 import 'package:stock_management/splash_screen.dart';
 import 'package:stock_management/utils/check_internet.dart';
@@ -39,8 +38,6 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
   bool passVisible = false;
 
   bool checkInternet = false;
-
-  User? user;
 
   @override
   void initState() {
@@ -276,26 +273,23 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                     ),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 40,
                   ),
                   Row(
-                    mainAxisAlignment: (user == null)
-                        ? MainAxisAlignment.spaceBetween
-                        : MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      if (user == null)
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.36,
-                          child: ElevatedButton(
-                            onPressed: _SignUpKeyPress,
-                            child: const Text(
-                              'SING-UP',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.36,
+                        child: ElevatedButton(
+                          onPressed: _SignUpKeyPress,
+                          child: const Text(
+                            'SING-UP',
+                            style: TextStyle(
+                              color: Colors.white,
                             ),
                           ),
                         ),
+                      ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.36,
                         child: ElevatedButton(
@@ -309,17 +303,6 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                         ),
                       ),
                     ],
-                  ),
-                  const SizedBox(height: 30),
-                  //  if (userName != null)
-                  TextButton(
-                    onPressed: () {
-                      forgatePasswordDialog(context);
-                    },
-                    child: const Text(
-                      'Forgot Password...',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    ),
                   ),
                 ],
               ),
