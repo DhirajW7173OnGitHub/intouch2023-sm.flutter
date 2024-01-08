@@ -38,7 +38,7 @@ class EnvironmentUrl {
   void _mapToPreviousEnviroment() {
     baseUrl = config.apiHost;
     domain = config.domainHost;
-    dbName = config.localDb;
-    lastSyncId = config.lastSyncId;
+    // dbName = config.localDb;
+    // lastSyncId = config.lastSyncId;
   }
 }

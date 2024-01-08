@@ -318,7 +318,9 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                   if (StorageUtil.getString(localStorageKey.ID!.toString())
                       .isNotEmpty)
                     TextButton(
-                      onPressed: forgatePasswordDialog(context),
+                      onPressed: () {
+                        forgatePasswordDialog(context);
+                      },
                       child: const Text(
                         'Forgot Password?',
                         style: TextStyle(fontSize: 16.0, color: Colors.white),
