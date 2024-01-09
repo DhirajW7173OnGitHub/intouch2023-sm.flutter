@@ -299,82 +299,97 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
 
                   _menuList = snapshot.data?.menu ?? [];
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20.0, right: 20, top: 40, bottom: 8),
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      childAspectRatio: 12 / 9,
-                      mainAxisSpacing: 40,
-                      crossAxisSpacing: 40,
-                      children: List.generate(_menuList.length, (index) {
-                        String? imageName = "assets/icon/organization.png";
-                        Color splashColor = Colors.blue.withAlpha(30);
-                        String menuTitle = _menuList[index].menuTitle!;
+                  return TweenAnimationBuilder(
+                    duration: const Duration(seconds: 1),
+                    tween: Tween<double>(begin: 0, end: 1),
+                    builder: (context, double value, Widget? child) {
+                      return Opacity(
+                        opacity: value,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: value * 20),
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20.0, right: 20, top: 40, bottom: 8),
+                      child: GridView.count(
+                        crossAxisCount: 2,
+                        childAspectRatio: 12 / 9,
+                        mainAxisSpacing: 40,
+                        crossAxisSpacing: 40,
+                        children: List.generate(_menuList.length, (index) {
+                          String? imageName = "assets/icon/organization.png";
+                          Color splashColor = Colors.blue.withAlpha(30);
+                          String menuTitle = _menuList[index].menuTitle!;
 
-                        if (_menuList[index].id! == "1") {
-                          imageName = "assets/icon/organization.png";
-                        } else if (_menuList[index].id! == "2") {
-                          imageName = "assets/icon/menu.png";
-                        } else if (_menuList[index].id! == "3") {
-                          imageName = "assets/icon/report.png";
-                        }
+                          if (_menuList[index].id! == "1") {
+                            imageName = "assets/icon/organization.png";
+                          } else if (_menuList[index].id! == "2") {
+                            imageName = "assets/icon/menu.png";
+                          } else if (_menuList[index].id! == "3") {
+                            imageName = "assets/icon/report.png";
+                          }
 
-                        return Card(
-                          shadowColor: Colors.grey[900],
-                          elevation: 12,
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.black),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(8),
+                          return Card(
+                            shadowColor: Colors.grey[900],
+                            elevation: 12,
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: Colors.black),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
                               ),
-                            ),
-                            child: InkWell(
-                              onTap: () {
-                                _menuNavigator(_menuList[index].id.toString());
-                              },
-                              splashColor: splashColor,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 50,
-                                    width: 50,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(imageName.toString()),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.center,
-                                    child: SizedBox(
-                                      width: 150,
-                                      child: Text(
-                                        menuTitle,
-                                        maxLines: 3,
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black,
-                                          // fontWeight: FontWeight.bold
+                              child: InkWell(
+                                onTap: () {
+                                  _menuNavigator(
+                                      _menuList[index].id.toString());
+                                },
+                                splashColor: splashColor,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height: 50,
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image:
+                                              AssetImage(imageName.toString()),
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: SizedBox(
+                                        width: 150,
+                                        child: Text(
+                                          menuTitle,
+                                          maxLines: 3,
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black,
+                                            // fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      }),
+                          );
+                        }),
+                      ),
                     ),
                   );
                 },
