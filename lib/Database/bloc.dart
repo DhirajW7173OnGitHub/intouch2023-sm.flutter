@@ -9,6 +9,7 @@ import 'package:stock_management/StockList/Model/stock_details_model.dart';
 import 'package:stock_management/StockList/Model/stock_list_model.dart';
 import 'package:stock_management/model/menu_list_model.dart';
 import 'package:stock_management/model/user_login_data_model.dart';
+import 'package:stock_management/userProfile/Model/user_profile_details_model.dart';
 import 'package:stock_management/utils/local_storage.dart';
 
 class GlobalBloc {
@@ -168,6 +169,27 @@ class GlobalBloc {
     _liveProductDetails.add(data);
     EasyLoading.dismiss();
     return (StockDetailsModel.fromJson(res));
+  }
+
+  //Do fetch Profile Details
+
+  BehaviorSubject<UserProfileDetailsModel> get getUserProfileDetails =>
+      _liveUserProfileData;
+  final BehaviorSubject<UserProfileDetailsModel> _liveUserProfileData =
+      BehaviorSubject<UserProfileDetailsModel>();
+
+  Future<UserProfileDetailsModel> doFetchUserProfileDetails(
+      {String? userId}) async {
+    EasyLoading.show(dismissOnTap: false);
+    Map<String, dynamic> bodyData = {
+      "userid": userId,
+    };
+    var res = await apiCaller.getProfileDetailsData(bodyData);
+    log('dofetchUserProfileDetails BodyData : $bodyData --- Response : $res');
+    var data = UserProfileDetailsModel.fromJson(res);
+    _liveUserProfileData.add(data);
+    EasyLoading.dismiss();
+    return data;
   }
 }
 

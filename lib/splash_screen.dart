@@ -29,6 +29,7 @@ class _NewSplashScreenState extends State<NewSplashScreen>
 
   late AnimationController _controller;
   late Animation<double> _opacity;
+  Animation? _colorAnimation;
 
   User? user;
 
@@ -41,12 +42,17 @@ class _NewSplashScreenState extends State<NewSplashScreen>
       duration: const Duration(seconds: 5),
     );
 
-    _opacity = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(_controller);
+    _colorAnimation =
+        ColorTween(begin: Colors.red, end: Colors.white).animate(_controller);
+    _opacity = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
 
     _controller.forward();
+
+    // _controller.addListener(() {
+    //   setState(() {});
+    //   print(_controller.value);
+    //   print(_colorAnimation!.value);
+    // });
 
     _loadScreen();
   }
@@ -163,7 +169,7 @@ class _NewSplashScreenState extends State<NewSplashScreen>
             ),
         child: Center(
           child: AnimatedBuilder(
-            animation: _opacity,
+            animation: _controller,
             builder: (context, child) {
               return Opacity(
                 opacity: _opacity.value,
@@ -178,7 +184,7 @@ class _NewSplashScreenState extends State<NewSplashScreen>
                           Radius.circular(20),
                         ),
                         border: Border.all(
-                          color: Colors.white,
+                          color: _colorAnimation!.value,
                           width: 5,
                         ),
                       ),
@@ -186,8 +192,8 @@ class _NewSplashScreenState extends State<NewSplashScreen>
                         child: Text(
                           "IPN", //besley
                           style: GoogleFonts.anticDidone(
-                            textStyle: const TextStyle(
-                              color: Colors.white,
+                            textStyle: TextStyle(
+                              color: _colorAnimation!.value,
                               fontSize: 42,
                               fontWeight: FontWeight.bold,
                             ),

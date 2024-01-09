@@ -45,18 +45,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scrollbarTheme: const ScrollbarThemeData().copyWith(
           thumbColor: MaterialStateProperty.all(
-            Colors.blue[500],
+            Colors.red,
           ),
         ),
         scaffoldBackgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black, size: 24),
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.blue[500],
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.red,
           foregroundColor: Colors.white,
         ),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            foregroundColor: Colors.blue[500],
+            foregroundColor: Colors.red,
             padding: const EdgeInsets.only(right: 30, left: 30),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6),
@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             foregroundColor: Colors.white,
-            backgroundColor: Colors.blue[500],
+            backgroundColor: Colors.red,
             padding: const EdgeInsets.only(right: 30, left: 30),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6),
