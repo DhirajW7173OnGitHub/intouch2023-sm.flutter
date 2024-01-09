@@ -6,9 +6,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stock_management/Database/bloc.dart';
 import 'package:stock_management/Database/storage_utils.dart';
 import 'package:stock_management/login_screen.dart';
-import 'package:stock_management/userProfile/change_password_screen.dart';
+import 'package:stock_management/userProfile/Model/user_profile_details_model.dart';
+import 'package:stock_management/userProfile/widget/profile_details_widget.dart';
 import 'package:stock_management/userProfile/widget/profile_image_widget.dart';
 import 'package:stock_management/utils/local_storage.dart';
 import 'package:stock_management/utils/session_manager.dart';
@@ -36,6 +38,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     super.initState();
 
     sessionManager.updateLoggedInTimeAndLoggedStatus();
+
+    globalBloc.doFetchUserProfileDetails(
+      userId: StorageUtil.getString(localStorageKey.ID!.toString()),
+    );
   }
 
   getImage() {
@@ -307,187 +313,30 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
           ),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white, //CommonColor.CONTAINER_COLOR,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  ),
+        body: StreamBuilder<UserProfileDetailsModel>(
+          stream: globalBloc.getUserProfileDetails.stream,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Container(
+                child: const Center(
+                  child: Text('No data'),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: Column(
-                      children: [
-                        buildUserProfileField(
-                          context,
-                          icon: const Icon(Icons.person),
-                          label: 'Name',
-                          value:
-                              '${StorageUtil.getString(localStorageKey.NAME!)}',
-                        ),
-                        buildUserProfileField(
-                          context,
-                          icon: const Icon(Icons.email),
-                          label: 'Email',
-                          value:
-                              '${StorageUtil.getString(localStorageKey.EMAIL!)}',
-                        ),
-                        buildUserProfileField(
-                          context,
-                          icon: const Icon(Icons.mobile_friendly_outlined),
-                          label: 'Mobile Number',
-                          value:
-                              '${StorageUtil.getString(localStorageKey.PHONE!)}',
-                        ),
-                        buildUserProfileField(
-                          context,
-                          icon: const Icon(Icons.location_city),
-                          label: 'Organisation',
-                          value: 'In-Touch Consumer Care Solution pvt ltd',
-                        ),
-                        buildUserProfileField(
-                          context,
-                          icon: const Icon(Icons.shop_2_outlined),
-                          label: 'Shop Name',
-                          value: 'XYZ',
-                        ),
-                        buildUserProfileField(
-                          context,
-                          icon: const Icon(Icons.shop),
-                          label: 'Shop code',
-                          value: '12345',
-                        ),
-                        buildUserProfileField(
-                          context,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const ChangePasswordScreen(),
-                              ),
-                            );
-                          },
-                          icon: const Icon(Icons.password),
-                          label: 'Password',
-                          isEditable: true,
-                          value: '****',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildUserProfileField(
-    BuildContext context, {
-    required String label,
-    required String value,
-    Widget? icon,
-    bool isEditable = false,
-    Function()? onTap,
-  }) {
-    return Card(
-      color: Colors.white,
-      elevation: 2,
-      shape: const UnderlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(8),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: TweenAnimationBuilder(
-          tween: Tween<double>(begin: 0, end: 1),
-          duration: const Duration(seconds: 1),
-          builder: (context, value, Widget? child) {
-            return Opacity(
-              opacity: value,
-              child: Padding(
-                padding: EdgeInsets.only(left: value * 10),
-                child: child,
-              ),
+              );
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return UserProfileDetailsWidget(
+              onTap: () {},
+              email: snapshot.data!.users.email,
+              id: snapshot.data!.users.id,
+              name: snapshot.data!.users.name,
+              phone: snapshot.data!.users.phone,
+              rollName: snapshot.data!.users.roleName,
             );
           },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (icon != null)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: icon,
-                    ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  SizedBox(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          label,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              value,
-                              maxLines: 2,
-                              textAlign: TextAlign.justify,
-                              overflow: TextOverflow.visible,
-                              style: const TextStyle(
-                                color: Colors.black87,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            if (isEditable == true)
-                              InkWell(
-                                onTap: onTap,
-                                child: Wrap(
-                                  children: [
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.60,
-                                    ),
-                                    isEditable
-                                        ? const Icon(Icons.edit)
-                                        : Container(),
-                                  ],
-                                ),
-                              ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
         ),
       ),
     );
