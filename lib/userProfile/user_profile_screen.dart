@@ -410,71 +410,84 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (icon != null)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: icon,
+        child: TweenAnimationBuilder(
+          tween: Tween<double>(begin: 0, end: 1),
+          duration: const Duration(seconds: 1),
+          builder: (context, value, Widget? child) {
+            return Opacity(
+              opacity: value,
+              child: Padding(
+                padding: EdgeInsets.only(left: value * 10),
+                child: child,
+              ),
+            );
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (icon != null)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: icon,
+                    ),
+                  const SizedBox(
+                    width: 10,
                   ),
-                const SizedBox(
-                  width: 10,
-                ),
-                SizedBox(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        label,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            value,
-                            maxLines: 2,
-                            textAlign: TextAlign.justify,
-                            overflow: TextOverflow.visible,
-                            style: const TextStyle(
-                              color: Colors.black87,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
+                  SizedBox(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          label,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
                           ),
-                          if (isEditable == true)
-                            InkWell(
-                              onTap: onTap,
-                              child: Wrap(
-                                children: [
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.60,
-                                  ),
-                                  isEditable
-                                      ? const Icon(Icons.edit)
-                                      : Container(),
-                                ],
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              value,
+                              maxLines: 2,
+                              textAlign: TextAlign.justify,
+                              overflow: TextOverflow.visible,
+                              style: const TextStyle(
+                                color: Colors.black87,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                        ],
-                      ),
-                    ],
+                            if (isEditable == true)
+                              InkWell(
+                                onTap: onTap,
+                                child: Wrap(
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.60,
+                                    ),
+                                    isEditable
+                                        ? const Icon(Icons.edit)
+                                        : Container(),
+                                  ],
+                                ),
+                              ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
