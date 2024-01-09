@@ -534,11 +534,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                         builder: ((context, snapshot) {
                                           if (!snapshot.hasData ||
                                               snapshot.data == null) {
-                                            return Container(
-                                              child: Center(
-                                                child: Text('No data'),
-                                              ),
-                                            );
+                                            return Container();
                                           }
                                           if (snapshot.connectionState ==
                                               ConnectionState.waiting) {
