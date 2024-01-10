@@ -185,7 +185,7 @@ class GlobalBloc {
       "userid": userId,
     };
     var res = await apiCaller.getProfileDetailsData(bodyData);
-    log('dofetchUserProfileDetails BodyData : $bodyData --- Response : $res');
+    //log('dofetchUserProfileDetails BodyData : $bodyData --- Response : $res');
     var data = UserProfileDetailsModel.fromJson(res);
     _liveUserProfileData.add(data);
     EasyLoading.dismiss();
