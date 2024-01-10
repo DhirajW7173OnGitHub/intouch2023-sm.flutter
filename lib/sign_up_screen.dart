@@ -84,123 +84,133 @@ class _SignUpScreenState extends State<SignUpScreen> with ValidationMixin {
       },
       child: Scaffold(
         //backgroundColor: Colors.blue[700],
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 280),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Container(
-                          width: 150,
-                          height: 150,
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                            border: Border.all(
-                              color: Colors.red,
-                              width: 5,
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "IPN", //besley
-                              style: GoogleFonts.anticDidone(
-                                textStyle: const TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 42,
-                                  fontWeight: FontWeight.bold,
-                                ),
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/icon/phoenix-logo.png'),
+              fit: BoxFit.fill,
+              opacity: 0.2,
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 40, vertical: 280),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Container(
+                            width: 150,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(20),
+                              ),
+                              border: Border.all(
+                                color: Colors.red,
+                                width: 5,
                               ),
                             ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Enter valide Mobile Number',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline1!
-                              .copyWith(fontSize: 16, color: Colors.red),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      TextFormField(
-                        controller: mobileController,
-                        textInputAction: TextInputAction.done,
-                        style: const TextStyle(color: Colors.red),
-                        keyboardType: TextInputType.phone,
-                        validator: validatePhoneNumber,
-                        onChanged: (value) {
-                          _formKey.currentState!.validate();
-                          setState(() {
-                            debugPrint(value);
-                          });
-                        },
-                        focusNode: _phoneFocus,
-                        decoration: const InputDecoration(
-                          errorStyle: TextStyle(color: Colors.red),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 10,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red)),
-                          border: OutlineInputBorder(),
-                          labelText: "Mobile Number",
-                          labelStyle: TextStyle(color: Colors.red),
-                          hintText: "Enter mobile number",
-                          hintStyle: TextStyle(color: Colors.red),
-                        ),
-                        // validator: validatePhoneNumber(),
-                      ),
-                      const SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.36,
-                            child: ElevatedButton(
-                              onPressed: willPopUp,
-                              child: const Text(
-                                'BACK',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.36,
-                            child: ElevatedButton(
-                              onPressed: _sendOtp,
+                            child: Center(
                               child: Text(
-                                'Continue'.toUpperCase(),
-                                style: const TextStyle(
-                                  color: Colors.white,
+                                "IPN", //besley
+                                style: GoogleFonts.anticDidone(
+                                  textStyle: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 42,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Enter valide Mobile Number',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline1!
+                                .copyWith(fontSize: 16, color: Colors.red),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        TextFormField(
+                          controller: mobileController,
+                          textInputAction: TextInputAction.done,
+                          style: const TextStyle(color: Colors.red),
+                          keyboardType: TextInputType.phone,
+                          validator: validatePhoneNumber,
+                          onChanged: (value) {
+                            _formKey.currentState!.validate();
+                            setState(() {
+                              debugPrint(value);
+                            });
+                          },
+                          focusNode: _phoneFocus,
+                          decoration: const InputDecoration(
+                            errorStyle: TextStyle(color: Colors.red),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 10,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red)),
+                            border: OutlineInputBorder(),
+                            labelText: "Mobile Number",
+                            labelStyle: TextStyle(color: Colors.red),
+                            hintText: "Enter mobile number",
+                            hintStyle: TextStyle(color: Colors.red),
+                          ),
+                          // validator: validatePhoneNumber(),
+                        ),
+                        const SizedBox(height: 30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.36,
+                              child: ElevatedButton(
+                                onPressed: willPopUp,
+                                child: const Text(
+                                  'BACK',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.36,
+                              child: ElevatedButton(
+                                onPressed: _sendOtp,
+                                child: Text(
+                                  'Continue'.toUpperCase(),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

@@ -390,520 +390,507 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: Card(
-          child: Column(
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                  color: CommonColor.CONTAINER_COLOR,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(20),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      bottom: 10, top: 8, left: 6, right: 8),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Card(
-                            child: Container(
-                              margin: const EdgeInsets.only(left: 12),
-                              // decoration:
-                              //     const BoxDecoration(color: Colors.white),
-                              width: MediaQuery.of(context).size.width * 0.3,
-                              child: DropdownButton(
-                                dropdownColor: Colors.white,
-                                isExpanded: true,
-                                value: _selectValue,
-                                items: dropdownItem.map((String item) {
-                                  return DropdownMenuItem(
-                                    value: item,
-                                    child: Text(item),
-                                  );
-                                }).toList(),
-                                onChanged: (String? value) {
-                                  setState(() {
-                                    _selectValue = value;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 4,
-                              child: _getScannedData!.isNotEmpty
-                                  ? Card(
-                                      child: StreamBuilder<List<Product>>(
-                                        stream: globalBloc
-                                            .getProductListofItem.stream,
-                                        builder: ((context, snapshot) {
-                                          if (!snapshot.hasData) {
-                                            return Container();
-                                          }
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return const CircularProgressIndicator();
-                                          }
-                                          print(
-                                              "Route List Length: ${snapshot.data!.length}");
-
-                                          // Map List<Product> to List<String>
-                                          List<String> productNames = snapshot
-                                              .data!
-                                              .map((product) =>
-                                                  "${product.name}")
-                                              .toList();
-                                          List<String> productId = snapshot
-                                              .data!
-                                              .map((product) => "${product.id}")
-                                              .toList();
-
-                                          List<String> productCode = snapshot
-                                              .data!
-                                              .map((product) =>
-                                                  "${product.code}")
-                                              .toList();
-                                          if (_getScannedData!.isNotEmpty &&
-                                              productCode
-                                                  .contains(_getScannedData)) {
-                                            _selectProductName = productNames[
-                                                productCode
-                                                    .indexOf(_getScannedData!)];
-                                            _selectId = int.parse(
-                                              productId[productCode
-                                                  .indexOf(_getScannedData!)],
-                                            );
-                                          }
-
-                                          // else {
-                                          //   globalUtils.showNegativeSnackBar(
-                                          //       message:
-                                          //           'Product Does not Exist in list.');
-                                          // }
-                                          // log("@@${productCode.contains(_getScannedData!)}");
-                                          return Container(
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                child: Row(
-                                                  children: [
-                                                    //check _getScannedData exist in list or not
-
-                                                    Text(
-                                                      productCode.contains(
-                                                              _getScannedData!)
-                                                          ? "${productNames[productCode.indexOf(_getScannedData!)]}"
-                                                          : "Scanned Correct code.Product Does Not Exist in List",
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyLarge,
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                    )
-                                  : Card(
-                                      child: StreamBuilder<List<Product>>(
-                                        stream: globalBloc
-                                            .getProductListofItem.stream,
-                                        builder: ((context, snapshot) {
-                                          if (!snapshot.hasData ||
-                                              snapshot.data == null) {
-                                            return Container();
-                                          }
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return const CircularProgressIndicator();
-                                          }
-                                          print(
-                                              "Route List Length: ${snapshot.data!.length}");
-
-                                          // Map List<Product> to List<String>
-                                          List<String> productNames = snapshot
-                                              .data!
-                                              .map((product) =>
-                                                  "${product.name}")
-                                              .toList();
-                                          List<String> productId = snapshot
-                                              .data!
-                                              .map((product) => "${product.id}")
-                                              .toList();
-
-                                          List<String> productCode = snapshot
-                                              .data!
-                                              .map((product) =>
-                                                  "${product.code}")
-                                              .toList();
-                                          //check is right then _selectProductName pass for next logic
-                                          if (_getScannedData!.isNotEmpty &&
-                                              productCode
-                                                  .contains(_getScannedData)) {
-                                            _selectProductName = productNames[
-                                                productCode
-                                                    .indexOf(_getScannedData!)];
-                                            // _selectId = int.parse(
-                                            //   productNames[productId
-                                            //       .indexOf(_selectProductName!)],
-                                            // );
-                                          }
-
-                                          log('@@@@@@@@@@@@@@:$_isAddInDetail');
-
-                                          return DropdownSearch<String>(
-                                            //required to search bar label and more
-                                            dropdownDecoratorProps:
-                                                const DropDownDecoratorProps(
-                                              dropdownSearchDecoration:
-                                                  InputDecoration(
-                                                hintText: "Select Product",
-                                                // labelText: "Select Product",
-                                                labelStyle: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(12),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            popupProps: const PopupProps.menu(
-                                              searchFieldProps: TextFieldProps(
-                                                cursorColor: Colors.red,
-                                              ),
-                                              scrollbarProps: ScrollbarProps(),
-                                              showSearchBox: true,
-                                              menuProps: MenuProps(
-                                                elevation: 8,
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(16),
-                                                ),
-                                              ),
-                                            ),
-                                            autoValidateMode: AutovalidateMode
-                                                .onUserInteraction,
-                                            compareFn: (item, selectItem) =>
-                                                item == selectItem,
-                                            items: productNames,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                print(
-                                                    "Selected Product: $value");
-                                                _selectProductName = value;
-                                                _selectId = int.parse(productId[
-                                                    productNames
-                                                        .indexOf(value!)]);
-                                              });
-                                            },
-                                            // selectedItem: _isAddInDetail
-                                            //     ? "select product"
-                                            //     : _selectProductName ??
-                                            //         "select product",
-                                            selectedItem: _isAddInDetail
-                                                ? _selectProductName ??
-                                                    "select product"
-                                                : "select product",
-                                          );
-                                        }),
-                                      ),
-                                    ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: IconButton(
-                                onPressed: _clickOnScanner,
-                                icon: const Icon(
-                                  Icons.qr_code_scanner,
-                                  size: 38,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: 50,
-                        alignment: Alignment.bottomRight,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _addDetails();
-                          },
-                          child: const Text(
-                            'ADD IN DETAILS',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                color: CommonColor.CONTAINER_COLOR,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
                 ),
               ),
-              const SizedBox(
-                height: 6,
-              ),
-              Expanded(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: CommonColor.CONTAINER_COLOR,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    bottom: 10, top: 8, left: 6, right: 8),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Card(
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 12),
+                            // decoration:
+                            //     const BoxDecoration(color: Colors.white),
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            child: DropdownButton(
+                              dropdownColor: Colors.white,
+                              isExpanded: true,
+                              value: _selectValue,
+                              items: dropdownItem.map((String item) {
+                                return DropdownMenuItem(
+                                  value: item,
+                                  child: Text(item),
+                                );
+                              }).toList(),
+                              onChanged: (String? value) {
+                                setState(() {
+                                  _selectValue = value;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: SizedBox(
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    SizedBox(
                       width: double.infinity,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      child: Row(
                         children: [
-                          (productItem.isEmpty)
-                              ? Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.5,
-                                  child: Center(
-                                    child: Text(
-                                      'No,Product added',
-                                      style: gse.textStyle,
-                                    ),
-                                  ),
-                                )
-                              : Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: List.generate(
-                                    productItem.length,
-                                    (index) {
-                                      print('Length : ${productItem.length}');
-                                      // log('Data of List :${item[index]}');
-                                      return Card(
-                                        elevation: 8,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TweenAnimationBuilder(
-                                            duration:
-                                                const Duration(seconds: 1),
-                                            tween:
-                                                Tween<double>(begin: 0, end: 1),
-                                            builder: (context, value,
-                                                Widget? child) {
-                                              return Opacity(
-                                                opacity: value,
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: value * 5),
-                                                  child: child,
-                                                ),
-                                              );
-                                            },
-                                            child: SizedBox(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                          Expanded(
+                            flex: 4,
+                            child: _getScannedData!.isNotEmpty
+                                ? Card(
+                                    child: StreamBuilder<List<Product>>(
+                                      stream: globalBloc
+                                          .getProductListofItem.stream,
+                                      builder: ((context, snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return Container();
+                                        }
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const CircularProgressIndicator();
+                                        }
+                                        print(
+                                            "Route List Length: ${snapshot.data!.length}");
+
+                                        // Map List<Product> to List<String>
+                                        List<String> productNames = snapshot
+                                            .data!
+                                            .map((product) => "${product.name}")
+                                            .toList();
+                                        List<String> productId = snapshot.data!
+                                            .map((product) => "${product.id}")
+                                            .toList();
+
+                                        List<String> productCode = snapshot
+                                            .data!
+                                            .map((product) => "${product.code}")
+                                            .toList();
+                                        if (_getScannedData!.isNotEmpty &&
+                                            productCode
+                                                .contains(_getScannedData)) {
+                                          _selectProductName = productNames[
+                                              productCode
+                                                  .indexOf(_getScannedData!)];
+                                          _selectId = int.parse(
+                                            productId[productCode
+                                                .indexOf(_getScannedData!)],
+                                          );
+                                        }
+
+                                        // else {
+                                        //   globalUtils.showNegativeSnackBar(
+                                        //       message:
+                                        //           'Product Does not Exist in list.');
+                                        // }
+                                        // log("@@${productCode.contains(_getScannedData!)}");
+                                        return Container(
+                                          height: 50,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              child: Row(
                                                 children: [
+                                                  //check _getScannedData exist in list or not
+
                                                   Text(
-                                                    '${productItem[index].code} ',
+                                                    productCode.contains(
+                                                            _getScannedData!)
+                                                        ? "${productNames[productCode.indexOf(_getScannedData!)]}"
+                                                        : "Scanned Correct code.Product Does Not Exist in List",
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .bodyLarge!
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                  ),
-                                                  // Text(
-                                                  //   "Product ID : ${productItem[index].id} ",
-                                                  //   style: Theme.of(context)
-                                                  //       .textTheme
-                                                  //       .bodyLarge!
-                                                  //       .copyWith(
-                                                  //           fontWeight:
-                                                  //               FontWeight.bold),
-                                                  // ),
-                                                  Text(
-                                                    "Product Name : ${productItem[index].productName} ",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge!
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                  ),
-                                                  // Text(
-                                                  //   "Condition : ${productItem[index].condition} ",
-                                                  //   style: Theme.of(context)
-                                                  //       .textTheme
-                                                  //       .bodyLarge!
-                                                  //       .copyWith(
-                                                  //           fontWeight:
-                                                  //               FontWeight.bold),
-                                                  // ),
-                                                  Row(
-                                                    children: [
-                                                      Expanded(
-                                                        flex: 1,
-                                                        child: Container(
-                                                          height: 30,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                const BorderRadius
-                                                                    .all(
-                                                              Radius.circular(
-                                                                  5),
-                                                            ),
-                                                            border: Border.all(
-                                                                color: Colors
-                                                                    .black),
-                                                          ),
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        0,
-                                                                    vertical:
-                                                                        2),
-                                                            child: Row(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceEvenly,
-                                                              children: [
-                                                                Visibility(
-                                                                  visible: true,
-                                                                  child:
-                                                                      GestureDetector(
-                                                                    onTap: () {
-                                                                      print(
-                                                                          'MINUS PRESS');
-                                                                      _updateItemCount(
-                                                                          index,
-                                                                          -1);
-                                                                    },
-                                                                    child: Text(
-                                                                      '-',
-                                                                      style: Theme.of(context).textTheme.headline1!.copyWith(
-                                                                          fontSize:
-                                                                              24,
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          height:
-                                                                              1,
-                                                                          color:
-                                                                              Colors.grey[800]),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                const SizedBox(
-                                                                  width: 10,
-                                                                ),
-                                                                Text(productItem[
-                                                                        index]
-                                                                    .count
-                                                                    .toString()),
-                                                                const SizedBox(
-                                                                  width: 10,
-                                                                ),
-                                                                Visibility(
-                                                                  visible: true,
-                                                                  child:
-                                                                      GestureDetector(
-                                                                    onTap: () {
-                                                                      print(
-                                                                          'MINUS PRESS');
-                                                                      _updateItemCount(
-                                                                          index,
-                                                                          1);
-                                                                    },
-                                                                    child: Text(
-                                                                      '+',
-                                                                      style: Theme.of(context).textTheme.headline1!.copyWith(
-                                                                          fontSize:
-                                                                              24,
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          height:
-                                                                              1,
-                                                                          color:
-                                                                              Colors.grey[800]),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                          flex: 2,
-                                                          child: Container()),
-                                                      Expanded(
-                                                        flex: 1,
-                                                        child: IconButton(
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              productItem
-                                                                  .removeAt(
-                                                                      index);
-                                                            });
-                                                          },
-                                                          icon: const Icon(
-                                                            Icons.delete,
-                                                            color: Colors.red,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
+                                                        .bodyLarge,
                                                   )
                                                 ],
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      );
-                                    },
+                                        );
+                                      }),
+                                    ),
+                                  )
+                                : Card(
+                                    child: StreamBuilder<List<Product>>(
+                                      stream: globalBloc
+                                          .getProductListofItem.stream,
+                                      builder: ((context, snapshot) {
+                                        if (!snapshot.hasData ||
+                                            snapshot.data == null) {
+                                          return Container();
+                                        }
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const CircularProgressIndicator();
+                                        }
+                                        print(
+                                            "Route List Length: ${snapshot.data!.length}");
+
+                                        // Map List<Product> to List<String>
+                                        List<String> productNames = snapshot
+                                            .data!
+                                            .map((product) => "${product.name}")
+                                            .toList();
+                                        List<String> productId = snapshot.data!
+                                            .map((product) => "${product.id}")
+                                            .toList();
+
+                                        List<String> productCode = snapshot
+                                            .data!
+                                            .map((product) => "${product.code}")
+                                            .toList();
+                                        //check is right then _selectProductName pass for next logic
+                                        if (_getScannedData!.isNotEmpty &&
+                                            productCode
+                                                .contains(_getScannedData)) {
+                                          _selectProductName = productNames[
+                                              productCode
+                                                  .indexOf(_getScannedData!)];
+                                          // _selectId = int.parse(
+                                          //   productNames[productId
+                                          //       .indexOf(_selectProductName!)],
+                                          // );
+                                        }
+
+                                        log('@@@@@@@@@@@@@@:$_isAddInDetail');
+
+                                        return DropdownSearch<String>(
+                                          //required to search bar label and more
+                                          dropdownDecoratorProps:
+                                              const DropDownDecoratorProps(
+                                            dropdownSearchDecoration:
+                                                InputDecoration(
+                                              hintText: "Select Product",
+                                              // labelText: "Select Product",
+                                              labelStyle: TextStyle(
+                                                  fontWeight: FontWeight.w600),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(12),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          popupProps: const PopupProps.menu(
+                                            searchFieldProps: TextFieldProps(
+                                              cursorColor: Colors.red,
+                                            ),
+                                            scrollbarProps: ScrollbarProps(),
+                                            showSearchBox: true,
+                                            menuProps: MenuProps(
+                                              elevation: 8,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(16),
+                                              ),
+                                            ),
+                                          ),
+                                          autoValidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          compareFn: (item, selectItem) =>
+                                              item == selectItem,
+                                          items: productNames,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              print("Selected Product: $value");
+                                              _selectProductName = value;
+                                              _selectId = int.parse(productId[
+                                                  productNames
+                                                      .indexOf(value!)]);
+                                            });
+                                          },
+                                          // selectedItem: _isAddInDetail
+                                          //     ? "select product"
+                                          //     : _selectProductName ??
+                                          //         "select product",
+                                          selectedItem: _isAddInDetail
+                                              ? _selectProductName ??
+                                                  "select product"
+                                              : "select product",
+                                        );
+                                      }),
+                                    ),
                                   ),
-                                ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: IconButton(
+                              onPressed: _clickOnScanner,
+                              icon: const Icon(
+                                Icons.qr_code_scanner,
+                                size: 38,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: 50,
+                      alignment: Alignment.bottomRight,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _addDetails();
+                        },
+                        child: const Text(
+                          'ADD IN DETAILS',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 6,
+            ),
+            Expanded(
+              child: Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/icon/phoenix-logo.png'),
+                    fit: BoxFit.fill,
+                    opacity: 0.1,
+                  ),
+                  color: CommonColor.CONTAINER_COLOR,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                ),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        (productItem.isEmpty)
+                            ? Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.5,
+                                child: Center(
+                                  child: Text(
+                                    'No,Product added',
+                                    style: gse.textStyle,
+                                  ),
+                                ),
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: List.generate(
+                                  productItem.length,
+                                  (index) {
+                                    print('Length : ${productItem.length}');
+                                    // log('Data of List :${item[index]}');
+                                    return Card(
+                                      elevation: 8,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: TweenAnimationBuilder(
+                                          duration: const Duration(seconds: 1),
+                                          tween:
+                                              Tween<double>(begin: 0, end: 1),
+                                          builder:
+                                              (context, value, Widget? child) {
+                                            return Opacity(
+                                              opacity: value,
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: value * 5),
+                                                child: child,
+                                              ),
+                                            );
+                                          },
+                                          child: SizedBox(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  '${productItem[index].code} ',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                ),
+                                                // Text(
+                                                //   "Product ID : ${productItem[index].id} ",
+                                                //   style: Theme.of(context)
+                                                //       .textTheme
+                                                //       .bodyLarge!
+                                                //       .copyWith(
+                                                //           fontWeight:
+                                                //               FontWeight.bold),
+                                                // ),
+                                                Text(
+                                                  "Product Name : ${productItem[index].productName} ",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                ),
+                                                // Text(
+                                                //   "Condition : ${productItem[index].condition} ",
+                                                //   style: Theme.of(context)
+                                                //       .textTheme
+                                                //       .bodyLarge!
+                                                //       .copyWith(
+                                                //           fontWeight:
+                                                //               FontWeight.bold),
+                                                // ),
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Container(
+                                                        height: 30,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              const BorderRadius
+                                                                  .all(
+                                                            Radius.circular(5),
+                                                          ),
+                                                          border: Border.all(
+                                                              color:
+                                                                  Colors.black),
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal: 0,
+                                                                  vertical: 2),
+                                                          child: Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              Visibility(
+                                                                visible: true,
+                                                                child:
+                                                                    GestureDetector(
+                                                                  onTap: () {
+                                                                    print(
+                                                                        'MINUS PRESS');
+                                                                    _updateItemCount(
+                                                                        index,
+                                                                        -1);
+                                                                  },
+                                                                  child: Text(
+                                                                    '-',
+                                                                    style: Theme.of(context).textTheme.headline1!.copyWith(
+                                                                        fontSize:
+                                                                            24,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w500,
+                                                                        height:
+                                                                            1,
+                                                                        color: Colors
+                                                                            .grey[800]),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              Text(productItem[
+                                                                      index]
+                                                                  .count
+                                                                  .toString()),
+                                                              const SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              Visibility(
+                                                                visible: true,
+                                                                child:
+                                                                    GestureDetector(
+                                                                  onTap: () {
+                                                                    print(
+                                                                        'MINUS PRESS');
+                                                                    _updateItemCount(
+                                                                        index,
+                                                                        1);
+                                                                  },
+                                                                  child: Text(
+                                                                    '+',
+                                                                    style: Theme.of(context).textTheme.headline1!.copyWith(
+                                                                        fontSize:
+                                                                            24,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w500,
+                                                                        height:
+                                                                            1,
+                                                                        color: Colors
+                                                                            .grey[800]),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                        flex: 2,
+                                                        child: Container()),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: IconButton(
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            productItem
+                                                                .removeAt(
+                                                                    index);
+                                                          });
+                                                        },
+                                                        icon: const Icon(
+                                                          Icons.delete,
+                                                          color: Colors.red,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                      ],
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

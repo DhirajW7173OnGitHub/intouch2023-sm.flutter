@@ -170,176 +170,187 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
       },
       child: Scaffold(
         //backgroundColor: Colors.red[600],
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 40,
-              vertical: 60,
+        body: Container(
+          height: double.infinity,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/icon/phoenix-logo.png'),
+              fit: BoxFit.fill,
+              opacity: 0.2,
             ),
-            child: Form(
-              key: _formKey,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    height: 180,
-                  ),
-                  Container(
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      border: Border.all(
-                        color: Colors.red,
-                        width: 5,
-                      ),
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 40,
+                vertical: 60,
+              ),
+              child: Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 180,
                     ),
-                    child: const Center(
-                      child: Text(
-                        'IPN',
-                        style: TextStyle(
-                          fontSize: 60,
-                          fontWeight: FontWeight.bold,
+                    Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                        border: Border.all(
                           color: Colors.red,
+                          width: 5,
+                        ),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'IPN',
+                          style: TextStyle(
+                            fontSize: 60,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'LOGIN',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.red,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    controller: mobileController,
-                    validator: validatePhoneNumber,
-                    textInputAction: TextInputAction.next,
-                    style: const TextStyle(color: Colors.red),
-                    keyboardType: TextInputType.phone,
-                    onChanged: (value) {
-                      _formKey.currentState!.validate();
-                      setState(() {
-                        debugPrint(value);
-                      });
-                    },
-                    focusNode: _phoneFocus,
-                    decoration: const InputDecoration(
-                      errorStyle: TextStyle(color: Colors.red),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red)),
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      border: OutlineInputBorder(),
-                      labelText: "Mobile Number",
-                      labelStyle: TextStyle(color: Colors.red),
-                      hintText: "Enter mobile number",
-                      hintStyle: TextStyle(color: Colors.red),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: passController,
-                    validator: validateLoginPassword,
-                    textInputAction: TextInputAction.done,
-                    style: const TextStyle(color: Colors.red),
-                    obscureText: !passVisible,
-                    keyboardType: TextInputType.text,
-                    onChanged: (value) {
-                      _formKey.currentState!.validate();
-                      setState(() {
-                        debugPrint(value);
-                      });
-                    },
-                    focusNode: _passwordFocus,
-                    decoration: InputDecoration(
-                      errorStyle: const TextStyle(color: Colors.red),
-                      focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red)),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 10),
-                      border: const OutlineInputBorder(),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            passVisible = !passVisible;
-                          });
-                        },
-                        icon: Icon(
-                            passVisible
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined,
-                            color: Colors.red),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'LOGIN',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.red,
                       ),
-                      labelText: 'Password',
-                      labelStyle: const TextStyle(color: Colors.red),
-                      hintText: 'Enter Password',
-                      hintStyle: const TextStyle(color: Colors.red),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  Row(
-                    mainAxisAlignment:
-                        StorageUtil.getString(localStorageKey.ID!.toString())
-                                .isEmpty
-                            ? MainAxisAlignment.spaceBetween
-                            : MainAxisAlignment.center,
-                    children: [
-                      if (StorageUtil.getString(localStorageKey.ID!.toString())
-                          .isEmpty)
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: mobileController,
+                      validator: validatePhoneNumber,
+                      textInputAction: TextInputAction.next,
+                      style: const TextStyle(color: Colors.red),
+                      keyboardType: TextInputType.phone,
+                      onChanged: (value) {
+                        _formKey.currentState!.validate();
+                        setState(() {
+                          debugPrint(value);
+                        });
+                      },
+                      focusNode: _phoneFocus,
+                      decoration: const InputDecoration(
+                        errorStyle: TextStyle(color: Colors.red),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red)),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        border: OutlineInputBorder(),
+                        labelText: "Mobile Number",
+                        labelStyle: TextStyle(color: Colors.red),
+                        hintText: "Enter mobile number",
+                        hintStyle: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: passController,
+                      validator: validateLoginPassword,
+                      textInputAction: TextInputAction.done,
+                      style: const TextStyle(color: Colors.red),
+                      obscureText: !passVisible,
+                      keyboardType: TextInputType.text,
+                      onChanged: (value) {
+                        _formKey.currentState!.validate();
+                        setState(() {
+                          debugPrint(value);
+                        });
+                      },
+                      focusNode: _passwordFocus,
+                      decoration: InputDecoration(
+                        errorStyle: const TextStyle(color: Colors.red),
+                        focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red)),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        border: const OutlineInputBorder(),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              passVisible = !passVisible;
+                            });
+                          },
+                          icon: Icon(
+                              passVisible
+                                  ? Icons.visibility_outlined
+                                  : Icons.visibility_off_outlined,
+                              color: Colors.red),
+                        ),
+                        labelText: 'Password',
+                        labelStyle: const TextStyle(color: Colors.red),
+                        hintText: 'Enter Password',
+                        hintStyle: const TextStyle(color: Colors.red),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    Row(
+                      mainAxisAlignment:
+                          StorageUtil.getString(localStorageKey.ID!.toString())
+                                  .isEmpty
+                              ? MainAxisAlignment.spaceBetween
+                              : MainAxisAlignment.center,
+                      children: [
+                        if (StorageUtil.getString(
+                                localStorageKey.ID!.toString())
+                            .isEmpty)
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.36,
+                            child: ElevatedButton(
+                              onPressed: _SignUpKeyPress,
+                              child: const Text(
+                                'SING-UP',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.36,
                           child: ElevatedButton(
-                            onPressed: _SignUpKeyPress,
+                            onPressed: login,
                             child: const Text(
-                              'SING-UP',
+                              'CONTINUE',
                               style: TextStyle(
                                 color: Colors.white,
                               ),
                             ),
                           ),
                         ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.36,
-                        child: ElevatedButton(
-                          onPressed: login,
-                          child: const Text(
-                            'CONTINUE',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    if (StorageUtil.getString(localStorageKey.ID!.toString())
+                        .isNotEmpty)
+                      TextButton(
+                        onPressed: () {
+                          forgatePasswordDialog(context);
+                        },
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(fontSize: 16.0, color: Colors.red),
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  if (StorageUtil.getString(localStorageKey.ID!.toString())
-                      .isNotEmpty)
-                    TextButton(
-                      onPressed: () {
-                        forgatePasswordDialog(context);
-                      },
-                      child: const Text(
-                        'Forgot Password?',
-                        style: TextStyle(fontSize: 16.0, color: Colors.red),
-                      ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

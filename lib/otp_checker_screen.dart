@@ -41,6 +41,13 @@ class _OTPCheckerScreenState extends State<OTPCheckerScreen> {
       child: Scaffold(
         // backgroundColor: Colors.blue[700],
         body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/icon/phoenix-logo.png'),
+              fit: BoxFit.fill,
+              opacity: 0.2,
+            ),
+          ),
           alignment: Alignment.center,
           child: SingleChildScrollView(
             child: Column(

@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  _showDialogForPhoto() {
+  _showDialogForPhoto(String base64ImageData) {
     showDialog(
       context: context,
       builder: (context) {
@@ -122,8 +122,8 @@ class _HomeScreenState extends State<HomeScreen> {
               //   ),
               // ],
             ),
-            child: Image.asset(
-              'assets/icon/user.jpeg',
+            child: Image.memory(
+              base64Decode(base64ImageData.split(',').last),
               fit: BoxFit.cover,
             ),
           ),
@@ -218,7 +218,9 @@ class _HomeScreenState extends State<HomeScreen> {
             } else {
               final base64Image = snapshot.data!.users.profileImage;
               return GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  _showDialogForPhoto(base64Image);
+                },
                 child: (connectivityResult == ConnectivityResult.mobile ||
                         connectivityResult == ConnectivityResult.wifi)
                     ? Stack(
@@ -341,100 +343,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 30,
                 ),
                 userPhotoAndName()!,
-
-                //   Row(
-                //     children: [
-                //       (connectivityResult == ConnectivityResult.mobile ||
-                //               connectivityResult == ConnectivityResult.wifi)
-                //           ? Stack(
-                //               children: [
-                //                 GestureDetector(
-                //                   onTap: _showDialogForPhoto,
-                //                   child: ClipRRect(
-                //                     borderRadius: const BorderRadius.all(
-                //                       Radius.circular(35),
-                //                     ),
-                //                     child: Container(
-                //                       height: 70,
-                //                       width: 70,
-                //                       decoration: const BoxDecoration(
-                //                         image: DecorationImage(
-                //                             image: AssetImage(
-                //                                 'assets/icon/user.jpeg'),
-                //                             fit: BoxFit.cover),
-                //                       ),
-                //                     ),
-                //                   ),
-                //                 ),
-                //                 Positioned(
-                //                   top: 0,
-                //                   right: 0,
-                //                   child: ClipRRect(
-                //                     borderRadius: const BorderRadius.all(
-                //                       Radius.circular(35),
-                //                     ),
-                //                     child: Container(
-                //                       width: 16,
-                //                       height: 16,
-                //                       color:
-                //                           const Color.fromARGB(255, 243, 23, 7),
-                //                     ),
-                //                   ),
-                //                 ),
-                //               ],
-                //             )
-                //           : Stack(
-                //               children: [
-                //                 GestureDetector(
-                //                   onTap: _showDialogForPhoto,
-                //                   child: ClipRRect(
-                //                     borderRadius: const BorderRadius.all(
-                //                       Radius.circular(35),
-                //                     ),
-                //                     child: Container(
-                //                       height: 70,
-                //                       width: 70,
-                //                       decoration: const BoxDecoration(
-                //                         image: DecorationImage(
-                //                           image:
-                //                               AssetImage('assets/icon/user.jpeg'),
-                //                           fit: BoxFit.cover,
-                //                         ),
-                //                       ),
-                //                     ),
-                //                   ),
-                //                 ),
-                //                 Positioned(
-                //                   top: 0,
-                //                   right: 0,
-                //                   child: ClipRRect(
-                //                     borderRadius: const BorderRadius.all(
-                //                       Radius.circular(35),
-                //                     ),
-                //                     child: Container(
-                //                       width: 16,
-                //                       height: 16,
-                //                       color:
-                //                           const Color.fromARGB(255, 6, 238, 13),
-                //                     ),
-                //                   ),
-                //                 ),
-                //               ],
-                //             ),
-                //       const SizedBox(
-                //         width: 10,
-                //       ),
-                //       Text(
-                //         StorageUtil.getString(localStorageKey.NAME!),
-                //         style: GoogleFonts.adamina(
-                //           textStyle: const TextStyle(
-                //             color: Colors.white,
-                //             fontSize: 20,
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
               ],
             ),
           ),
@@ -471,7 +379,12 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
               width: double.infinity,
               decoration: const BoxDecoration(
-                color: CommonColor.CONTAINER_COLOR,
+                image: DecorationImage(
+                  image: AssetImage('assets/icon/phoenix-logo.png'),
+                  fit: BoxFit.fill,
+                  opacity: 0.2,
+                ),
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
