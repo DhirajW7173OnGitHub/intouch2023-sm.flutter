@@ -39,7 +39,7 @@ class _OTPCheckerScreenState extends State<OTPCheckerScreen> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        backgroundColor: Colors.blue[700],
+        // backgroundColor: Colors.blue[700],
         body: Container(
           alignment: Alignment.center,
           child: SingleChildScrollView(
@@ -56,7 +56,7 @@ class _OTPCheckerScreenState extends State<OTPCheckerScreen> {
                       Radius.circular(20),
                     ),
                     border: Border.all(
-                      color: Colors.white,
+                      color: Colors.red,
                       width: 5,
                     ),
                   ),
@@ -65,7 +65,7 @@ class _OTPCheckerScreenState extends State<OTPCheckerScreen> {
                       "IPN", //besley
                       style: GoogleFonts.anticDidone(
                         textStyle: const TextStyle(
-                          color: Colors.white,
+                          color: Colors.red,
                           fontSize: 42,
                           fontWeight: FontWeight.bold,
                         ),
@@ -87,7 +87,7 @@ class _OTPCheckerScreenState extends State<OTPCheckerScreen> {
                           ?.copyWith(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                              color: Colors.red),
                       children: [
                         TextSpan(
                           text: '${args['phone']}',
@@ -97,7 +97,7 @@ class _OTPCheckerScreenState extends State<OTPCheckerScreen> {
                               ?.copyWith(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                                  color: Colors.red),
                         ),
                       ],
                     ),
@@ -112,11 +112,11 @@ class _OTPCheckerScreenState extends State<OTPCheckerScreen> {
                     padding:
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 90),
                     child: PinCodeTextField(
-                      obscureText: !_otpVisible,
+                      cursorColor: Colors.red,
                       appContext: context,
                       keyboardType: TextInputType.number,
                       controller: textEditingController,
-                      textStyle: const TextStyle(color: Colors.white),
+                      textStyle: const TextStyle(color: Colors.red),
                       length: 4,
                       animationType: AnimationType.fade,
                       validator: (v) {
@@ -129,9 +129,9 @@ class _OTPCheckerScreenState extends State<OTPCheckerScreen> {
                       focusNode: pinFocusNode,
                       blinkWhenObscuring: true,
                       pinTheme: PinTheme(
-                        inactiveColor: Colors.white,
-                        activeColor: Colors.blue[900],
-                        selectedColor: Colors.blue[900],
+                        inactiveColor: Colors.red,
+                        activeColor: Colors.red,
+                        selectedColor: Colors.red,
                         shape: PinCodeFieldShape.box,
                         borderRadius: const BorderRadius.all(
                           Radius.circular(10),
