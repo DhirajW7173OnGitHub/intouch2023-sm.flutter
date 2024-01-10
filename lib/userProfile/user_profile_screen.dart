@@ -2,12 +2,15 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stock_management/Database/apicaller.dart';
 import 'package:stock_management/Database/bloc.dart';
 import 'package:stock_management/Database/storage_utils.dart';
+import 'package:stock_management/globalFile/custom_dialog.dart';
 import 'package:stock_management/login_screen.dart';
 import 'package:stock_management/userProfile/Model/user_profile_details_model.dart';
 import 'package:stock_management/userProfile/widget/profile_details_widget.dart';
@@ -27,6 +30,8 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+  ApiCaller _apiCaller = ApiCaller();
+
   File? file;
   String notificationCount = '';
 
@@ -110,10 +115,32 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         setState(() {
           file = File(imageCropper.path);
           log('Cropped Image : $file');
+
+          EasyLoading.show(dismissOnTap: false);
+
+          _apiCaller
+              .uploadProfilePicture(
+            userId: StorageUtil.getString(localStorageKey.ID!.toString()),
+            profilePicture: file,
+          )
+              .then((res) {
+            if (res['msg'] == "Profile updated successfully") {
+              print('Profile updated successfully');
+            } else {
+              print('Profile not updated successfully : ${res['msg']}');
+            }
+          }).catchError((onError) {
+            print('Error: $onError');
+          }).whenComplete(() {
+            setState(() {
+              globalBloc.doFetchUserProfileDetails(
+                userId: StorageUtil.getString(localStorageKey.ID!.toString()),
+              );
+            });
+          });
         });
-        //    setState(() {
-        //   file = File(img.path);
-        // });
+      } else {
+        globalUtils.showValidationError('File not found');
       }
     }
   }
@@ -135,10 +162,39 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       );
 
       if (imageCropper != null) {
-        setState(() {
-          file = File(imageCropper.path);
-          log('Cropped Image : $file');
-        });
+        setState(
+          () {
+            file = File(imageCropper.path);
+            log('Cropped Image : $file');
+
+            EasyLoading.show(dismissOnTap: false);
+
+            _apiCaller
+                .uploadProfilePicture(
+              userId: StorageUtil.getString(localStorageKey.ID!.toString()),
+              profilePicture: file,
+            )
+                .then(
+              (res) {
+                if (res['msg'] == 'Profile updated successfully') {
+                  print('Profile updated successfully');
+                } else {
+                  print('Profile update failed with response: ${res['msg']}');
+                }
+              },
+            ).catchError((onError) {
+              print('Error: $onError');
+            }).whenComplete(() {
+              setState(() {
+                globalBloc.doFetchUserProfileDetails(
+                  userId: StorageUtil.getString(localStorageKey.ID!.toString()),
+                );
+              });
+            });
+          },
+        );
+      } else {
+        globalUtils.showValidationError('File not found');
       }
     }
   }
@@ -259,13 +315,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20),
               ),
-              // gradient: LinearGradient(
-              //   begin: Alignment.topCenter,
-              //   colors: [
-              //     Color.fromARGB(255, 3, 95, 170),
-              //     Color.fromARGB(255, 33, 150, 243),
-              //   ],
-              // ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

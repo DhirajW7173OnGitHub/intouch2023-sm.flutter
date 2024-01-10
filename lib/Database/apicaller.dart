@@ -1,6 +1,12 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:http/http.dart' as http;
 import 'package:stock_management/Database/apiwrapper.dart';
+import 'package:stock_management/Database/storage_utils.dart';
+import 'package:stock_management/utils/base_url_domain.dart';
+import 'package:stock_management/utils/local_storage.dart';
 
 //from This class give call to ApiWrapper
 class ApiCaller {
@@ -134,6 +140,45 @@ class ApiCaller {
       return res;
     } catch (e) {
       throw "IN getProfileDetailsData Error :$e";
+    }
+  }
+
+  //Upload Profile Picture
+
+  Future<Map> uploadProfilePicture(
+      {String? userId, File? profilePicture}) async {
+    final url = Uri.parse('$baseUrl/saveProfileImage');
+
+    final token = StorageUtil.getString(localStorageKey.TOKEN!);
+
+    ///Authorization
+    final headers = {
+      HttpHeaders.authorizationHeader: 'Bearer $token',
+    };
+
+    //Request headers
+    final request = http.MultipartRequest('POST', url)
+      ..fields['userid'] = userId!
+      ..files.add(
+        await http.MultipartFile.fromPath('userprofile', profilePicture!.path),
+      );
+    request.headers.addAll(headers);
+
+    try {
+      final res = await request.send();
+      if (res.statusCode == 200) {
+        //convert the data in String
+        final resBody = await res.stream.bytesToString();
+        final decodeRes = json.decode(resBody);
+        log('ApiResponse : $decodeRes');
+        return decodeRes as Map;
+      } else {
+        print('Request failed with status: ${res.statusCode}');
+        throw Exception('Request failed with status: ${res.statusCode}');
+      }
+    } catch (e) {
+      print('Error sending the request: $e');
+      throw Exception('Error sending the request: $e');
     }
   }
 }
