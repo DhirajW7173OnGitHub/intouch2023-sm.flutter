@@ -169,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        backgroundColor: Colors.red,
+        //backgroundColor: Colors.red[600],
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -186,13 +186,26 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                   const SizedBox(
                     height: 180,
                   ),
-                  const Center(
-                    child: Text(
-                      'IPN',
-                      style: TextStyle(
-                        fontSize: 60,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                  Container(
+                    width: 150,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                      border: Border.all(
+                        color: Colors.red,
+                        width: 5,
+                      ),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'IPN',
+                        style: TextStyle(
+                          fontSize: 60,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
                       ),
                     ),
                   ),
@@ -202,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
-                      color: Colors.white,
+                      color: Colors.red,
                     ),
                   ),
                   const SizedBox(
@@ -212,7 +225,7 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                     controller: mobileController,
                     validator: validatePhoneNumber,
                     textInputAction: TextInputAction.next,
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.red),
                     keyboardType: TextInputType.phone,
                     onChanged: (value) {
                       _formKey.currentState!.validate();
@@ -222,16 +235,16 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                     },
                     focusNode: _phoneFocus,
                     decoration: const InputDecoration(
-                      errorStyle: TextStyle(color: Colors.white),
+                      errorStyle: TextStyle(color: Colors.red),
                       focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white)),
+                          borderSide: BorderSide(color: Colors.red)),
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                       border: OutlineInputBorder(),
                       labelText: "Mobile Number",
-                      labelStyle: TextStyle(color: Colors.white),
+                      labelStyle: TextStyle(color: Colors.red),
                       hintText: "Enter mobile number",
-                      hintStyle: TextStyle(color: Colors.white),
+                      hintStyle: TextStyle(color: Colors.red),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -239,7 +252,7 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                     controller: passController,
                     validator: validateLoginPassword,
                     textInputAction: TextInputAction.done,
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.red),
                     obscureText: !passVisible,
                     keyboardType: TextInputType.text,
                     onChanged: (value) {
@@ -250,9 +263,9 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                     },
                     focusNode: _passwordFocus,
                     decoration: InputDecoration(
-                      errorStyle: const TextStyle(color: Colors.white),
+                      errorStyle: const TextStyle(color: Colors.red),
                       focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white)),
+                          borderSide: BorderSide(color: Colors.red)),
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 10, horizontal: 10),
                       border: const OutlineInputBorder(),
@@ -266,12 +279,12 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                             passVisible
                                 ? Icons.visibility_outlined
                                 : Icons.visibility_off_outlined,
-                            color: Colors.white),
+                            color: Colors.red),
                       ),
                       labelText: 'Password',
-                      labelStyle: const TextStyle(color: Colors.white),
+                      labelStyle: const TextStyle(color: Colors.red),
                       hintText: 'Enter Password',
-                      hintStyle: const TextStyle(color: Colors.white),
+                      hintStyle: const TextStyle(color: Colors.red),
                     ),
                   ),
                   const SizedBox(
@@ -323,7 +336,7 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                       },
                       child: const Text(
                         'Forgot Password?',
-                        style: TextStyle(fontSize: 16.0, color: Colors.white),
+                        style: TextStyle(fontSize: 16.0, color: Colors.red),
                       ),
                     ),
                 ],

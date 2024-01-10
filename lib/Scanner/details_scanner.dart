@@ -596,7 +596,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                             ),
                                             popupProps: const PopupProps.menu(
                                               searchFieldProps: TextFieldProps(
-                                                cursorColor: Colors.blue,
+                                                cursorColor: Colors.red,
                                               ),
                                               scrollbarProps: ScrollbarProps(),
                                               showSearchBox: true,

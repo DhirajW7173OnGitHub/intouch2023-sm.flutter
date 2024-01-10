@@ -119,8 +119,8 @@ class _StackListScreenState extends State<StackListScreen> {
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            primaryColor: Colors.blue[500],
-            // colorScheme: const ColorScheme.light(primary: Colors.blue),
+            primaryColor: Colors.red,
+            // colorScheme: const ColorScheme.light(primary: Colors.red),
             buttonTheme:
                 const ButtonThemeData(textTheme: ButtonTextTheme.primary),
           ),
@@ -141,6 +141,11 @@ class _StackListScreenState extends State<StackListScreen> {
             currentDate!, currentDate!);
         break;
       case "Tomorrow's Stock":
+        String startDate = DateFormat("yyyy-MM-dd").format(
+          DateTime.now().add(
+            const Duration(days: 1),
+          ),
+        );
         String endDate = DateFormat("yyyy-MM-dd").format(
           DateTime.now().add(
             const Duration(days: 1),
@@ -148,7 +153,7 @@ class _StackListScreenState extends State<StackListScreen> {
         );
 
         _getStock(StorageUtil.getString(localStorageKey.ID!.toString()),
-            currentDate!, endDate);
+            startDate, endDate);
         break;
       case "This Week Stock":
         String startDate = DateFormat('yyyy-MM-dd').format(

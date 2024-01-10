@@ -321,7 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisSpacing: 40,
                         children: List.generate(_menuList.length, (index) {
                           String? imageName = "assets/icon/organization.png";
-                          Color splashColor = Colors.blue.withAlpha(30);
+                          Color splashColor = Colors.red.withAlpha(30);
                           String menuTitle = _menuList[index].menuTitle!;
 
                           if (_menuList[index].id! == "1") {

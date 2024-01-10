@@ -83,7 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> with ValidationMixin {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        backgroundColor: Colors.blue[700],
+        //backgroundColor: Colors.blue[700],
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 280),
@@ -104,7 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> with ValidationMixin {
                               Radius.circular(20),
                             ),
                             border: Border.all(
-                              color: Colors.white,
+                              color: Colors.red,
                               width: 5,
                             ),
                           ),
@@ -113,7 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> with ValidationMixin {
                               "IPN", //besley
                               style: GoogleFonts.anticDidone(
                                 textStyle: const TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.red,
                                   fontSize: 42,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -132,7 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> with ValidationMixin {
                           style: Theme.of(context)
                               .textTheme
                               .headline1!
-                              .copyWith(fontSize: 16, color: Colors.white),
+                              .copyWith(fontSize: 16, color: Colors.red),
                         ),
                       ),
                       const SizedBox(
@@ -141,7 +141,7 @@ class _SignUpScreenState extends State<SignUpScreen> with ValidationMixin {
                       TextFormField(
                         controller: mobileController,
                         textInputAction: TextInputAction.done,
-                        style: const TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.red),
                         keyboardType: TextInputType.phone,
                         validator: validatePhoneNumber,
                         onChanged: (value) {
@@ -152,18 +152,18 @@ class _SignUpScreenState extends State<SignUpScreen> with ValidationMixin {
                         },
                         focusNode: _phoneFocus,
                         decoration: const InputDecoration(
-                          errorStyle: TextStyle(color: Colors.white),
+                          errorStyle: TextStyle(color: Colors.red),
                           contentPadding: EdgeInsets.symmetric(
                             vertical: 10,
                             horizontal: 10,
                           ),
                           focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white)),
+                              borderSide: BorderSide(color: Colors.red)),
                           border: OutlineInputBorder(),
                           labelText: "Mobile Number",
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: TextStyle(color: Colors.red),
                           hintText: "Enter mobile number",
-                          hintStyle: TextStyle(color: Colors.white),
+                          hintStyle: TextStyle(color: Colors.red),
                         ),
                         // validator: validatePhoneNumber(),
                       ),

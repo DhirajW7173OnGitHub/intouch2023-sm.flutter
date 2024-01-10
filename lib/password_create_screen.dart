@@ -61,11 +61,10 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        backgroundColor: Colors.blue[700],
+        //  backgroundColor: Colors.blue[700],
         bottomNavigationBar: Material(
           shadowColor: Colors.black,
           elevation: 20,
-          color: const Color.fromRGBO(25, 118, 210, 1),
           child: SizedBox(
             child: Padding(
               padding: const EdgeInsets.only(
@@ -102,7 +101,7 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
                           Radius.circular(20),
                         ),
                         border: Border.all(
-                          color: Colors.white,
+                          color: Colors.red,
                           width: 5,
                         ),
                       ),
@@ -111,7 +110,7 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
                           "IPN", //besley
                           style: GoogleFonts.anticDidone(
                             textStyle: const TextStyle(
-                              color: Colors.white,
+                              color: Colors.red,
                               fontSize: 42,
                               fontWeight: FontWeight.bold,
                             ),
@@ -130,7 +129,7 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
                       style: Theme.of(context)
                           .textTheme
                           .headline1!
-                          .copyWith(fontSize: 16, color: Colors.white),
+                          .copyWith(fontSize: 16, color: Colors.red),
                     ),
                   ),
                   const SizedBox(
@@ -140,7 +139,7 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
                     controller: passwordController,
                     obscureText: !_passVisible,
                     textInputAction: TextInputAction.next,
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.red),
                     keyboardType: TextInputType.text,
                     autocorrect: false,
                     validator: validateLoginPassword,
@@ -153,16 +152,16 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
                     },
                     focusNode: password,
                     decoration: const InputDecoration(
-                      errorStyle: TextStyle(color: Colors.white),
+                      errorStyle: TextStyle(color: Colors.red),
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white)),
+                          borderSide: BorderSide(color: Colors.red)),
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       labelText: "Password",
-                      labelStyle: TextStyle(color: Colors.white),
+                      labelStyle: TextStyle(color: Colors.red),
                       hintText: 'A-z,0-9,!@#\$&*~',
-                      hintStyle: TextStyle(color: Colors.white),
+                      hintStyle: TextStyle(color: Colors.red),
                     ),
                   ),
                   const SizedBox(
@@ -173,7 +172,7 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
                     controller: passCofirmController,
                     autocorrect: false,
                     textInputAction: TextInputAction.done,
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.red),
                     keyboardType: TextInputType.text,
                     validator: (value) {
                       if (value!.isEmpty) return "";
@@ -188,16 +187,16 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
                     },
                     focusNode: confirmPass,
                     decoration: const InputDecoration(
-                      errorStyle: TextStyle(color: Colors.white),
+                      errorStyle: TextStyle(color: Colors.red),
                       border: OutlineInputBorder(),
                       focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white)),
+                          borderSide: BorderSide(color: Colors.red)),
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       labelText: "Re-Enter Password",
-                      labelStyle: TextStyle(color: Colors.white),
+                      labelStyle: TextStyle(color: Colors.red),
                       hintText: "ReEnter Your Password",
-                      hintStyle: TextStyle(color: Colors.white),
+                      hintStyle: TextStyle(color: Colors.red),
                     ),
                   ),
                 ],
