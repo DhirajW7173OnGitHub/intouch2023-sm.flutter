@@ -169,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        backgroundColor: Colors.blue[700],
+        backgroundColor: Colors.red,
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(

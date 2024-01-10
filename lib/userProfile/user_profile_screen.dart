@@ -248,7 +248,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        backgroundColor: Colors.blue[500],
+        backgroundColor: Colors.red,
         appBar: PreferredSize(
           preferredSize:
               Size.fromHeight(MediaQuery.of(context).size.height * 0.28),

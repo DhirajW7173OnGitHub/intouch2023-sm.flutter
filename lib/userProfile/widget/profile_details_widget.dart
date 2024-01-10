@@ -27,7 +27,7 @@ class UserProfileDetailsWidget extends StatelessWidget {
         Expanded(
           child: Container(
             decoration: const BoxDecoration(
-              color: Colors.white, //CommonColor.CONTAINER_COLOR,
+              color: Color(0xFFFAF3F3), //CommonColor.CONTAINER_COLOR,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
                 topRight: Radius.circular(20),

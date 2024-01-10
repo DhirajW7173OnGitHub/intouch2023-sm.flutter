@@ -43,7 +43,8 @@ class _NewSplashScreenState extends State<NewSplashScreen>
     );
 
     _colorAnimation =
-        ColorTween(begin: Colors.red, end: Colors.white).animate(_controller);
+        ColorTween(begin: const Color(0xFFF7EAE9), end: Colors.white)
+            .animate(_controller);
     _opacity = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
 
     _controller.forward();
@@ -157,7 +158,7 @@ class _NewSplashScreenState extends State<NewSplashScreen>
         ),
         () {});
     return Scaffold(
-      backgroundColor: Colors.blue[800],
+      backgroundColor: Color(0xFFFA2B1C),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
