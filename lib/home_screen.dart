@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[500], // Color.fromARGB(255, 26, 78, 247),
+      backgroundColor: Colors.red, // Color.fromARGB(255, 26, 78, 247),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(250),
         child: SizedBox(

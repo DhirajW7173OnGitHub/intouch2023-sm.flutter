@@ -254,7 +254,7 @@ class _StackListScreenState extends State<StackListScreen> {
                           color: const Color(0xffD6D6D6),
                         ),
                         color: (_selectedIndex == index)
-                            ? Colors.blue[500]
+                            ? Colors.red
                             : Colors.white,
                       ),
                       child: Padding(

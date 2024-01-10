@@ -122,4 +122,18 @@ class ApiCaller {
       throw "IN getProductDetailsData Something went wrong :$e";
     }
   }
+
+  //do Fetch Profile Details
+
+  Future<Map<String, dynamic>> getProfileDetailsData(
+      Map<String, dynamic> body) async {
+    var endPoint = "shareProfile";
+    try {
+      final res = await ApiWrapper.post(endPoint, body);
+      print("getProfileDetailsData Response : $res");
+      return res;
+    } catch (e) {
+      throw "IN getProfileDetailsData Error :$e";
+    }
+  }
 }

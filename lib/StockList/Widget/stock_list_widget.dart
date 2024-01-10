@@ -28,73 +28,89 @@ class StockListWidget extends StatelessWidget {
             elevation: 8,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        "Request id : ",
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                      Text(
-                        "$id",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(color: Colors.black),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Product Transaction-Type : ",
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                      Text(
-                        "$transType",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(color: Colors.black),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Created Time : ",
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                      Text(
-                        "$createdAt",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(color: Colors.black),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                ],
+              child: TweenAnimationBuilder(
+                duration: const Duration(seconds: 1),
+                tween: Tween<double>(begin: 0, end: 1),
+                builder: (context, value, Widget? child) {
+                  return Opacity(
+                    opacity: value,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: value * 5),
+                      child: child,
+                    ),
+                  );
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          "Request id : ",
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        Text(
+                          "$id",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: Colors.black),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Product Transaction-Type : ",
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        Text(
+                          "$transType",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: Colors.black),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Created Time : ",
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        Text(
+                          "$createdAt",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: Colors.black),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

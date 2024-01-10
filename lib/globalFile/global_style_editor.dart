@@ -34,10 +34,10 @@ class GlobalStyleEditor {
 GlobalStyleEditor gse = GlobalStyleEditor();
 
 class CommonColor {
-  static const CARD_COLOR = Color.fromARGB(255, 230, 227, 227);
+  static const CARD_COLOR = Color(0xFFFAF3F3);
   static const CONTAINER_COLOR = Color.fromARGB(255, 230, 227, 227);
   static const BOTTOM_UNSELECT_COLOR = Color(0xFF757575);
-  static const BOTTOM_SELECT_COLOR = Colors.blue;
+  static const BOTTOM_SELECT_COLOR = Color.fromARGB(255, 197, 113, 107);
 }
 
 class CommonCall {
