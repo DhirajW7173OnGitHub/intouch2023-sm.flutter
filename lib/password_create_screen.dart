@@ -80,6 +80,7 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
           ),
         ),
         body: Container(
+          height: double.infinity,
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/icon/phoenix-logo.png'),
