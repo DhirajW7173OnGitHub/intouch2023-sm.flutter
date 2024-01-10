@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -11,6 +12,7 @@ import 'package:stock_management/StockList/stock_list_screen.dart';
 import 'package:stock_management/globalFile/global_style_editor.dart';
 import 'package:stock_management/model/menu_list_model.dart';
 import 'package:stock_management/model/user_login_data_model.dart';
+import 'package:stock_management/userProfile/Model/user_profile_details_model.dart';
 import 'package:stock_management/utils/local_storage.dart';
 import 'package:stock_management/utils/session_manager.dart';
 
@@ -42,6 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
     log('GetInstance : ${StorageUtil.getString(localStorageKey.ID!.toString())} ');
 
     sessionManager.updateLoggedInTimeAndLoggedStatus();
+
+    globalBloc.doFetchUserProfileDetails(
+      userId: StorageUtil.getString(localStorageKey.ID!.toString()),
+    );
 
     globalBloc
         .getMenuListData(StorageUtil.getString(localStorageKey.ID!.toString()));
@@ -126,6 +132,189 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget? userPhotoAndName() {
+    setState(() {
+      checkConnectivity();
+    });
+    return Row(
+      children: [
+        StreamBuilder<UserProfileDetailsModel>(
+          stream: globalBloc.getUserProfileDetails.stream,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (!snapshot.hasData ||
+                snapshot.data!.users.profileImage.isEmpty ||
+                snapshot.data!.users.profileImage == "") {
+              return (connectivityResult == ConnectivityResult.mobile ||
+                      connectivityResult == ConnectivityResult.wifi)
+                  ? Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(35),
+                          ),
+                          child: Container(
+                            height: 70,
+                            width: 70,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage('assets/icon/user.jpeg'),
+                                  fit: BoxFit.cover),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(35),
+                            ),
+                            child: Container(
+                              width: 16,
+                              height: 16,
+                              color: Colors.green,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(35),
+                          ),
+                          child: Container(
+                            height: 70,
+                            width: 70,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage('assets/icon/user.jpeg'),
+                                  fit: BoxFit.cover),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(35),
+                            ),
+                            child: Container(
+                              width: 16,
+                              height: 16,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+            } else {
+              final base64Image = snapshot.data!.users.profileImage;
+              return GestureDetector(
+                onTap: () {},
+                child: (connectivityResult == ConnectivityResult.mobile ||
+                        connectivityResult == ConnectivityResult.wifi)
+                    ? Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(35),
+                            ),
+                            child: Container(
+                              height: 70,
+                              width: 70,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: Image.memory(
+                                base64Decode(base64Image.split(",").last),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(
+                                  35,
+                                ),
+                              ),
+                              child: Container(
+                                height: 16,
+                                width: 16,
+                                padding: EdgeInsets.all(2),
+                                color: Colors.green,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(35),
+                            ),
+                            child: Container(
+                              height: 70,
+                              width: 70,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: Image.memory(
+                                base64Decode(base64Image.split(",").last),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(
+                                  35,
+                                ),
+                              ),
+                              child: Container(
+                                height: 16,
+                                width: 16,
+                                padding: const EdgeInsets.all(2),
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+              );
+            }
+          },
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Text(
+          "${StorageUtil.getString(localStorageKey.NAME!)} ( ${StorageUtil.getString(localStorageKey.ID!.toString())} )",
+          style: GoogleFonts.adamina(
+            textStyle: const TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,99 +340,101 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                Row(
-                  children: [
-                    (connectivityResult == ConnectivityResult.mobile ||
-                            connectivityResult == ConnectivityResult.wifi)
-                        ? Stack(
-                            children: [
-                              GestureDetector(
-                                onTap: _showDialogForPhoto,
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(35),
-                                  ),
-                                  child: Container(
-                                    height: 70,
-                                    width: 70,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/icon/user.jpeg'),
-                                          fit: BoxFit.cover),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: 0,
-                                right: 0,
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(35),
-                                  ),
-                                  child: Container(
-                                    width: 16,
-                                    height: 16,
-                                    color:
-                                        const Color.fromARGB(255, 243, 23, 7),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        : Stack(
-                            children: [
-                              GestureDetector(
-                                onTap: _showDialogForPhoto,
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(35),
-                                  ),
-                                  child: Container(
-                                    height: 70,
-                                    width: 70,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image:
-                                            AssetImage('assets/icon/user.jpeg'),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: 0,
-                                right: 0,
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(35),
-                                  ),
-                                  child: Container(
-                                    width: 16,
-                                    height: 16,
-                                    color:
-                                        const Color.fromARGB(255, 6, 238, 13),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      StorageUtil.getString(localStorageKey.NAME!),
-                      style: GoogleFonts.adamina(
-                        textStyle: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                userPhotoAndName()!,
+
+                //   Row(
+                //     children: [
+                //       (connectivityResult == ConnectivityResult.mobile ||
+                //               connectivityResult == ConnectivityResult.wifi)
+                //           ? Stack(
+                //               children: [
+                //                 GestureDetector(
+                //                   onTap: _showDialogForPhoto,
+                //                   child: ClipRRect(
+                //                     borderRadius: const BorderRadius.all(
+                //                       Radius.circular(35),
+                //                     ),
+                //                     child: Container(
+                //                       height: 70,
+                //                       width: 70,
+                //                       decoration: const BoxDecoration(
+                //                         image: DecorationImage(
+                //                             image: AssetImage(
+                //                                 'assets/icon/user.jpeg'),
+                //                             fit: BoxFit.cover),
+                //                       ),
+                //                     ),
+                //                   ),
+                //                 ),
+                //                 Positioned(
+                //                   top: 0,
+                //                   right: 0,
+                //                   child: ClipRRect(
+                //                     borderRadius: const BorderRadius.all(
+                //                       Radius.circular(35),
+                //                     ),
+                //                     child: Container(
+                //                       width: 16,
+                //                       height: 16,
+                //                       color:
+                //                           const Color.fromARGB(255, 243, 23, 7),
+                //                     ),
+                //                   ),
+                //                 ),
+                //               ],
+                //             )
+                //           : Stack(
+                //               children: [
+                //                 GestureDetector(
+                //                   onTap: _showDialogForPhoto,
+                //                   child: ClipRRect(
+                //                     borderRadius: const BorderRadius.all(
+                //                       Radius.circular(35),
+                //                     ),
+                //                     child: Container(
+                //                       height: 70,
+                //                       width: 70,
+                //                       decoration: const BoxDecoration(
+                //                         image: DecorationImage(
+                //                           image:
+                //                               AssetImage('assets/icon/user.jpeg'),
+                //                           fit: BoxFit.cover,
+                //                         ),
+                //                       ),
+                //                     ),
+                //                   ),
+                //                 ),
+                //                 Positioned(
+                //                   top: 0,
+                //                   right: 0,
+                //                   child: ClipRRect(
+                //                     borderRadius: const BorderRadius.all(
+                //                       Radius.circular(35),
+                //                     ),
+                //                     child: Container(
+                //                       width: 16,
+                //                       height: 16,
+                //                       color:
+                //                           const Color.fromARGB(255, 6, 238, 13),
+                //                     ),
+                //                   ),
+                //                 ),
+                //               ],
+                //             ),
+                //       const SizedBox(
+                //         width: 10,
+                //       ),
+                //       Text(
+                //         StorageUtil.getString(localStorageKey.NAME!),
+                //         style: GoogleFonts.adamina(
+                //           textStyle: const TextStyle(
+                //             color: Colors.white,
+                //             fontSize: 20,
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
               ],
             ),
           ),
@@ -327,9 +518,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (_menuList[index].id! == "1") {
                             imageName = "assets/icon/organization.png";
                           } else if (_menuList[index].id! == "2") {
-                            imageName = "assets/icon/menu.png";
-                          } else if (_menuList[index].id! == "3") {
                             imageName = "assets/icon/report.png";
+                          } else if (_menuList[index].id! == "3") {
+                            imageName = "assets/icon/menu.png";
                           }
 
                           return Card(

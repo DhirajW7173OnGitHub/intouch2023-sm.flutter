@@ -13,6 +13,7 @@ import 'package:stock_management/Database/storage_utils.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
 import 'package:stock_management/login_screen.dart';
 import 'package:stock_management/userProfile/Model/user_profile_details_model.dart';
+import 'package:stock_management/userProfile/change_password_screen.dart';
 import 'package:stock_management/userProfile/widget/profile_details_widget.dart';
 import 'package:stock_management/userProfile/widget/profile_image_widget.dart';
 import 'package:stock_management/utils/local_storage.dart';
@@ -297,6 +298,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         false;
   }
 
+  _clickOnChangePass() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ChangePasswordScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -378,7 +388,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               );
             }
             return UserProfileDetailsWidget(
-              onTap: () {},
+              onTap: _clickOnChangePass,
               email: snapshot.data!.users.email,
               id: snapshot.data!.users.id,
               name: snapshot.data!.users.name,
