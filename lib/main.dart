@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         useMaterial3: true,
       ),

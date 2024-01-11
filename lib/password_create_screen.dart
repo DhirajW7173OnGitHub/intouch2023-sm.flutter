@@ -79,127 +79,138 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-            child: Form(
-              key: _formKey,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    height: 180,
-                  ),
-                  Center(
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(20),
+        body: Container(
+          height: double.infinity,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/icon/phoenix-logo.png'),
+              fit: BoxFit.fill,
+              opacity: 0.2,
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+              child: Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 180,
+                    ),
+                    Center(
+                      child: Container(
+                        width: 150,
+                        height: 150,
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                          border: Border.all(
+                            color: Colors.red,
+                            width: 5,
+                          ),
                         ),
-                        border: Border.all(
-                          color: Colors.red,
-                          width: 5,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "IPN", //besley
-                          style: GoogleFonts.anticDidone(
-                            textStyle: const TextStyle(
-                              color: Colors.red,
-                              fontSize: 42,
-                              fontWeight: FontWeight.bold,
+                        child: Center(
+                          child: Text(
+                            "IPN", //besley
+                            style: GoogleFonts.anticDidone(
+                              textStyle: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 42,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Create your Password',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline1!
-                          .copyWith(fontSize: 16, color: Colors.red),
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  TextFormField(
-                    controller: passwordController,
-                    obscureText: !_passVisible,
-                    textInputAction: TextInputAction.next,
-                    style: const TextStyle(color: Colors.red),
-                    keyboardType: TextInputType.text,
-                    autocorrect: false,
-                    validator: validateLoginPassword,
-                    onChanged: (value) {
-                      _formKey.currentState!.validate();
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Create your Password',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline1!
+                            .copyWith(fontSize: 16, color: Colors.red),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    TextFormField(
+                      controller: passwordController,
+                      obscureText: !_passVisible,
+                      textInputAction: TextInputAction.next,
+                      style: const TextStyle(color: Colors.red),
+                      keyboardType: TextInputType.text,
+                      autocorrect: false,
+                      validator: validateLoginPassword,
+                      onChanged: (value) {
+                        _formKey.currentState!.validate();
 
-                      setState(() {
-                        debugPrint(value);
-                      });
-                    },
-                    focusNode: password,
-                    decoration: const InputDecoration(
-                      errorStyle: TextStyle(color: Colors.red),
-                      border: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red)),
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                      labelText: "Password",
-                      labelStyle: TextStyle(color: Colors.red),
-                      hintText: 'A-z,0-9,!@#\$&*~',
-                      hintStyle: TextStyle(color: Colors.red),
+                        setState(() {
+                          debugPrint(value);
+                        });
+                      },
+                      focusNode: password,
+                      decoration: const InputDecoration(
+                        errorStyle: TextStyle(color: Colors.red),
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red)),
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        labelText: "Password",
+                        labelStyle: TextStyle(color: Colors.red),
+                        hintText: 'A-z,0-9,!@#\$&*~',
+                        hintStyle: TextStyle(color: Colors.red),
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    obscureText: !_passVisible,
-                    controller: passCofirmController,
-                    autocorrect: false,
-                    textInputAction: TextInputAction.done,
-                    style: const TextStyle(color: Colors.red),
-                    keyboardType: TextInputType.text,
-                    validator: (value) {
-                      if (value!.isEmpty) return "";
-                      if (value != passwordController.text) return "Not Match";
-                      return null;
-                    },
-                    onChanged: (value) {
-                      _formKey.currentState!.validate();
-                      setState(() {
-                        debugPrint(value);
-                      });
-                    },
-                    focusNode: confirmPass,
-                    decoration: const InputDecoration(
-                      errorStyle: TextStyle(color: Colors.red),
-                      border: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red)),
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                      labelText: "Re-Enter Password",
-                      labelStyle: TextStyle(color: Colors.red),
-                      hintText: "ReEnter Your Password",
-                      hintStyle: TextStyle(color: Colors.red),
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
-                ],
+                    TextFormField(
+                      obscureText: !_passVisible,
+                      controller: passCofirmController,
+                      autocorrect: false,
+                      textInputAction: TextInputAction.done,
+                      style: const TextStyle(color: Colors.red),
+                      keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value!.isEmpty) return "";
+                        if (value != passwordController.text)
+                          return "Not Match";
+                        return null;
+                      },
+                      onChanged: (value) {
+                        _formKey.currentState!.validate();
+                        setState(() {
+                          debugPrint(value);
+                        });
+                      },
+                      focusNode: confirmPass,
+                      decoration: const InputDecoration(
+                        errorStyle: TextStyle(color: Colors.red),
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red)),
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        labelText: "Re-Enter Password",
+                        labelStyle: TextStyle(color: Colors.red),
+                        hintText: "ReEnter Your Password",
+                        hintStyle: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

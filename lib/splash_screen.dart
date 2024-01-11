@@ -58,8 +58,6 @@ class _NewSplashScreenState extends State<NewSplashScreen>
     _loadScreen();
   }
 
-  // void _loadScreen() {}
-
   _loadScreen() async {
     var _duration = Duration(
       seconds: splashDelay,
@@ -158,16 +156,17 @@ class _NewSplashScreenState extends State<NewSplashScreen>
         ),
         () {});
     return Scaffold(
-      backgroundColor: Color(0xFFFA2B1C),
+      // backgroundColor: Color(0xFFFA2B1C),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
-            // image: DecorationImage(
-            //   image: AssetImage('assets/images/splashLogo.png'),
-            //   fit: BoxFit.fill,
-            // ),
-            ),
+          image: DecorationImage(
+            image: AssetImage('assets/icon/phoenix-logo.png'),
+            fit: BoxFit.fill,
+            // opacity: 0.8,
+          ),
+        ),
         child: Center(
           child: AnimatedBuilder(
             animation: _controller,

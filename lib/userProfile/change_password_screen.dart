@@ -116,80 +116,89 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               label: "Change password",
               icon: Icon(Icons.password),
             ),
-            BottomNavigationBarItem(
-              label: "Profile",
-              icon: Icon(Icons.person),
-            ),
+            // BottomNavigationBarItem(
+            //   label: "Profile",
+            //   icon: Icon(Icons.person),
+            // ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(8),
-                child: Text(
-                  'Change Password',
-                  style: TextStyle(
-                    fontSize: 20.0,
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/icon/phoenix-logo.png'),
+              fit: BoxFit.fill,
+              opacity: 0.2,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Text(
+                    'Change Password',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 50,
-                margin: const EdgeInsets.only(left: 10, right: 10),
-                child: TextField(
-                  controller: currentPasswordController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Current Password',
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: 50,
+                  margin: const EdgeInsets.only(left: 10, right: 10),
+                  child: TextField(
+                    controller: currentPasswordController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Current Password',
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 10, right: 10),
-                height: 50,
-                child: TextField(
-                  controller: newPasswordController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Enter new Password',
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 10, right: 10),
+                  height: 50,
+                  child: TextField(
+                    controller: newPasswordController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Enter new Password',
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 10, right: 10),
-                height: 50,
-                child: TextField(
-                  controller: confirmPasswordController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Confirm Password',
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 10, right: 10),
+                  height: 50,
+                  child: TextField(
+                    controller: confirmPasswordController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Confirm Password',
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  _clickONChangePass();
-                },
-                child: Text(
-                  'Change Password',
-                  style: gse.elevationButtonTextStyle,
+                const SizedBox(
+                  height: 18,
                 ),
-              ),
-            ],
+                ElevatedButton(
+                  onPressed: () {
+                    _clickONChangePass();
+                  },
+                  child: Text(
+                    'Change Password',
+                    style: gse.elevationButtonTextStyle,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

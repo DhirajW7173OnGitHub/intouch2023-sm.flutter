@@ -142,8 +142,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
     );
     //Setup Dialog
     AlertDialog alert = AlertDialog(
-      title: Text(
-          "Are you sure you want to ${_selectValue.toString().toLowerCase() == 'in' ? 'ADD' : 'REMOVE'} this Stock List?"),
+      title: Text("Are you sure you want to submit this Stock List?"),
       actions: [
         cancelButton,
         continueButton,
@@ -199,7 +198,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                   height: 120,
                   width: 120,
                   child: Image(
-                    image: AssetImage('assets/images/appLogo.png'),
+                    image: AssetImage('assets/icon/success.png'),
                   ),
                 ),
                 SizedBox(
@@ -213,7 +212,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                   height: 12,
                 ),
                 Text(
-                    "Congratulations! You have succesfully added product with request id ${res["id"]}"),
+                    "Congratulations! You have succesfully Submitted with request id ${res["id"]}"),
                 SizedBox(height: 12),
                 ElevatedButton(
                   onPressed: () {
@@ -243,7 +242,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                   height: 120,
                   width: 120,
                   child: Image(
-                    image: AssetImage('assets/images/appLogo.png'),
+                    image: AssetImage('assets/icon/success.png'),
                   ),
                 ),
                 SizedBox(
@@ -257,7 +256,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                   height: 12,
                 ),
                 Text(
-                    "Congratulations! You have succesfully remove product with request id ${res["id"]}"),
+                    "Congratulations! You have succesfully Submitted with request id ${res["id"]}"),
                 SizedBox(height: 12),
                 ElevatedButton(
                   onPressed: () {
@@ -352,7 +351,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
       ),
       bottomSheet: Container(
         decoration: const BoxDecoration(
-          color: CommonColor.CONTAINER_COLOR,
+          color: Colors.white,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -390,13 +389,15 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: Card(
-          child: Column(
-            children: [
-              Container(
+        padding: const EdgeInsets.all(4.0),
+        child: Column(
+          children: [
+            Card(
+              elevation: 8,
+              color: CommonColor.CARD_COLOR,
+              child: Container(
                 decoration: const BoxDecoration(
-                  color: CommonColor.CONTAINER_COLOR,
+                  color: Colors.white,
                   borderRadius: BorderRadius.all(
                     Radius.circular(20),
                   ),
@@ -668,13 +669,16 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 6,
-              ),
-              Expanded(
+            ),
+            const SizedBox(
+              height: 6,
+            ),
+            Expanded(
+              child: Card(
+                elevation: 8,
                 child: Container(
                   decoration: const BoxDecoration(
-                    color: CommonColor.CONTAINER_COLOR,
+                    color: Colors.white,
                     borderRadius: BorderRadius.all(
                       Radius.circular(20),
                     ),
@@ -902,8 +906,8 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

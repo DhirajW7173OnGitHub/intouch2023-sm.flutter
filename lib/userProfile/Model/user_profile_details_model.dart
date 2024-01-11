@@ -32,25 +32,43 @@ class UserProfileDetailsModel {
 }
 
 class UsersProfile {
+  UserInfo user;
+  String profileImage;
+
+  UsersProfile({
+    required this.user,
+    required this.profileImage,
+  });
+
+  factory UsersProfile.fromJson(Map<String, dynamic> json) => UsersProfile(
+        user: UserInfo.fromJson(json["user"]),
+        profileImage: json["profile_image"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "user": user.toJson(),
+        "profile_image": profileImage,
+      };
+}
+
+class UserInfo {
   int id;
   String name;
   String email;
   String phone;
   int roleId;
   String roleName;
-  String profileImage;
 
-  UsersProfile({
+  UserInfo({
     required this.id,
     required this.name,
     required this.email,
     required this.phone,
     required this.roleId,
     required this.roleName,
-    required this.profileImage,
   });
 
-  factory UsersProfile.fromJson(Map<String, dynamic> json) => UsersProfile(
+  factory UserInfo.fromJson(Map<String, dynamic> json) => UserInfo(
         id: json["id"],
         name: (["", null, false, 0].contains(json["name"])) ? "" : json["name"],
         email:
@@ -61,7 +79,6 @@ class UsersProfile {
         roleName: (["", null, false, 0].contains(json["role_name"]))
             ? ""
             : json["role_name"],
-        profileImage: json["profile_image"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -71,6 +88,5 @@ class UsersProfile {
         "phone": phone,
         "role_id": roleId,
         "role_name": roleName,
-        "profile_image": profileImage,
       };
 }

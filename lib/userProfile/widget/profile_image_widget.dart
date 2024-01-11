@@ -8,15 +8,16 @@ import 'package:stock_management/Database/bloc.dart';
 import 'package:stock_management/userProfile/Model/user_profile_details_model.dart';
 
 class ProfileImageWidget extends StatelessWidget {
-  const ProfileImageWidget(
-      {super.key,
-      this.file,
-      this.image,
-      this.leftPosition = 0,
-      this.onTap,
-      this.rightPosition = 0,
-      this.editIcon,
-      this.defaultWidget});
+  const ProfileImageWidget({
+    super.key,
+    this.file,
+    this.image,
+    this.leftPosition = 0,
+    this.onTap,
+    this.rightPosition = 0,
+    this.editIcon,
+    //  this.defaultWidget,
+  });
 
   final File? file;
   final ImagePicker? image;
@@ -24,7 +25,7 @@ class ProfileImageWidget extends StatelessWidget {
   final double rightPosition;
   final double leftPosition;
   final Widget? editIcon;
-  final Widget? defaultWidget;
+  // final Widget? defaultWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +58,17 @@ class ProfileImageWidget extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                         child: (file == null)
-                            ? defaultWidget ??
-                                const Icon(
-                                  Icons.image,
-                                  size: 32,
-                                  color: Colors.white,
-                                  // fill: 1,
-                                )
+                            ? Image.asset(
+                                'assets/icon/user.jpeg',
+                                fit: BoxFit.cover,
+                              )
+                            //  defaultWidget ??
+                            //     const Icon(
+                            //       Icons.image,
+                            //       size: 32,
+                            //       color: Colors.white,
+                            //       // fill: 1,
+                            //     )
                             : Image.file(
                                 file!,
                                 fit: BoxFit.cover,
@@ -110,7 +115,7 @@ class ProfileImageWidget extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                snapshot.data!.users.name,
+                snapshot.data!.users.user.name,
                 style: GoogleFonts.adamina(
                   textStyle: const TextStyle(
                     color: Colors.white,
@@ -119,7 +124,7 @@ class ProfileImageWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                "[${snapshot.data!.users.roleName}]",
+                "[${snapshot.data!.users.user.roleName}]",
                 style: GoogleFonts.adamina(
                   textStyle: const TextStyle(
                     color: Colors.white,

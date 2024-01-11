@@ -13,6 +13,7 @@ import 'package:stock_management/globalFile/global_style_editor.dart';
 import 'package:stock_management/model/menu_list_model.dart';
 import 'package:stock_management/model/user_login_data_model.dart';
 import 'package:stock_management/userProfile/Model/user_profile_details_model.dart';
+import 'package:stock_management/userProfile/change_password_screen.dart';
 import 'package:stock_management/utils/local_storage.dart';
 import 'package:stock_management/utils/session_manager.dart';
 
@@ -104,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  _showDialogForPhoto() {
+  _showDialogForPhoto(String base64ImageData) {
     showDialog(
       context: context,
       builder: (context) {
@@ -122,8 +123,8 @@ class _HomeScreenState extends State<HomeScreen> {
               //   ),
               // ],
             ),
-            child: Image.asset(
-              'assets/icon/user.jpeg',
+            child: Image.memory(
+              base64Decode(base64ImageData.split(',').last),
               fit: BoxFit.cover,
             ),
           ),
@@ -155,11 +156,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         ClipRRect(
                           borderRadius: const BorderRadius.all(
-                            Radius.circular(35),
+                            Radius.circular(40),
                           ),
                           child: Container(
-                            height: 70,
-                            width: 70,
+                            height: 80,
+                            width: 80,
                             decoration: const BoxDecoration(
                               image: DecorationImage(
                                   image: AssetImage('assets/icon/user.jpeg'),
@@ -187,11 +188,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         ClipRRect(
                           borderRadius: const BorderRadius.all(
-                            Radius.circular(35),
+                            Radius.circular(40),
                           ),
                           child: Container(
-                            height: 70,
-                            width: 70,
+                            height: 80,
+                            width: 80,
                             decoration: const BoxDecoration(
                               image: DecorationImage(
                                   image: AssetImage('assets/icon/user.jpeg'),
@@ -218,18 +219,20 @@ class _HomeScreenState extends State<HomeScreen> {
             } else {
               final base64Image = snapshot.data!.users.profileImage;
               return GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  _showDialogForPhoto(base64Image);
+                },
                 child: (connectivityResult == ConnectivityResult.mobile ||
                         connectivityResult == ConnectivityResult.wifi)
                     ? Stack(
                         children: [
                           ClipRRect(
                             borderRadius: const BorderRadius.all(
-                              Radius.circular(35),
+                              Radius.circular(40),
                             ),
                             child: Container(
-                              height: 70,
-                              width: 70,
+                              height: 80,
+                              width: 80,
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                               ),
@@ -262,11 +265,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           ClipRRect(
                             borderRadius: const BorderRadius.all(
-                              Radius.circular(35),
+                              Radius.circular(40),
                             ),
                             child: Container(
-                              height: 70,
-                              width: 70,
+                              height: 80,
+                              width: 80,
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                               ),
@@ -307,7 +310,7 @@ class _HomeScreenState extends State<HomeScreen> {
           style: GoogleFonts.adamina(
             textStyle: const TextStyle(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: 24,
             ),
           ),
         ),
@@ -321,123 +324,114 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.red, // Color.fromARGB(255, 26, 78, 247),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(250),
-        child: SizedBox(
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 80, left: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Dashboard',
-                  style: GoogleFonts.adamina(
-                    textStyle: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                userPhotoAndName()!,
-
-                //   Row(
-                //     children: [
-                //       (connectivityResult == ConnectivityResult.mobile ||
-                //               connectivityResult == ConnectivityResult.wifi)
-                //           ? Stack(
-                //               children: [
-                //                 GestureDetector(
-                //                   onTap: _showDialogForPhoto,
-                //                   child: ClipRRect(
-                //                     borderRadius: const BorderRadius.all(
-                //                       Radius.circular(35),
-                //                     ),
-                //                     child: Container(
-                //                       height: 70,
-                //                       width: 70,
-                //                       decoration: const BoxDecoration(
-                //                         image: DecorationImage(
-                //                             image: AssetImage(
-                //                                 'assets/icon/user.jpeg'),
-                //                             fit: BoxFit.cover),
-                //                       ),
-                //                     ),
-                //                   ),
-                //                 ),
-                //                 Positioned(
-                //                   top: 0,
-                //                   right: 0,
-                //                   child: ClipRRect(
-                //                     borderRadius: const BorderRadius.all(
-                //                       Radius.circular(35),
-                //                     ),
-                //                     child: Container(
-                //                       width: 16,
-                //                       height: 16,
-                //                       color:
-                //                           const Color.fromARGB(255, 243, 23, 7),
-                //                     ),
-                //                   ),
-                //                 ),
-                //               ],
-                //             )
-                //           : Stack(
-                //               children: [
-                //                 GestureDetector(
-                //                   onTap: _showDialogForPhoto,
-                //                   child: ClipRRect(
-                //                     borderRadius: const BorderRadius.all(
-                //                       Radius.circular(35),
-                //                     ),
-                //                     child: Container(
-                //                       height: 70,
-                //                       width: 70,
-                //                       decoration: const BoxDecoration(
-                //                         image: DecorationImage(
-                //                           image:
-                //                               AssetImage('assets/icon/user.jpeg'),
-                //                           fit: BoxFit.cover,
-                //                         ),
-                //                       ),
-                //                     ),
-                //                   ),
-                //                 ),
-                //                 Positioned(
-                //                   top: 0,
-                //                   right: 0,
-                //                   child: ClipRRect(
-                //                     borderRadius: const BorderRadius.all(
-                //                       Radius.circular(35),
-                //                     ),
-                //                     child: Container(
-                //                       width: 16,
-                //                       height: 16,
-                //                       color:
-                //                           const Color.fromARGB(255, 6, 238, 13),
-                //                     ),
-                //                   ),
-                //                 ),
-                //               ],
-                //             ),
-                //       const SizedBox(
-                //         width: 10,
-                //       ),
-                //       Text(
-                //         StorageUtil.getString(localStorageKey.NAME!),
-                //         style: GoogleFonts.adamina(
-                //           textStyle: const TextStyle(
-                //             color: Colors.white,
-                //             fontSize: 20,
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-              ],
+        child: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 8,
+          title: Text(
+            'Dashboard',
+            style: GoogleFonts.adamina(
+              textStyle: const TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
             ),
           ),
+          flexibleSpace: SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 80, left: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  userPhotoAndName()!,
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+      drawer: Drawer(
+        // Add your drawer content here
+        child: Column(
+          children: [
+            Container(
+              color: Colors.red,
+              height: 250,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      _drawerBar()!,
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    "${StorageUtil.getString(localStorageKey.NAME!)} ( ${StorageUtil.getString(localStorageKey.ID!.toString())} )",
+                    style: GoogleFonts.adamina(
+                      textStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    "${StorageUtil.getString(localStorageKey.EMAIL!)}",
+                    style: GoogleFonts.adamina(
+                      textStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: ListTile(
+                leading: const Icon(
+                  Icons.home,
+                ),
+                title: Text(
+                  'Home',
+                  style: GoogleFonts.adamina(),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ChangePasswordScreen(),
+                  ),
+                );
+              },
+              child: ListTile(
+                leading: const Icon(Icons.lock_reset_sharp),
+                title: Text(
+                  'Change Password',
+                  style: GoogleFonts.adamina(),
+                ),
+              ),
+            )
+          ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -471,10 +465,10 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
               width: double.infinity,
               decoration: const BoxDecoration(
-                color: CommonColor.CONTAINER_COLOR,
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
+                  topLeft: Radius.circular(35),
+                  topRight: Radius.circular(35),
                 ),
               ),
               child: StreamBuilder<MenuModel>(
@@ -590,6 +584,96 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       // extendBody: true,
+    );
+  }
+
+  Widget? _drawerBar() {
+    setState(() {
+      checkConnectivity();
+    });
+    return Row(
+      children: [
+        StreamBuilder<UserProfileDetailsModel>(
+          stream: globalBloc.getUserProfileDetails.stream,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (!snapshot.hasData ||
+                snapshot.data!.users.profileImage.isEmpty ||
+                snapshot.data!.users.profileImage == "") {
+              return (connectivityResult == ConnectivityResult.mobile ||
+                      connectivityResult == ConnectivityResult.wifi)
+                  ? ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(50),
+                      ),
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/icon/user.jpeg'),
+                              fit: BoxFit.cover),
+                        ),
+                      ),
+                    )
+                  : ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(50),
+                      ),
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/icon/user.jpeg'),
+                              fit: BoxFit.cover),
+                        ),
+                      ),
+                    );
+            } else {
+              final base64Image = snapshot.data!.users.profileImage;
+              return (connectivityResult == ConnectivityResult.mobile ||
+                      connectivityResult == ConnectivityResult.wifi)
+                  ? ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(40),
+                      ),
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        child: Image.memory(
+                          base64Decode(base64Image.split(",").last),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
+                  : ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(40),
+                      ),
+                      child: Container(
+                        height: 80,
+                        width: 80,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        child: Image.memory(
+                          base64Decode(base64Image.split(",").last),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+            }
+          },
+        ),
+      ],
     );
   }
 }

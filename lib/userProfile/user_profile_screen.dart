@@ -11,6 +11,7 @@ import 'package:stock_management/Database/apicaller.dart';
 import 'package:stock_management/Database/bloc.dart';
 import 'package:stock_management/Database/storage_utils.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
+import 'package:stock_management/home_screen.dart';
 import 'package:stock_management/login_screen.dart';
 import 'package:stock_management/userProfile/Model/user_profile_details_model.dart';
 import 'package:stock_management/userProfile/change_password_screen.dart';
@@ -336,7 +337,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     children: [
                       profileAppBar(
                         onPressBackButton: () {
-                          Navigator.pop(context);
+                          Future.delayed(
+                            Duration.zero,
+                            () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const HomeScreen(),
+                                ),
+                              );
+                            },
+                          );
                         },
                         onPressLogOut: () {
                           _clickOnLogOut();
@@ -376,8 +387,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           stream: globalBloc.getUserProfileDetails.stream,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return Container(
-                child: const Center(
+              return const SizedBox(
+                child: Center(
                   child: Text('No data'),
                 ),
               );
@@ -389,11 +400,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             }
             return UserProfileDetailsWidget(
               onTap: _clickOnChangePass,
-              email: snapshot.data!.users.email,
-              id: snapshot.data!.users.id,
-              name: snapshot.data!.users.name,
-              phone: snapshot.data!.users.phone,
-              rollName: snapshot.data!.users.roleName,
+              email: snapshot.data!.users.user.email,
+              id: snapshot.data!.users.user.id,
+              name: snapshot.data!.users.user.name,
+              phone: snapshot.data!.users.user.phone,
+              rollName: snapshot.data!.users.user.roleName,
             );
           },
         ),
