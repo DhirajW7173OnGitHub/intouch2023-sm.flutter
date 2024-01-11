@@ -35,6 +35,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
   TextEditingController searchController = TextEditingController();
 
   bool _isAddInDetail = false;
+
   List<ItemOfStockDetails> productItem = [];
   String? _getScannedData = '';
 
@@ -77,7 +78,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
   }
 
   _addDetails() {
-    log('Selected product : ${_selectProductName!.isEmpty}');
+    //log('Selected product : ${_selectProductName!.isEmpty}');
     log('Selected Scanned Data : ${_getScannedData!.isEmpty}');
 
     if (_selectProductName == null && _getScannedData!.isEmpty) {
@@ -655,13 +656,16 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                       Container(
                         height: 50,
                         alignment: Alignment.bottomRight,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _addDetails();
-                          },
-                          child: const Text(
-                            'ADD IN DETAILS',
-                            style: TextStyle(color: Colors.white),
+                        child: Card(
+                          elevation: 4,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _addDetails();
+                            },
+                            child: const Text(
+                              'ADD IN DETAILS',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ),
                       ),
@@ -696,7 +700,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                       MediaQuery.of(context).size.height * 0.5,
                                   child: Center(
                                     child: Text(
-                                      'No,Product added',
+                                      'No Product added',
                                       style: gse.textStyle,
                                     ),
                                   ),
