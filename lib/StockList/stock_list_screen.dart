@@ -232,113 +232,103 @@ class _StackListScreenState extends State<StackListScreen> {
           ),
         ],
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/icon/phoenix-logo.png'),
-            fit: BoxFit.fill,
-            opacity: 0.1,
-          ),
-        ),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 60,
-              child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: _listOfStockByDate.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _selectedIndex = index;
-                          _selectedChips = [];
-                          //log('INDEX $index ${_selectedIndex?[index]}');
-                        });
-                        _showStockList(_listOfStockByDate[index]);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          border: Border.all(
-                            color: const Color(0xffD6D6D6),
-                          ),
-                          color: (_selectedIndex == index)
-                              ? Colors.red
-                              : Colors.white,
+      body: Column(
+        children: [
+          SizedBox(
+            height: 60,
+            child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: _listOfStockByDate.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = index;
+                        _selectedChips = [];
+                        //log('INDEX $index ${_selectedIndex?[index]}');
+                      });
+                      _showStockList(_listOfStockByDate[index]);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(
+                          color: const Color(0xffD6D6D6),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 12),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              _listOfStockByDate[index],
-                              style: (_selectedIndex == index)
-                                  ? Theme.of(context)
-                                      .textTheme
-                                      .displayLarge!
-                                      .copyWith(
-                                          fontSize: 16, color: Colors.white)
-                                  : Theme.of(context)
-                                      .textTheme
-                                      .displayLarge!
-                                      .copyWith(
-                                          fontSize: 14, color: Colors.black),
-                            ),
+                        color: (_selectedIndex == index)
+                            ? Colors.red
+                            : Colors.white,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 12),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            _listOfStockByDate[index],
+                            style: (_selectedIndex == index)
+                                ? Theme.of(context)
+                                    .textTheme
+                                    .displayLarge!
+                                    .copyWith(fontSize: 16, color: Colors.white)
+                                : Theme.of(context)
+                                    .textTheme
+                                    .displayLarge!
+                                    .copyWith(
+                                        fontSize: 14, color: Colors.black),
                           ),
                         ),
                       ),
                     ),
+                  ),
+                );
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          Expanded(
+            child: StreamBuilder<List<Stockdiary>>(
+              stream: globalBloc.getStockListdata.stream,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'No data found',
+                      style: gse.textStyle,
+                    ),
                   );
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Expanded(
-              child: StreamBuilder<List<Stockdiary>>(
-                stream: globalBloc.getStockListdata.stream,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(
-                      child: Text(
-                        'No data found',
-                        style: gse.textStyle,
-                      ),
-                    );
-                  }
-                  return ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          StockListWidget(
-                            onTap: () {
-                              print('Tapped >>>');
-                              _onTapStock(snapshot.data![index]);
-                            },
-                            id: snapshot.data![index].id,
-                            createdAt: DateFormat('yyyy-MMM-dd').format(
-                              DateTime.parse(snapshot.data![index].createdAt),
-                            ),
-                            transType: snapshot.data![index].transType,
+                }
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        StockListWidget(
+                          onTap: () {
+                            print('Tapped >>>');
+                            _onTapStock(snapshot.data![index]);
+                          },
+                          id: snapshot.data![index].id,
+                          createdAt: DateFormat('yyyy-MMM-dd').format(
+                            DateTime.parse(snapshot.data![index].createdAt),
                           ),
-                        ],
-                      );
-                    },
-                  );
-                },
-              ),
+                          transType: snapshot.data![index].transType,
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

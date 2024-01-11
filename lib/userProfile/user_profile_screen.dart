@@ -400,11 +400,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             }
             return UserProfileDetailsWidget(
               onTap: _clickOnChangePass,
-              email: snapshot.data!.users.email,
-              id: snapshot.data!.users.id,
-              name: snapshot.data!.users.name,
-              phone: snapshot.data!.users.phone,
-              rollName: snapshot.data!.users.roleName,
+              email: snapshot.data!.users.user.email,
+              id: snapshot.data!.users.user.id,
+              name: snapshot.data!.users.user.name,
+              phone: snapshot.data!.users.user.phone,
+              rollName: snapshot.data!.users.user.roleName,
             );
           },
         ),

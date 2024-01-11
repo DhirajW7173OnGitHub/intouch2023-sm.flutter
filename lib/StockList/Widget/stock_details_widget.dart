@@ -23,8 +23,13 @@ class StockDetailsWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           child: Card(
-            elevation: 8,
             color: CommonColor.CARD_COLOR,
+            elevation: 2,
+            shape: const UnderlineInputBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(8),
+              ),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TweenAnimationBuilder(

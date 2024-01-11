@@ -351,8 +351,8 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
       ),
       bottomSheet: Container(
         decoration: const BoxDecoration(
-            //  color: CommonColor.CONTAINER_COLOR,
-            ),
+          color: Colors.white,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -393,10 +393,11 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
         child: Column(
           children: [
             Card(
+              elevation: 8,
               color: CommonColor.CARD_COLOR,
               child: Container(
                 decoration: const BoxDecoration(
-                  // color: CommonColor.CONTAINER_COLOR,
+                  color: Colors.white,
                   borderRadius: BorderRadius.all(
                     Radius.circular(20),
                   ),
@@ -674,14 +675,10 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
             ),
             Expanded(
               child: Card(
+                elevation: 8,
                 child: Container(
                   decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/icon/phoenix-logo.png'),
-                      fit: BoxFit.fill,
-                      opacity: 0.1,
-                    ),
-                    //color: CommonColor.CONTAINER_COLOR,
+                    color: Colors.white,
                     borderRadius: BorderRadius.all(
                       Radius.circular(20),
                     ),

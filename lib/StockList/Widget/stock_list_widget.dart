@@ -25,7 +25,7 @@ class StockListWidget extends StatelessWidget {
           padding: const EdgeInsets.only(left: 10.0, right: 10, top: 8),
           child: Card(
             color: CommonColor.CARD_COLOR,
-            elevation: 8,
+            elevation: 6,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TweenAnimationBuilder(

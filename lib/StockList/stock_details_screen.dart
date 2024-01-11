@@ -97,57 +97,48 @@ class _StockDetailScreenState extends State<StockDetailScreen> {
       //     ),
       //   ],
       // ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/icon/phoenix-logo.png'),
-            fit: BoxFit.fill,
-            opacity: 0.2,
-          ),
-        ),
-        child: Column(
-          children: [
-            StreamBuilder<StockDetailsModel>(
-              stream: globalBloc.getProductDetails.stream,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center(
-                    child: Text('No data found'),
-                  );
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                }
-                return Column(
-                  children: [
-                    UserDetailsWidget(
-                      tCount: snapshot.data!.sumOfQty,
-                      userId: snapshot.data!.user.userId,
-                      userName: snapshot.data!.user.username,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: listOfStockDetails.length,
-                      itemBuilder: (context, index) {
-                        final listStock = listOfStockDetails[index];
-                        return Column(
-                          children: [
-                            StockDetailsWidget(
-                              stockData: listStock,
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ],
+      body: Column(
+        children: [
+          StreamBuilder<StockDetailsModel>(
+            stream: globalBloc.getProductDetails.stream,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(
+                  child: Text('No data found'),
                 );
-              },
-            ),
-          ],
-        ),
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              }
+              return Column(
+                children: [
+                  UserDetailsWidget(
+                    tCount: snapshot.data!.sumOfQty,
+                    userId: snapshot.data!.user.userId,
+                    userName: snapshot.data!.user.username,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: listOfStockDetails.length,
+                    itemBuilder: (context, index) {
+                      final listStock = listOfStockDetails[index];
+                      return Column(
+                        children: [
+                          StockDetailsWidget(
+                            stockData: listStock,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
       ),
     );
   }

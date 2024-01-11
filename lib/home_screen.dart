@@ -465,15 +465,10 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
               width: double.infinity,
               decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/icon/phoenix-logo.png'),
-                  fit: BoxFit.fill,
-                  opacity: 0.2,
-                ),
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
+                  topLeft: Radius.circular(35),
+                  topRight: Radius.circular(35),
                 ),
               ),
               child: StreamBuilder<MenuModel>(
