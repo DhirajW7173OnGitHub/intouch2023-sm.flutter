@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock_management/model/user_login_data_model.dart';
 import 'package:stock_management/utils/local_storage.dart';
@@ -27,9 +26,9 @@ class _NewSplashScreenState extends State<NewSplashScreen>
     with SingleTickerProviderStateMixin {
   final splashDelay = 6;
 
-  late AnimationController _controller;
-  late Animation<double> _opacity;
-  Animation? _colorAnimation;
+  // late AnimationController _controller;
+  // late Animation<double> _opacity;
+  // Animation? _colorAnimation;
 
   User? user;
 
@@ -37,17 +36,17 @@ class _NewSplashScreenState extends State<NewSplashScreen>
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 5),
-    );
+    // _controller = AnimationController(
+    //   vsync: this,
+    //   duration: const Duration(seconds: 5),
+    // );
 
-    _colorAnimation =
-        ColorTween(begin: const Color(0xFFF7EAE9), end: Colors.white)
-            .animate(_controller);
-    _opacity = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
+    // _colorAnimation =
+    //     ColorTween(begin: const Color(0xFFF7EAE9), end: Colors.white)
+    //         .animate(_controller);
+    // _opacity = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
 
-    _controller.forward();
+    // _controller.forward();
 
     // _controller.addListener(() {
     //   setState(() {});
@@ -167,46 +166,46 @@ class _NewSplashScreenState extends State<NewSplashScreen>
             // opacity: 0.8,
           ),
         ),
-        child: Center(
-          child: AnimatedBuilder(
-            animation: _controller,
-            builder: (context, child) {
-              return Opacity(
-                opacity: _opacity.value,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 150,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(20),
-                        ),
-                        border: Border.all(
-                          color: _colorAnimation!.value,
-                          width: 5,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "IPN", //besley
-                          style: GoogleFonts.anticDidone(
-                            textStyle: TextStyle(
-                              color: _colorAnimation!.value,
-                              fontSize: 42,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
+        // child: Center(
+        //   child: AnimatedBuilder(
+        //     animation: _controller,
+        //     builder: (context, child) {
+        //       return Opacity(
+        //         opacity: _opacity.value,
+        //         child: Column(
+        //           mainAxisAlignment: MainAxisAlignment.center,
+        //           children: [
+        //             Container(
+        //               width: 150,
+        //               height: 150,
+        //               decoration: BoxDecoration(
+        //                 borderRadius: const BorderRadius.all(
+        //                   Radius.circular(20),
+        //                 ),
+        //                 border: Border.all(
+        //                   color: _colorAnimation!.value,
+        //                   width: 5,
+        //                 ),
+        //               ),
+        //               child: Center(
+        //                 child: Text(
+        //                   "IPN", //besley
+        //                   style: GoogleFonts.anticDidone(
+        //                     textStyle: TextStyle(
+        //                       color: _colorAnimation!.value,
+        //                       fontSize: 42,
+        //                       fontWeight: FontWeight.bold,
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ),
+        //             ),
+        //           ],
+        //         ),
+        //       );
+        //     },
+        //   ),
+        // ),
       ),
     );
   }
