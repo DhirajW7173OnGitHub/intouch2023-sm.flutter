@@ -116,10 +116,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               label: "Change password",
               icon: Icon(Icons.password),
             ),
-            BottomNavigationBarItem(
-              label: "Profile",
-              icon: Icon(Icons.person),
-            ),
+            // BottomNavigationBarItem(
+            //   label: "Profile",
+            //   icon: Icon(Icons.person),
+            // ),
           ],
         ),
         body: Container(
