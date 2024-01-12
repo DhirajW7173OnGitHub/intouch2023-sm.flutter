@@ -325,7 +325,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(250),
         child: AppBar(
-          backgroundColor: Colors.transparent,
+          // backgroundColor: Colors.transparent,
           elevation: 8,
           title: Text(
             'Dashboard',
@@ -365,6 +365,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   const SizedBox(
                     height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
+                          )),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
