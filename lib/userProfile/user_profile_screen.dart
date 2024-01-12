@@ -271,27 +271,36 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Are you sure?'),
-            content: const Text('Do you want to Logout from the App'),
+            content: Text(
+              'Do you want to Logout from the App?',
+              style:
+                  Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
+            ),
             actions: <Widget>[
-              ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: const Text('No'),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  //  / await StorageUtil.putString(localStorageKey.ISLOGGEDIN!, "");
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: const Text('No'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      //  / await StorageUtil.putString(localStorageKey.ISLOGGEDIN!, "");
 
-                  var sharedPreference = await SharedPreferences.getInstance();
+                      var sharedPreference =
+                          await SharedPreferences.getInstance();
 
-                  sharedPreference.setBool(KEYLOGIN, false);
+                      sharedPreference.setBool(KEYLOGIN, false);
 
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen()),
-                      (Route<dynamic> route) => false);
-                },
-                child: const Text('Yes'),
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => const LoginScreen()),
+                          (Route<dynamic> route) => false);
+                    },
+                    child: const Text('Yes'),
+                  ),
+                ],
               ),
             ],
           ),
