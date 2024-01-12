@@ -4,16 +4,20 @@ import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock_management/Database/bloc.dart';
 import 'package:stock_management/Database/storage_utils.dart';
 import 'package:stock_management/Report/report_screen.dart';
 import 'package:stock_management/Scanner/details_scanner.dart';
 import 'package:stock_management/StockList/stock_list_screen.dart';
 import 'package:stock_management/globalFile/global_style_editor.dart';
+import 'package:stock_management/login_screen.dart';
 import 'package:stock_management/model/menu_list_model.dart';
 import 'package:stock_management/model/user_login_data_model.dart';
+import 'package:stock_management/splash_screen.dart';
 import 'package:stock_management/userProfile/Model/user_profile_details_model.dart';
 import 'package:stock_management/userProfile/change_password_screen.dart';
+import 'package:stock_management/userProfile/user_profile_screen.dart';
 import 'package:stock_management/utils/local_storage.dart';
 import 'package:stock_management/utils/session_manager.dart';
 
@@ -318,6 +322,50 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Future<bool> _clickOnLogOut() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            //  title: const Text('Are you sure?'),
+            content: Text(
+              'Do you want to Logout from the App',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(color: Colors.black),
+            ),
+            actions: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: const Text('No'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      //  / await StorageUtil.putString(localStorageKey.ISLOGGEDIN!, "");
+
+                      var sharedPreference =
+                          await SharedPreferences.getInstance();
+
+                      sharedPreference.setBool(KEYLOGIN, false);
+
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => const LoginScreen()),
+                          (Route<dynamic> route) => false);
+                    },
+                    child: const Text('Yes'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -418,18 +466,37 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             InkWell(
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const UserProfileScreen(),
+                  ),
+                );
               },
               child: ListTile(
                 leading: const Icon(
-                  Icons.home,
+                  Icons.person_2_outlined,
                 ),
                 title: Text(
-                  'Home',
+                  'Account',
                   style: GoogleFonts.adamina(),
                 ),
               ),
             ),
+            // InkWell(
+            //   onTap: () {
+            //     Navigator.pop(context);
+            //   },
+            //   child: ListTile(
+            //     leading: const Icon(
+            //       Icons.home,
+            //     ),
+            //     title: Text(
+            //       'Home',
+            //       style: GoogleFonts.adamina(),
+            //     ),
+            //   ),
+            // ),
             InkWell(
               onTap: () {
                 Navigator.push(
@@ -446,7 +513,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: GoogleFonts.adamina(),
                 ),
               ),
-            )
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+                _clickOnLogOut();
+              },
+              child: ListTile(
+                leading: const Icon(Icons.logout_outlined),
+                title: Text(
+                  'Log Out',
+                  style: GoogleFonts.adamina(),
+                ),
+              ),
+            ),
           ],
         ),
       ),
