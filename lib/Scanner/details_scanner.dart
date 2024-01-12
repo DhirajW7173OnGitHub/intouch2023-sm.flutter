@@ -82,9 +82,12 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
     log('Selected Scanned Data : ${_getScannedData!.isEmpty}');
 
     if (_selectProductName == null && _getScannedData!.isEmpty) {
-      globalUtils.showValidationError('Select product');
+      // globalUtils.showValidationError('Select product');
+      globalUtils.showNegativeSnackBar(
+          context: context, message: "Select product");
     } else if (_selectProductName!.isEmpty) {
-      globalUtils.showValidationError('Select product');
+      globalUtils.showNegativeSnackBar(
+          context: context, message: "Select product");
     } //else if (_selectValue == null && _selectProductName!.isNotEmpty) {
     //   globalUtils.showValidationError('Selecte Priority');
     // }
@@ -278,25 +281,6 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
     }
   }
 
-  // _homeBottomBarIconClick() {
-  //   Navigator.pushAndRemoveUntil(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (ctx) => const HomeScreen(),
-  //     ),
-  //     (route) => false,
-  //   );
-  // }
-
-  // _personBottomBarIconClick() {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (ctx) => const UserProfileScreen(),
-  //     ),
-  //   );
-  // }
-
   _selecctBottomNavigationBar(int index) {
     switch (index) {
       case 0:
@@ -312,18 +296,10 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Stock IN-OUT'),
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {
-        //       //this code refresh _getScannedData
-        //       setState(() {
-        //         _getScannedData = "";
-        //       });
-        //     },
-        //     icon: const Icon(Icons.sync),
-        //   ),
-        // ],
+        title: const Text(
+          'Stock IN-OUT',
+          //   style: GoogleFonts.adamina(),
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int index) {
@@ -379,7 +355,9 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                   if (productItem.length > 0) {
                     _clickSubmit();
                   } else {
-                    globalUtils.showValidationError('No,Product Added yet');
+                    //globalUtils.showValidationError('No,Product Added yet');
+                    globalUtils.showNegativeSnackBar(
+                        context: context, message: "No Product Added yet");
                   }
                 },
                 child: const Text(

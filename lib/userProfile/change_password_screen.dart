@@ -33,19 +33,25 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
     RegExp regExp = RegExp(pattern);
     if (currentPasswordController.text.isEmpty) {
-      globalUtils.showValidationError('Enter Current Password');
-      // globalUtils.showNegativeSnackBar(
-      //     context: context, message: 'Enter Current Password');
+      globalUtils.showNegativeSnackBar(
+          context: context, message: 'Enter Current Password');
     } else if (newPasswordController.text.isEmpty) {
-      globalUtils.showValidationError('Enter New Password');
+      globalUtils.showNegativeSnackBar(
+          context: context, message: 'Enter New Password');
     } else if (confirmPasswordController.text.isEmpty) {
-      globalUtils.showValidationError('Enter Comfirm Password');
+      globalUtils.showNegativeSnackBar(
+          context: context, message: 'Enter Comfirm Password');
     } else if (newPasswordController.text != confirmPasswordController.text) {
-      globalUtils.showValidationError(
-          'New Password and Confirm Password not matched.');
+      globalUtils.showNegativeSnackBar(
+          context: context,
+          message: 'New Password and Confirm Password not matched.');
     } else if (!regExp.hasMatch(newPasswordController.text)) {
-      globalUtils.showValidationError(
-          'Must have Lenght 8, 1 Number, 1 Lowercase, 1 Uppercase, 1 Special Character.');
+      globalUtils.showNegativeSnackBar(
+          context: context,
+          message:
+              "Must have Lenght 8, 1 Number, 1 Lowercase, 1 Uppercase, 1 Special Character.");
+      // globalUtils.showValidationError(
+      //     'Must have Lenght 8, 1 Number, 1 Lowercase, 1 Uppercase, 1 Special Character.');
     } else {
       CheckInternetConnection conn = CheckInternetConnection();
       conn.checkInternet().then(
