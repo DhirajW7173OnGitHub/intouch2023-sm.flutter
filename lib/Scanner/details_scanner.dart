@@ -133,6 +133,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
       },
       child: const Text("NO"),
     );
+
     Widget continueButton = ElevatedButton(
       onPressed: () async {
         Navigator.of(context).pop();
@@ -146,10 +147,15 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
     );
     //Setup Dialog
     AlertDialog alert = AlertDialog(
-      title: Text("Are you sure you want to submit this Stock List?"),
+      title: const Text("Are you sure you want to submit this Stock List?"),
       actions: [
-        cancelButton,
-        continueButton,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            cancelButton,
+            continueButton,
+          ],
+        ),
       ],
     );
     showDialog(
