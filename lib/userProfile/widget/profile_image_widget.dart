@@ -41,7 +41,7 @@ class ProfileImageWidget extends StatelessWidget {
           return Column(
             children: [
               InkWell(
-                onTap: () {},
+                onTap: onTap,
                 child: Stack(
                   children: [
                     ClipRRect(

@@ -12,9 +12,6 @@ class ReportScreen extends StatefulWidget {
 class _ReportScreenState extends State<ReportScreen> {
   int _selectedIndexForBottomBar = 1;
 
-  Color _color = Colors.green;
-
-  bool _isClicked = false;
   @override
   void initState() {
     super.initState();
@@ -64,45 +61,8 @@ class _ReportScreenState extends State<ReportScreen> {
         ],
       ),
       body: Column(
-        children: <Widget>[
-          AnimatedContainer(
-            width: 200,
-            height: 200,
-            margin: EdgeInsets.all(_margin),
-            color: _color,
-            duration: const Duration(seconds: 1),
-            child: Column(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      _margin = 50;
-                      _color = Colors.pink;
-                      _isClicked = true;
-                    });
-                  },
-                  child: _isClicked
-                      ? Container(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _margin = 0;
-                                _color = Colors.green;
-                                _isClicked = false;
-                              });
-                            },
-                            child: Text('No'),
-                          ),
-                        )
-                      : Text('Ok'),
-                ),
-              ],
-            ),
-          ),
-        ],
+        children: [],
       ),
     );
   }
-
-  double _margin = 0;
 }
