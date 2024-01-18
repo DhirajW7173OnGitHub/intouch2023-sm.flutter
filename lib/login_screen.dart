@@ -244,6 +244,8 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                       },
                       focusNode: _phoneFocus,
                       decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.mobile_friendly_outlined,
+                            color: Colors.red),
                         errorStyle: TextStyle(color: Colors.red),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.red)),
@@ -272,6 +274,7 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                       },
                       focusNode: _passwordFocus,
                       decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.key, color: Colors.red),
                         errorStyle: const TextStyle(color: Colors.red),
                         focusedBorder: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.red)),

@@ -161,6 +161,8 @@ class _SignUpScreenState extends State<SignUpScreen> with ValidationMixin {
                           },
                           focusNode: _phoneFocus,
                           decoration: const InputDecoration(
+                            prefixIcon:
+                                Icon(Icons.mobile_friendly, color: Colors.red),
                             errorStyle: TextStyle(color: Colors.red),
                             contentPadding: EdgeInsets.symmetric(
                               vertical: 10,
