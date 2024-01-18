@@ -161,6 +161,7 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
                       },
                       focusNode: password,
                       decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.key, color: Colors.red),
                         errorStyle: TextStyle(color: Colors.red),
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
@@ -197,6 +198,8 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
                       },
                       focusNode: confirmPass,
                       decoration: const InputDecoration(
+                        prefixIcon:
+                            Icon(Icons.key_off_outlined, color: Colors.red),
                         errorStyle: TextStyle(color: Colors.red),
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(

@@ -483,20 +483,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            // InkWell(
-            //   onTap: () {
-            //     Navigator.pop(context);
-            //   },
-            //   child: ListTile(
-            //     leading: const Icon(
-            //       Icons.home,
-            //     ),
-            //     title: Text(
-            //       'Home',
-            //       style: GoogleFonts.adamina(),
-            //     ),
-            //   ),
-            // ),
             InkWell(
               onTap: () {
                 Navigator.push(
