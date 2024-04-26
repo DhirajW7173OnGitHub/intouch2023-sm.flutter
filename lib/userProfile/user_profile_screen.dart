@@ -375,9 +375,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ),
                           child: Container(
                             padding: const EdgeInsets.all(2),
-                            color: const Color.fromARGB(255, 31, 28, 28),
+                            color: Colors.purple[
+                                700], //olor.fromARGB(255, 255, 253, 253),
                             child: const Icon(
-                              Icons.edit,
+                              Icons.camera_alt_outlined,
                               color: Colors.white,
                               size: 20,
                             ),
