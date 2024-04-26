@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:stock_management/Database/storage_utils.dart';
 import 'package:stock_management/auth/auth_%20bloc.dart';
@@ -7,6 +6,7 @@ import 'package:stock_management/auth/mixins.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
 import 'package:stock_management/login_screen.dart';
 import 'package:stock_management/utils/local_storage.dart';
+import 'package:stock_management/widget/common_ipn_widget.dart';
 
 class PasswordCreateScreen extends StatefulWidget {
   const PasswordCreateScreen({super.key});
@@ -24,6 +24,7 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
   FocusNode password = FocusNode();
   FocusNode confirmPass = FocusNode();
   bool _passVisible = false;
+  bool _confirmPassVisible = false;
   bool checkInternet = false;
 
   _clickOnSavePass() async {
@@ -40,6 +41,7 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
       );
       if (res["errorcode"] == 0) {
         globalUtils.showValidationError(res['msg']);
+
         Future.delayed(const Duration(microseconds: 2000), () {
           Navigator.pushReplacement(
             context,
@@ -70,10 +72,13 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
               padding: const EdgeInsets.only(
                   left: 20, right: 20, top: 10, bottom: 10),
               child: ElevatedButton(
-                onPressed: () {
-                  print("ON SAVE BUTTON CICK");
-                  _clickOnSavePass();
-                },
+                onPressed: passCofirmController.text.length > 0 &&
+                        passCofirmController.text == passwordController.text &&
+                        _formKey.currentState!.validate()
+                    ? () {
+                        _clickOnSavePass();
+                      }
+                    : null,
                 child: const Text('SAVE PASSWORD'),
               ),
             ),
@@ -93,7 +98,6 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
               child: Form(
                 key: _formKey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -101,33 +105,7 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
                     const SizedBox(
                       height: 180,
                     ),
-                    Center(
-                      child: Container(
-                        width: 150,
-                        height: 150,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                          border: Border.all(
-                            color: Colors.red,
-                            width: 5,
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "IPN", //besley
-                            style: GoogleFonts.anticDidone(
-                              textStyle: const TextStyle(
-                                color: Colors.red,
-                                fontSize: 42,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    const CommonIPNWidget(),
                     const SizedBox(
                       height: 20,
                     ),
@@ -147,8 +125,8 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
                     TextFormField(
                       controller: passwordController,
                       obscureText: !_passVisible,
+                      obscuringCharacter: '*',
                       textInputAction: TextInputAction.next,
-                      style: const TextStyle(color: Colors.red),
                       keyboardType: TextInputType.text,
                       autocorrect: false,
                       validator: validateLoginPassword,
@@ -160,29 +138,41 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
                         });
                       },
                       focusNode: password,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.key, color: Colors.red),
-                        errorStyle: TextStyle(color: Colors.red),
-                        border: OutlineInputBorder(),
-                        focusedBorder: OutlineInputBorder(
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _passVisible = !_passVisible;
+                            });
+                          },
+                          icon: _passVisible
+                              ? const Icon(
+                                  Icons.visibility,
+                                  color: Colors.red,
+                                )
+                              : const Icon(Icons.visibility_off,
+                                  color: Colors.red),
+                        ),
+                        errorStyle: const TextStyle(color: Colors.red),
+                        border: const OutlineInputBorder(),
+                        focusedBorder: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.red)),
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
                         labelText: "Password",
-                        labelStyle: TextStyle(color: Colors.red),
+                        labelStyle: const TextStyle(color: Colors.red),
                         hintText: 'A-z,0-9,!@#\$&*~',
-                        hintStyle: TextStyle(color: Colors.red),
                       ),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     TextFormField(
-                      obscureText: !_passVisible,
+                      obscureText: !_confirmPassVisible,
+                      obscuringCharacter: "*",
                       controller: passCofirmController,
                       autocorrect: false,
                       textInputAction: TextInputAction.done,
-                      style: const TextStyle(color: Colors.red),
                       keyboardType: TextInputType.text,
                       validator: (value) {
                         if (value!.isEmpty) return "";
@@ -197,19 +187,31 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen>
                         });
                       },
                       focusNode: confirmPass,
-                      decoration: const InputDecoration(
-                        prefixIcon:
-                            Icon(Icons.key_off_outlined, color: Colors.red),
-                        errorStyle: TextStyle(color: Colors.red),
-                        border: OutlineInputBorder(),
-                        focusedBorder: OutlineInputBorder(
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _confirmPassVisible = !_confirmPassVisible;
+                            });
+                          },
+                          icon: _confirmPassVisible
+                              ? const Icon(
+                                  Icons.visibility,
+                                  color: Colors.red,
+                                )
+                              : const Icon(Icons.visibility_off,
+                                  color: Colors.red),
+                        ),
+                        errorStyle: const TextStyle(color: Colors.red),
+                        border: const OutlineInputBorder(),
+                        focusedBorder: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.red)),
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                        labelText: "Re-Enter Password",
-                        labelStyle: TextStyle(color: Colors.red),
-                        hintText: "ReEnter Your Password",
-                        hintStyle: TextStyle(color: Colors.red),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
+                        labelText: "Confirmed Password",
+                        labelStyle: const TextStyle(color: Colors.red),
+                        hintText: "Confirmed Password",
+                        hintStyle: const TextStyle(color: Colors.red),
                       ),
                     ),
                   ],

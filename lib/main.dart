@@ -48,6 +48,11 @@ class MyApp extends StatelessWidget {
             Colors.red,
           ),
         ),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Colors.red,
+          selectionColor: Colors.red,
+          selectionHandleColor: Colors.red,
+        ),
         scaffoldBackgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black, size: 24),
         appBarTheme: const AppBarTheme(

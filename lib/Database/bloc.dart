@@ -42,7 +42,7 @@ class GlobalBloc {
     String? mobileNu,
     String? password,
   }) async {
-    EasyLoading.show(dismissOnTap: false);
+    EasyLoading.show(status: 'Loading...', dismissOnTap: false);
     Map bodyData = {
       "password": password,
       "phone": mobileNu,
@@ -81,7 +81,7 @@ class GlobalBloc {
 
   //---------------Menu List------------------------------//
   Future<MenuModel> getMenuListData(String roleId) async {
-    EasyLoading.show(dismissOnTap: false);
+    EasyLoading.show(status: 'Loading...', dismissOnTap: false);
     Map<String, dynamic> bodyData = {
       "role": roleId,
     };
@@ -100,7 +100,7 @@ class GlobalBloc {
   //product List
 
   Future<List<Product>> doFetchProductList({String? userId}) async {
-    EasyLoading.show(dismissOnTap: false);
+    EasyLoading.show(status: 'Loading...', dismissOnTap: false);
     Map<String, dynamic> bodyData = {
       "userid": userId,
       // "token": CommonString.TOKEN,
@@ -130,7 +130,7 @@ class GlobalBloc {
     String? startDate,
     String? endDate,
   }) async {
-    EasyLoading.show(dismissOnTap: false);
+    EasyLoading.show(status: 'Loading...', dismissOnTap: false);
     Map<String, dynamic> bodyData = {
       "userid": userId,
       "sdate": startDate,
@@ -155,7 +155,7 @@ class GlobalBloc {
 
   Future<StockDetailsModel> dofetchStockDetailsData(
       {String? userId, String? reqId}) async {
-    EasyLoading.show(dismissOnTap: false);
+    EasyLoading.show(status: 'Loading...', dismissOnTap: false);
     Map<String, dynamic> bodyData = {
       "reqid": reqId,
       "userid": userId,
@@ -180,7 +180,7 @@ class GlobalBloc {
 
   Future<UserProfileDetailsModel> doFetchUserProfileDetails(
       {String? userId}) async {
-    EasyLoading.show(dismissOnTap: false);
+    EasyLoading.show(status: 'Loading...', dismissOnTap: false);
     Map<String, dynamic> bodyData = {
       "userid": userId,
     };

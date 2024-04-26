@@ -18,7 +18,10 @@ class AuthBloc {
   // final BehaviorSubject<CheckOtpModel>
 
   Future<Map> doCheckOtp(String? mobileNu) async {
-    EasyLoading.show(dismissOnTap: false);
+    EasyLoading.show(
+      status: 'Loading...',
+      dismissOnTap: false,
+    );
 
     Map<String, dynamic> bodyData = {"phone": mobileNu};
 
@@ -35,7 +38,7 @@ class AuthBloc {
 
   Future<Map> doCreatePassword(
       {String? mobileNu, String? passW, String? otp}) async {
-    EasyLoading.show(dismissOnTap: false);
+    EasyLoading.show(status: 'Loading...', dismissOnTap: false);
     Map<String, dynamic> bodyData = {
       "phone": mobileNu,
       "password": passW,
@@ -52,7 +55,7 @@ class AuthBloc {
   //Password Changes Api
   Future<Map<String, dynamic>> doChangeOldPassword(
       {String? userId, String? currentPass, String? newPass}) async {
-    EasyLoading.show(dismissOnTap: false);
+    EasyLoading.show(status: 'Loading...', dismissOnTap: false);
     Map<String, dynamic> bodyData = {
       "userid": userId,
       "current_password": currentPass,

@@ -4,8 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock_management/Database/apicaller.dart';
 import 'package:stock_management/Database/bloc.dart';
 import 'package:stock_management/Database/storage_utils.dart';
+import 'package:stock_management/auth/auth_%20bloc.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
+import 'package:stock_management/globalFile/global_style_editor.dart';
 import 'package:stock_management/home_screen.dart';
+import 'package:stock_management/otp_checker_screen.dart';
 import 'package:stock_management/sign_up_screen.dart';
 import 'package:stock_management/splash_screen.dart';
 import 'package:stock_management/utils/check_internet.dart';
@@ -56,14 +59,50 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
   //   );
   // }
 
-  _SignUpKeyPress() {
-    print('Sign UP pressed'.toUpperCase());
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const SignUpScreen(),
-      ),
-    );
+  _signUpKeyPress() async {
+    checkInternet = await InternetConnectionChecker().hasConnection;
+    print('Check Internet : $checkInternet');
+
+    if (!checkInternet) {
+      CommonDialog.commonDialogFunc(
+        context,
+        message: 'Please, Check Internet Connection',
+        isBarrier: false,
+        second: 3,
+      );
+    } else // if (_formKey.currentState!.validate() && checkInternet) {
+    {
+      if (_formKey.currentState!.validate()) {
+        var condition = await authBloc.doCheckOtp(mobileController.text);
+        if (condition['msg'] == "Success") {
+          Future.delayed(const Duration(microseconds: 2000), () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const OTPCheckerScreen(),
+                settings: RouteSettings(arguments: {
+                  'phone': mobileController.text,
+                }),
+              ),
+            );
+          });
+        } else {
+          CommonDialog.commonDialogFunc(
+            context,
+            message: condition['msg'],
+            isBarrier: false,
+            second: 3,
+          );
+        }
+      } else {
+        CommonDialog.commonDialogFunc(
+          context,
+          message: 'Enter phone number',
+          isBarrier: false,
+          second: 3,
+        );
+      }
+    }
   }
 
   forgatePasswordDialog(BuildContext context) {
@@ -90,7 +129,10 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
 
         //Set Alert Dialog
         AlertDialog alert = AlertDialog(
-          title: const Text("Confirm!"),
+          title: const Text(
+            "Confirm!",
+            style: TextStyle(color: Colors.red),
+          ),
           content: Text("Are you sure you want to reset your password?",
               style: Theme.of(context).textTheme.bodyLarge),
           actions: [
@@ -219,9 +261,12 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    const Text(
-                      'LOGIN',
-                      style: TextStyle(
+                    Text(
+                      StorageUtil.getString(localStorageKey.ID!.toString())
+                              .isEmpty
+                          ? 'REGISTER'
+                          : 'LOGIN',
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         color: Colors.red,
@@ -244,8 +289,8 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                       },
                       focusNode: _phoneFocus,
                       decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.mobile_friendly_outlined,
-                            color: Colors.red),
+                        // prefixIcon: Icon(Icons.mobile_friendly_outlined,
+                        //     color: Colors.red),
                         errorStyle: TextStyle(color: Colors.red),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.red)),
@@ -259,83 +304,90 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    TextFormField(
-                      controller: passController,
-                      validator: validateLoginPassword,
-                      textInputAction: TextInputAction.done,
-                      style: const TextStyle(color: Colors.red),
-                      obscureText: !passVisible,
-                      keyboardType: TextInputType.text,
-                      onChanged: (value) {
-                        _formKey.currentState!.validate();
-                        setState(() {
-                          debugPrint(value);
-                        });
-                      },
-                      focusNode: _passwordFocus,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.key, color: Colors.red),
-                        errorStyle: const TextStyle(color: Colors.red),
-                        focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red)),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 10),
-                        border: const OutlineInputBorder(),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              passVisible = !passVisible;
-                            });
-                          },
-                          icon: Icon(
-                              passVisible
-                                  ? Icons.visibility_outlined
-                                  : Icons.visibility_off_outlined,
-                              color: Colors.red),
-                        ),
-                        labelText: 'Password',
-                        labelStyle: const TextStyle(color: Colors.red),
-                        hintText: 'Enter Password',
-                        hintStyle: const TextStyle(color: Colors.red),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Row(
-                      mainAxisAlignment:
-                          StorageUtil.getString(localStorageKey.ID!.toString())
-                                  .isEmpty
-                              ? MainAxisAlignment.spaceBetween
-                              : MainAxisAlignment.center,
-                      children: [
-                        if (StorageUtil.getString(
-                                localStorageKey.ID!.toString())
+                    (StorageUtil.getString(localStorageKey.ID!.toString())
                             .isEmpty)
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.36,
-                            child: ElevatedButton(
-                              onPressed: _SignUpKeyPress,
-                              child: const Text(
-                                'SING-UP',
-                                style: TextStyle(
-                                  color: Colors.white,
+                        ? Container()
+                        : TextFormField(
+                            controller: passController,
+                            obscuringCharacter: '*',
+                            validator: validateLoginPassword,
+                            textInputAction: TextInputAction.done,
+                            style: const TextStyle(color: Colors.red),
+                            obscureText: !passVisible,
+                            keyboardType: TextInputType.text,
+                            onChanged: (value) {
+                              _formKey.currentState!.validate();
+                              setState(() {
+                                debugPrint(value);
+                              });
+                            },
+                            focusNode: _passwordFocus,
+                            decoration: InputDecoration(
+                              prefixIcon:
+                                  const Icon(Icons.key, color: Colors.red),
+                              errorStyle: const TextStyle(color: Colors.red),
+                              focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.red)),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              border: const OutlineInputBorder(),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    passVisible = !passVisible;
+                                  });
+                                },
+                                icon: Icon(
+                                    passVisible
+                                        ? Icons.visibility_outlined
+                                        : Icons.visibility_off_outlined,
+                                    color: Colors.red),
+                              ),
+                              labelText: 'Password',
+                              labelStyle: const TextStyle(color: Colors.red),
+                              hintText: 'Enter Password',
+                              hintStyle: const TextStyle(color: Colors.red),
+                            ),
+                          ),
+                    (StorageUtil.getString(localStorageKey.ID!.toString())
+                            .isEmpty)
+                        ? Container()
+                        : const SizedBox(
+                            height: 40,
+                          ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      // StorageUtil.getString(localStorageKey.ID!.toString())
+                      //         .isEmpty
+                      //     ? MainAxisAlignment.spaceBetween
+                      //     : MainAxisAlignment.center,
+                      children: [
+                        (StorageUtil.getString(localStorageKey.ID!.toString())
+                                .isEmpty)
+                            ? SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.36,
+                                child: ElevatedButton(
+                                  onPressed: _signUpKeyPress,
+                                  child: const Text(
+                                    'SING-UP',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.36,
+                                child: ElevatedButton(
+                                  onPressed: login,
+                                  child: const Text(
+                                    'CONTINUE',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.36,
-                          child: ElevatedButton(
-                            onPressed: login,
-                            child: const Text(
-                              'CONTINUE',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                     const SizedBox(

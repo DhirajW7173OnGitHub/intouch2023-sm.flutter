@@ -4,17 +4,14 @@ import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock_management/Database/bloc.dart';
 import 'package:stock_management/Database/storage_utils.dart';
-import 'package:stock_management/Report/report_screen.dart';
 import 'package:stock_management/Scanner/details_scanner.dart';
 import 'package:stock_management/StockList/stock_list_screen.dart';
 import 'package:stock_management/globalFile/global_style_editor.dart';
 import 'package:stock_management/login_screen.dart';
 import 'package:stock_management/model/menu_list_model.dart';
 import 'package:stock_management/model/user_login_data_model.dart';
-import 'package:stock_management/splash_screen.dart';
 import 'package:stock_management/userProfile/Model/user_profile_details_model.dart';
 import 'package:stock_management/userProfile/change_password_screen.dart';
 import 'package:stock_management/userProfile/user_profile_screen.dart';
@@ -86,12 +83,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _repotsMenu() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const ReportScreen(),
-      ),
-    );
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => const ReportScreen(),
+    //   ),
+    // );
   }
 
   _menuNavigator(String menuId) {
@@ -328,11 +325,14 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context) => AlertDialog(
             //  title: const Text('Are you sure?'),
             content: Text(
-              'Do you want to Logout from the App',
+              'Do you want to Logout from the App?',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge!
-                  .copyWith(color: Colors.black),
+                  .copyWith(fontWeight: FontWeight.w700, fontSize: 18),
             ),
             actions: <Widget>[
               Row(
@@ -343,18 +343,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: const Text('No'),
                   ),
                   ElevatedButton(
-                    onPressed: () async {
-                      //  / await StorageUtil.putString(localStorageKey.ISLOGGEDIN!, "");
-
-                      var sharedPreference =
-                          await SharedPreferences.getInstance();
-
-                      sharedPreference.setBool(KEYLOGIN, false);
-
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (context) => const LoginScreen()),
-                          (Route<dynamic> route) => false);
+                    onPressed: () {
+                      StorageUtil.clearAll();
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                        (route) => false,
+                      );
                     },
                     child: const Text('Yes'),
                   ),
@@ -500,16 +497,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-                _clickOnLogOut();
-              },
-              child: ListTile(
-                leading: const Icon(Icons.logout_outlined),
-                title: Text(
-                  'Log Out',
-                  style: GoogleFonts.adamina(),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                    _clickOnLogOut();
+                  },
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.logout_outlined,
+                      color: Colors.red,
+                    ),
+                    title: Text(
+                      'Log Out',
+                      style: GoogleFonts.adamina(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

@@ -4,6 +4,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:stock_management/auth/auth_%20bloc.dart';
 import 'package:stock_management/auth/mixins.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
+import 'package:stock_management/globalFile/global_style_editor.dart';
 import 'package:stock_management/login_screen.dart';
 import 'package:stock_management/otp_checker_screen.dart';
 
@@ -48,30 +49,36 @@ class _SignUpScreenState extends State<SignUpScreen> with ValidationMixin {
 
     if (!checkInternet) {
       globalUtils.showValidationError('Please, Check Internet Connection');
-    } else // if (_formKey.currentState!.validate() && checkInternet) {
-    {
-      var condition = await authBloc.doCheckOtp(mobileController.text);
-      if (condition['msg'] == "Success") {
-        Future.delayed(const Duration(microseconds: 2000), () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const OTPCheckerScreen(),
-              settings: RouteSettings(arguments: {
-                'phone': mobileController.text,
-              }),
-            ),
-          );
-        });
+    } else {
+      if (mobileController.text.isEmpty) {
+        CommonDialog.commonDialogFunc(
+          context,
+          message: 'Enter Mobile Number',
+          isBarrier: false,
+          second: 3,
+        );
       } else {
-        globalUtils.showValidationError(condition['msg']);
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   SnackBar(
-        //     content: Text(condition['msg']),
-        //     backgroundColor: Colors.red,
-        //     duration: const Duration(seconds: 2),
-        //   ),
-        // );
+        var condition = await authBloc.doCheckOtp(mobileController.text);
+        if (condition['msg'] == "Success") {
+          Future.delayed(const Duration(microseconds: 2000), () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const OTPCheckerScreen(),
+                settings: RouteSettings(arguments: {
+                  'phone': mobileController.text,
+                }),
+              ),
+            );
+          });
+        } else {
+          CommonDialog.commonDialogFunc(
+            context,
+            message: condition['msg'],
+            isBarrier: false,
+            second: 3,
+          );
+        }
       }
     }
   }
@@ -161,8 +168,8 @@ class _SignUpScreenState extends State<SignUpScreen> with ValidationMixin {
                           },
                           focusNode: _phoneFocus,
                           decoration: const InputDecoration(
-                            prefixIcon:
-                                Icon(Icons.mobile_friendly, color: Colors.red),
+                            // prefixIcon:
+                            //     Icon(Icons.mobile_friendly, color: Colors.red),
                             errorStyle: TextStyle(color: Colors.red),
                             contentPadding: EdgeInsets.symmetric(
                               vertical: 10,

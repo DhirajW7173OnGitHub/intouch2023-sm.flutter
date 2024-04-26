@@ -74,7 +74,7 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
+        id: (["", null, false, 0].contains(json["id"])) ? "" : json["id"],
         name: (["", null, false, 0].contains(json["name"])) ? "" : json["name"],
         email:
             (["", null, false, 0].contains(json["email"])) ? "" : json["email"],

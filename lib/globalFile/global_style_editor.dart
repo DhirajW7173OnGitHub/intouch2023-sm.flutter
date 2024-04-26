@@ -60,3 +60,40 @@ class CommonCall {
     );
   }
 }
+
+class CommonDialog {
+  static commonDialogFunc(
+    BuildContext context, {
+    Widget? title,
+    required String message,
+    required bool isBarrier,
+    required int second,
+  }) {
+    showDialog(
+      barrierDismissible: isBarrier,
+      context: context,
+      builder: (context) {
+        Future.delayed(
+          Duration(seconds: second),
+          () {
+            Navigator.of(context).pop();
+          },
+        );
+        return AlertDialog(
+          title: Container(
+            child: Text(
+              message,
+              maxLines: 3,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stock_management/Database/storage_utils.dart';
 import 'package:stock_management/auth/auth_%20bloc.dart';
+import 'package:stock_management/auth/mixins.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
 import 'package:stock_management/globalFile/global_style_editor.dart';
 import 'package:stock_management/login_screen.dart';
@@ -15,7 +16,8 @@ class ChangePasswordScreen extends StatefulWidget {
   State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
 }
 
-class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
+class _ChangePasswordScreenState extends State<ChangePasswordScreen>
+    with ValidationMixin {
   int _selectBottomBarIndex = 1;
 
   TextEditingController newPasswordController = TextEditingController();
@@ -169,8 +171,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 Container(
                   margin: const EdgeInsets.only(left: 10, right: 10),
                   height: 50,
-                  child: TextField(
+                  child: TextFormField(
                     controller: newPasswordController,
+                    // validator: ,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Enter new Password',

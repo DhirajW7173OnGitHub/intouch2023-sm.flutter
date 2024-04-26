@@ -55,6 +55,36 @@ class GlobalUtils {
     );
   }
 
+  commonDialogForSubmit({
+    required BuildContext context,
+    // required String? message,
+    required bool isBarrier,
+    required Function() onTap,
+    required Widget widget,
+  }) {
+    return showDialog(
+      context: context,
+      barrierDismissible: isBarrier,
+      builder: (context) {
+        return AlertDialog(
+          // title: Text(
+          //   message!,
+          // ),
+          content: widget,
+          actions: [
+            Align(
+              alignment: Alignment.center,
+              child: ElevatedButton(
+                onPressed: onTap,
+                child: const Text('OK'),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   showValidationError(String message) {
     Fluttertoast.showToast(
       msg: message,

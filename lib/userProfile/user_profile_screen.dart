@@ -6,7 +6,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock_management/Database/apicaller.dart';
 import 'package:stock_management/Database/bloc.dart';
 import 'package:stock_management/Database/storage_utils.dart';
@@ -19,8 +18,6 @@ import 'package:stock_management/userProfile/widget/profile_details_widget.dart'
 import 'package:stock_management/userProfile/widget/profile_image_widget.dart';
 import 'package:stock_management/utils/local_storage.dart';
 import 'package:stock_management/utils/session_manager.dart';
-
-import '../splash_screen.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -273,8 +270,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           builder: (context) => AlertDialog(
             content: Text(
               'Do you want to Logout from the App?',
-              style:
-                  Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(fontWeight: FontWeight.w700, fontSize: 18),
             ),
             actions: <Widget>[
               Row(
@@ -285,18 +287,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     child: const Text('No'),
                   ),
                   ElevatedButton(
-                    onPressed: () async {
-                      //  / await StorageUtil.putString(localStorageKey.ISLOGGEDIN!, "");
-
-                      var sharedPreference =
-                          await SharedPreferences.getInstance();
-
-                      sharedPreference.setBool(KEYLOGIN, false);
-
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (context) => const LoginScreen()),
-                          (Route<dynamic> route) => false);
+                    onPressed: () {
+                      StorageUtil.clearAll();
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                        (route) => false,
+                      );
                     },
                     child: const Text('Yes'),
                   ),
