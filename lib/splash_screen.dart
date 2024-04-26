@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock_management/model/user_login_data_model.dart';
 import 'package:stock_management/utils/local_storage.dart';
@@ -53,8 +54,14 @@ class _NewSplashScreenState extends State<NewSplashScreen>
     //   print(_controller.value);
     //   print(_colorAnimation!.value);
     // });
-
+    _getAppVersion();
     _loadScreen();
+  }
+
+  _getAppVersion() async {
+    PackageInfo packagesInfo = await PackageInfo.fromPlatform();
+    log('Package Info :$packagesInfo');
+    log('Package Info version : ${packagesInfo.version}');
   }
 
   _loadScreen() async {
@@ -156,56 +163,79 @@ class _NewSplashScreenState extends State<NewSplashScreen>
         () {});
     return Scaffold(
       // backgroundColor: Color(0xFFFA2B1C),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/icon/phoenix-logo.png'),
-            fit: BoxFit.fill,
-            // opacity: 0.8,
+      body: Stack(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/icon/phoenix-logo.png'),
+                fit: BoxFit.fill,
+                // opacity: 0.8,
+              ),
+            ),
+            // child: Center(
+            //   child: AnimatedBuilder(
+            //     animation: _controller,
+            //     builder: (context, child) {
+            //       return Opacity(
+            //         opacity: _opacity.value,
+            //         child: Column(
+            //           mainAxisAlignment: MainAxisAlignment.center,
+            //           children: [
+            //             Container(
+            //               width: 150,
+            //               height: 150,
+            //               decoration: BoxDecoration(
+            //                 borderRadius: const BorderRadius.all(
+            //                   Radius.circular(20),
+            //                 ),
+            //                 border: Border.all(
+            //                   color: _colorAnimation!.value,
+            //                   width: 5,
+            //                 ),
+            //               ),
+            //               child: Center(
+            //                 child: Text(
+            //                   "IPN", //besley
+            //                   style: GoogleFonts.anticDidone(
+            //                     textStyle: TextStyle(
+            //                       color: _colorAnimation!.value,
+            //                       fontSize: 42,
+            //                       fontWeight: FontWeight.bold,
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
           ),
-        ),
-        // child: Center(
-        //   child: AnimatedBuilder(
-        //     animation: _controller,
-        //     builder: (context, child) {
-        //       return Opacity(
-        //         opacity: _opacity.value,
-        //         child: Column(
-        //           mainAxisAlignment: MainAxisAlignment.center,
-        //           children: [
-        //             Container(
-        //               width: 150,
-        //               height: 150,
-        //               decoration: BoxDecoration(
-        //                 borderRadius: const BorderRadius.all(
-        //                   Radius.circular(20),
-        //                 ),
-        //                 border: Border.all(
-        //                   color: _colorAnimation!.value,
-        //                   width: 5,
-        //                 ),
-        //               ),
-        //               child: Center(
-        //                 child: Text(
-        //                   "IPN", //besley
-        //                   style: GoogleFonts.anticDidone(
-        //                     textStyle: TextStyle(
-        //                       color: _colorAnimation!.value,
-        //                       fontSize: 42,
-        //                       fontWeight: FontWeight.bold,
-        //                     ),
-        //                   ),
-        //                 ),
-        //               ),
-        //             ),
-        //           ],
-        //         ),
-        //       );
-        //     },
-        //   ),
-        // ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: FutureBuilder<PackageInfo>(
+              future: PackageInfo.fromPlatform(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Container();
+                }
+                var appVersion = snapshot.data!.version;
+                return Text(
+                  appVersion,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(fontWeight: FontWeight.bold),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
