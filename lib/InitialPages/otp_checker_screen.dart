@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:stock_management/Database/storage_utils.dart';
+import 'package:stock_management/InitialPages/password_create_screen.dart';
+import 'package:stock_management/InitialPages/sign_up_screen.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
-import 'package:stock_management/password_create_screen.dart';
-import 'package:stock_management/sign_up_screen.dart';
 import 'package:stock_management/utils/local_storage.dart';
 
 class OTPCheckerScreen extends StatefulWidget {

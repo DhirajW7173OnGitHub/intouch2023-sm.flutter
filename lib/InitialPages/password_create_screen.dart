@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:stock_management/Database/storage_utils.dart';
+import 'package:stock_management/InitialPages/login_screen.dart';
 import 'package:stock_management/auth/auth_%20bloc.dart';
 import 'package:stock_management/auth/mixins.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
-import 'package:stock_management/login_screen.dart';
 import 'package:stock_management/utils/local_storage.dart';
 
 class PasswordCreateScreen extends StatefulWidget {

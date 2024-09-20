@@ -1,20 +1,18 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock_management/Database/bloc.dart';
 import 'package:stock_management/Database/storage_utils.dart';
+import 'package:stock_management/InitialPages/login_screen.dart';
 import 'package:stock_management/Report/report_screen.dart';
 import 'package:stock_management/Scanner/details_scanner.dart';
 import 'package:stock_management/StockList/stock_list_screen.dart';
+import 'package:stock_management/globalFile/common_logout.dart';
 import 'package:stock_management/globalFile/global_style_editor.dart';
-import 'package:stock_management/login_screen.dart';
 import 'package:stock_management/model/menu_list_model.dart';
 import 'package:stock_management/model/user_login_data_model.dart';
-import 'package:stock_management/splash_screen.dart';
 import 'package:stock_management/userProfile/Model/user_profile_details_model.dart';
 import 'package:stock_management/userProfile/change_password_screen.dart';
 import 'package:stock_management/userProfile/user_profile_screen.dart';
@@ -45,8 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-
-    log('GetInstance : ${StorageUtil.getString(localStorageKey.ID!.toString())} ');
 
     sessionManager.updateLoggedInTimeAndLoggedStatus();
 
@@ -109,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  _showDialogForPhoto(String base64ImageData) {
+  void _showDialogForPhoto(String base64ImageData) {
     showDialog(
       context: context,
       builder: (context) {
@@ -119,13 +115,6 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 400,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
-              // boxShadow: const [
-              //   BoxShadow(
-              //     color: Colors.grey,
-              //     blurRadius: 5,
-              //     offset: Offset(0, 2),
-              //   ),
-              // ],
             ),
             child: Image.memory(
               base64Decode(base64ImageData.split(',').last),
@@ -322,58 +311,22 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<bool> _clickOnLogOut() async {
-    return (await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            //  title: const Text('Are you sure?'),
-            content: Text(
-              'Do you want to Logout from the App',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge!
-                  .copyWith(color: Colors.black),
-            ),
-            actions: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => Navigator.of(context).pop(false),
-                    child: const Text('No'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      //  / await StorageUtil.putString(localStorageKey.ISLOGGEDIN!, "");
+  void clickOnYesButton() async {
+    //Delete ISLOGGEDIN data
+    await StorageUtil.putString(localStorageKey.ISLOGGEDIN, "");
 
-                      var sharedPreference =
-                          await SharedPreferences.getInstance();
-
-                      sharedPreference.setBool(KEYLOGIN, false);
-
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (context) => const LoginScreen()),
-                          (Route<dynamic> route) => false);
-                    },
-                    child: const Text('Yes'),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        )) ??
-        false;
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        (Route<dynamic> route) => false);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red, // Color.fromARGB(255, 26, 78, 247),
+      backgroundColor: Colors.red,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(250),
         child: AppBar(
-          // backgroundColor: Colors.transparent,
           elevation: 8,
           title: Text(
             'Dashboard',
@@ -418,13 +371,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.white,
-                          )),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(
@@ -450,7 +404,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Text(
-                    "${StorageUtil.getString(localStorageKey.EMAIL!)}",
+                    StorageUtil.getString(localStorageKey.EMAIL!),
                     style: GoogleFonts.adamina(
                       textStyle: const TextStyle(
                         color: Colors.white,
@@ -503,7 +457,8 @@ class _HomeScreenState extends State<HomeScreen> {
             InkWell(
               onTap: () {
                 Navigator.pop(context);
-                _clickOnLogOut();
+                CommonLogOut.CommonLogoutDialog(context,
+                    onTapYes: clickOnYesButton);
               },
               child: ListTile(
                 leading: const Icon(Icons.logout_outlined),

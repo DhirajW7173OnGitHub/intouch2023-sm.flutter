@@ -43,6 +43,11 @@ class StorageUtil {
     return _preferences!.setBool(key, value);
   }
 
+  // Remove a specific key
+  static Future<bool> remove(String key) async {
+    return _preferences?.remove(key) ?? Future.value(false);
+  }
+
   //clear String
   static Future<bool> clearAll() async {
     if (_preferences == null) return false;

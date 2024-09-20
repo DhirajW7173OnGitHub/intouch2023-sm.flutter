@@ -9,8 +9,8 @@ class LocalStorageKey {
   int? ERRORCODE = 0;
   String? MOBILENU = "MOBILENU";
   int? OTP = 0;
-  String? ISLOGGEDIN = "ISLOGGEDIN";
-  String? LASTLOGGEDINTIME = "LASTLOGGEDINTIME";
+  String ISLOGGEDIN = "ISLOGGEDIN";
+  String LASTLOGGEDINTIME = "LASTLOGGEDINTIME";
   String? TOKEN = "TOKEN";
 }
 

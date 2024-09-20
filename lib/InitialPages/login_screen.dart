@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock_management/Database/apicaller.dart';
 import 'package:stock_management/Database/bloc.dart';
 import 'package:stock_management/Database/storage_utils.dart';
+import 'package:stock_management/InitialPages/home_screen.dart';
+import 'package:stock_management/InitialPages/sign_up_screen.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
-import 'package:stock_management/home_screen.dart';
-import 'package:stock_management/sign_up_screen.dart';
-import 'package:stock_management/splash_screen.dart';
 import 'package:stock_management/utils/check_internet.dart';
 import 'package:stock_management/utils/local_storage.dart';
 import 'package:stock_management/utils/session_manager.dart';
 
-import 'auth/mixins.dart';
+import '../auth/mixins.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -56,8 +54,7 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
   //   );
   // }
 
-  _SignUpKeyPress() {
-    print('Sign UP pressed'.toUpperCase());
+  void signUpKeyPress() {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -123,8 +120,7 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
       return;
     }
     checkInternet = await InternetConnectionChecker().hasConnection;
-    print('Check Internet : $checkInternet');
-    print("Validator From Key :${_formKey.currentState!.validate()}");
+
     if (!checkInternet) {
       globalUtils.showValidationError('Please, Check Internet Connection');
     } else {
@@ -140,10 +136,6 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
           } else {
             await globalBloc.doFetchUserLoginData(
                 mobileNu: mobileController.text, password: passController.text);
-
-            var sharedPreference = await SharedPreferences.getInstance();
-
-            sharedPreference.setBool(KEYLOGIN, true);
 
             Future.delayed(
               const Duration(microseconds: 000),
@@ -230,78 +222,7 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                     const SizedBox(
                       height: 20,
                     ),
-                    TextFormField(
-                      controller: mobileController,
-                      validator: validatePhoneNumber,
-                      textInputAction: TextInputAction.next,
-                      style: const TextStyle(color: Colors.red),
-                      keyboardType: TextInputType.phone,
-                      onChanged: (value) {
-                        _formKey.currentState!.validate();
-                        setState(() {
-                          debugPrint(value);
-                        });
-                      },
-                      focusNode: _phoneFocus,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.mobile_friendly_outlined,
-                            color: Colors.red),
-                        errorStyle: TextStyle(color: Colors.red),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red)),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        border: OutlineInputBorder(),
-                        labelText: "Mobile Number",
-                        labelStyle: TextStyle(color: Colors.red),
-                        hintText: "Enter mobile number",
-                        hintStyle: TextStyle(color: Colors.red),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: passController,
-                      validator: validateLoginPassword,
-                      textInputAction: TextInputAction.done,
-                      style: const TextStyle(color: Colors.red),
-                      obscureText: !passVisible,
-                      keyboardType: TextInputType.text,
-                      onChanged: (value) {
-                        _formKey.currentState!.validate();
-                        setState(() {
-                          debugPrint(value);
-                        });
-                      },
-                      focusNode: _passwordFocus,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.key, color: Colors.red),
-                        errorStyle: const TextStyle(color: Colors.red),
-                        focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red)),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 10),
-                        border: const OutlineInputBorder(),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              passVisible = !passVisible;
-                            });
-                          },
-                          icon: Icon(
-                              passVisible
-                                  ? Icons.visibility_outlined
-                                  : Icons.visibility_off_outlined,
-                              color: Colors.red),
-                        ),
-                        labelText: 'Password',
-                        labelStyle: const TextStyle(color: Colors.red),
-                        hintText: 'Enter Password',
-                        hintStyle: const TextStyle(color: Colors.red),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
+                    buildMobileAndPasswordWidget(),
                     Row(
                       mainAxisAlignment:
                           StorageUtil.getString(localStorageKey.ID!.toString())
@@ -315,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.36,
                             child: ElevatedButton(
-                              onPressed: _SignUpKeyPress,
+                              onPressed: signUpKeyPress,
                               child: const Text(
                                 'SING-UP',
                                 style: TextStyle(
@@ -359,6 +280,83 @@ class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildMobileAndPasswordWidget() {
+    return Column(
+      children: [
+        TextFormField(
+          controller: mobileController,
+          validator: validatePhoneNumber,
+          textInputAction: TextInputAction.next,
+          style: const TextStyle(color: Colors.red),
+          keyboardType: TextInputType.phone,
+          onChanged: (value) {
+            _formKey.currentState!.validate();
+            setState(() {
+              debugPrint(value);
+            });
+          },
+          focusNode: _phoneFocus,
+          decoration: const InputDecoration(
+            prefixIcon: Icon(Icons.mobile_friendly_outlined, color: Colors.red),
+            errorStyle: TextStyle(color: Colors.red),
+            focusedBorder:
+                OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            border: OutlineInputBorder(),
+            labelText: "Mobile Number",
+            labelStyle: TextStyle(color: Colors.red),
+            hintText: "Enter mobile number",
+            hintStyle: TextStyle(color: Colors.red),
+          ),
+        ),
+        const SizedBox(height: 20),
+        TextFormField(
+          controller: passController,
+          validator: validateLoginPassword,
+          textInputAction: TextInputAction.done,
+          style: const TextStyle(color: Colors.red),
+          obscureText: !passVisible,
+          keyboardType: TextInputType.text,
+          onChanged: (value) {
+            _formKey.currentState!.validate();
+            setState(() {
+              debugPrint(value);
+            });
+          },
+          focusNode: _passwordFocus,
+          decoration: InputDecoration(
+            prefixIcon: const Icon(Icons.key, color: Colors.red),
+            errorStyle: const TextStyle(color: Colors.red),
+            focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.red)),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            border: const OutlineInputBorder(),
+            suffixIcon: IconButton(
+              onPressed: () {
+                setState(() {
+                  passVisible = !passVisible;
+                });
+              },
+              icon: Icon(
+                  passVisible
+                      ? Icons.visibility_outlined
+                      : Icons.visibility_off_outlined,
+                  color: Colors.red),
+            ),
+            labelText: 'Password',
+            labelStyle: const TextStyle(color: Colors.red),
+            hintText: 'Enter Password',
+            hintStyle: const TextStyle(color: Colors.red),
+          ),
+        ),
+        const SizedBox(
+          height: 40,
+        ),
+      ],
     );
   }
 }

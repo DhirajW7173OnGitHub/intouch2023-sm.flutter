@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:stock_management/InitialPages/login_screen.dart';
+import 'package:stock_management/InitialPages/otp_checker_screen.dart';
 import 'package:stock_management/auth/auth_%20bloc.dart';
 import 'package:stock_management/auth/mixins.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
-import 'package:stock_management/login_screen.dart';
-import 'package:stock_management/otp_checker_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:stock_management/home_screen.dart';
+import 'package:stock_management/InitialPages/home_screen.dart';
 import 'package:stock_management/userProfile/user_profile_screen.dart';
 
 class GlobalStyleEditor {

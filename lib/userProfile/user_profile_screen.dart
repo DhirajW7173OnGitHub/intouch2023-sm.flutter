@@ -10,17 +10,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock_management/Database/apicaller.dart';
 import 'package:stock_management/Database/bloc.dart';
 import 'package:stock_management/Database/storage_utils.dart';
+import 'package:stock_management/InitialPages/home_screen.dart';
+import 'package:stock_management/InitialPages/login_screen.dart';
+import 'package:stock_management/globalFile/common_logout.dart';
 import 'package:stock_management/globalFile/custom_dialog.dart';
-import 'package:stock_management/home_screen.dart';
-import 'package:stock_management/login_screen.dart';
 import 'package:stock_management/userProfile/Model/user_profile_details_model.dart';
 import 'package:stock_management/userProfile/change_password_screen.dart';
 import 'package:stock_management/userProfile/widget/profile_details_widget.dart';
 import 'package:stock_management/userProfile/widget/profile_image_widget.dart';
 import 'package:stock_management/utils/local_storage.dart';
 import 'package:stock_management/utils/session_manager.dart';
-
-import '../splash_screen.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -291,8 +290,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       var sharedPreference =
                           await SharedPreferences.getInstance();
 
-                      sharedPreference.setBool(KEYLOGIN, false);
-
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
                               builder: (context) => const LoginScreen()),
@@ -359,7 +356,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           );
                         },
                         onPressLogOut: () {
-                          _clickOnLogOut();
+                          CommonLogOut.CommonLogoutDialog(context,
+                              onTapYes: clickOnYesButton);
                         },
                       ),
                       const SizedBox(
@@ -419,5 +417,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         ),
       ),
     );
+  }
+
+  void clickOnYesButton() async {
+    //Delete ISLOGGEDIN data
+    await StorageUtil.putString(localStorageKey.ISLOGGEDIN, "");
+
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        (Route<dynamic> route) => false);
   }
 }

@@ -4,14 +4,24 @@ import 'package:stock_management/Database/storage_utils.dart';
 import 'package:stock_management/utils/local_storage.dart';
 
 class SessionManager {
-  Future<void> updateLoggedInTimeAndLoggedStatus() async {
+  Future<void> updateLastLoggedInTimeAndLoggedInStatus() async {
     final currentTime = DateTime.now();
-    await StorageUtil.putString(localStorageKey.ISLOGGEDIN!, "TRUE");
+    await StorageUtil.putString(localStorageKey.ISLOGGEDIN, "TRUE");
     await StorageUtil.putString(
-        localStorageKey.LASTLOGGEDINTIME!, currentTime.toIso8601String());
+        localStorageKey.LASTLOGGEDINTIME, currentTime.toIso8601String());
 
-    log('Logged In : ${StorageUtil.getString(localStorageKey.ISLOGGEDIN!)} ------------Is LoggedInTIME : ${StorageUtil.getString(localStorageKey.LASTLOGGEDINTIME!)}');
+    var loginStatus = StorageUtil.getString(localStorageKey.ISLOGGEDIN);
+    var loggedTime = StorageUtil.getString(localStorageKey.LASTLOGGEDINTIME);
+
+    log('islogged: $loginStatus --- loggedONTIME: $loggedTime');
   }
+
+  Future<void> logout() async {
+    await StorageUtil.remove(localStorageKey.ISLOGGEDIN);
+    await StorageUtil.remove(localStorageKey.LASTLOGGEDINTIME);
+  }
+
+  void updateLoggedInTimeAndLoggedStatus() {}
 }
 
 SessionManager sessionManager = SessionManager();

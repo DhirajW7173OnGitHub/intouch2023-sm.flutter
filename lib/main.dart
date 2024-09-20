@@ -3,7 +3,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:stock_management/Environment/environment.dart';
-import 'package:stock_management/splash_screen.dart';
+import 'package:stock_management/InitialPages/splash_screen.dart';
 
 import 'Database/storage_utils.dart';
 
