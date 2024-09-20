@@ -356,7 +356,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           );
                         },
                         onPressLogOut: () {
-                          CommonLogOut.CommonLogoutDialog(context,
+                          CommonLogOut.commonLogoutDialog(context,
                               onTapYes: clickOnYesButton);
                         },
                       ),

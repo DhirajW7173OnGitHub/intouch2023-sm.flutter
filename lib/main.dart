@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Intouch_stock',
+      title: 'StockManagement',
       builder: EasyLoading.init(),
       theme: ThemeData(
         scrollbarTheme: const ScrollbarThemeData().copyWith(

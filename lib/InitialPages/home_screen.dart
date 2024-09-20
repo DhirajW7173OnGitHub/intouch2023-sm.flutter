@@ -457,7 +457,7 @@ class _HomeScreenState extends State<HomeScreen> {
             InkWell(
               onTap: () {
                 Navigator.pop(context);
-                CommonLogOut.CommonLogoutDialog(context,
+                CommonLogOut.commonLogoutDialog(context,
                     onTapYes: clickOnYesButton);
               },
               child: ListTile(

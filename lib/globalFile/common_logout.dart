@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CommonLogOut {
-  static CommonLogoutDialog(
+  static commonLogoutDialog(
     BuildContext context, {
     required Function() onTapYes,
   }) {
@@ -12,8 +12,7 @@ class CommonLogOut {
           title: const Center(
             child: Text(
               "Alert",
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.purple),
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
             ),
           ),
           content: Text(
