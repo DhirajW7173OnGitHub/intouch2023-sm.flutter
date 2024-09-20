@@ -196,95 +196,167 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
       if (res["errorcode"] == 1) {
         globalUtils.showValidationError(res['msg']);
       } else if (res["msg"] == "Stock added successfully") {
-        globalUtils.showSlabDialog(
-          barrierColor: Colors.transparent.withOpacity(0.6),
-          context: context,
-          widget: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  height: 120,
-                  width: 120,
-                  child: Image(
-                    image: AssetImage('assets/icon/success.png'),
-                  ),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Text(
-                  "${res["msg"]}",
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Text(
-                    "Congratulations! You have succesfully Submitted with request id ${res["id"]}"),
-                SizedBox(height: 12),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomeScreen(),
-                      ),
-                    );
-                  },
-                  child: Text('OK'),
-                ),
-              ],
-            ),
-          ),
+        _getCommonDialog(
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HomeScreen(),
+              ),
+            );
+          },
+          newWord: "Added",
+          id: res["id"].toString(),
+          msg: res["msg"],
         );
+        // globalUtils.showSlabDialog(
+        //   barrierColor: Colors.transparent.withOpacity(0.6),
+        //   context: context,
+        //   widget: Padding(
+        //     padding: const EdgeInsets.all(16),
+        //     child: Column(
+        //       mainAxisSize: MainAxisSize.min,
+        //       children: [
+        //         Container(
+        //           height: 120,
+        //           width: 120,
+        //           child: Image(
+        //             image: AssetImage('assets/icon/success.png'),
+        //           ),
+        //         ),
+        //         SizedBox(
+        //           height: 12,
+        //         ),
+        //         Text(
+        //           "${res["msg"]}",
+        //           style: Theme.of(context).textTheme.headlineSmall,
+        //         ),
+        //         SizedBox(
+        //           height: 12,
+        //         ),
+        //         Text(
+        //             "Congratulations! You have succesfully Submitted with request id ${res["id"]}"),
+        //         SizedBox(height: 12),
+        //         ElevatedButton(
+        //           onPressed: () {
+        //             Navigator.pushReplacement(
+        //               context,
+        //               MaterialPageRoute(
+        //                 builder: (context) => HomeScreen(),
+        //               ),
+        //             );
+        //           },
+        //           child: Text('OK'),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // );
       } else if (res['msg'] == "Stock Remove successfully") {
-        globalUtils.showSlabDialog(
-          barrierColor: Colors.transparent.withOpacity(0.6),
-          context: context,
-          widget: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  height: 120,
-                  width: 120,
-                  child: Image(
-                    image: AssetImage('assets/icon/success.png'),
-                  ),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Text(
-                  "${res["msg"]}",
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Text(
-                    "Congratulations! You have succesfully Submitted with request id ${res["id"]}"),
-                SizedBox(height: 12),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomeScreen(),
-                      ),
-                    );
-                  },
-                  child: Text('OK'),
-                ),
-              ],
-            ),
-          ),
+        _getCommonDialog(
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HomeScreen(),
+              ),
+            );
+          },
+          newWord: "Removed",
+          id: res["id"].toString(),
+          msg: res["msg"],
         );
+        // globalUtils.showSlabDialog(
+        //   barrierColor: Colors.transparent.withOpacity(0.6),
+        //   context: context,
+        //   widget: Padding(
+        //     padding: const EdgeInsets.all(16),
+        //     child: Column(
+        //       mainAxisSize: MainAxisSize.min,
+        //       children: [
+        //         Container(
+        //           height: 120,
+        //           width: 120,
+        //           child: Image(
+        //             image: AssetImage('assets/icon/success.png'),
+        //           ),
+        //         ),
+        //         SizedBox(
+        //           height: 12,
+        //         ),
+        //         Text(
+        //           "${res["msg"]}",
+        //           style: Theme.of(context).textTheme.headlineSmall,
+        //         ),
+        //         SizedBox(
+        //           height: 12,
+        //         ),
+        //         Text(
+        //             "Congratulations! You have succesfully Submitted with request id ${res["id"]}"),
+        //         SizedBox(height: 12),
+        //         ElevatedButton(
+        //           onPressed: () {
+        //             Navigator.pushReplacement(
+        //               context,
+        //               MaterialPageRoute(
+        //                 builder: (context) => HomeScreen(),
+        //               ),
+        //             );
+        //           },
+        //           child: Text('OK'),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // );
       }
     }
+  }
+
+  _getCommonDialog({
+    String? msg,
+    String? id,
+    String? newWord,
+    required Function() onTap,
+  }) {
+    globalUtils.showSlabDialog(
+      barrierColor: Colors.transparent.withOpacity(0.6),
+      context: context,
+      widget: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(
+              height: 120,
+              width: 120,
+              child: Image(
+                image: AssetImage('assets/icon/success.png'),
+              ),
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            Text(
+              msg!,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            Text(
+              "Congratulations! You have successfully $newWord with request id $id",
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: onTap,
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   _selecctBottomNavigationBar(int index) {
@@ -316,7 +388,7 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
         selectedItemColor: CommonColor.BOTTOM_SELECT_COLOR,
         unselectedItemColor: CommonColor.BOTTOM_UNSELECT_COLOR,
         backgroundColor: Colors.white,
-        currentIndex: _selectedIndexForBottomBar!,
+        currentIndex: _selectedIndexForBottomBar,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -557,8 +629,6 @@ class _ScannerDetailsScreenState extends State<ScannerDetailsScreen> {
                                             //       .indexOf(_selectProductName!)],
                                             // );
                                           }
-
-                                          log('@@@@@@@@@@@@@@:$_isAddInDetail');
 
                                           return DropdownSearch<String>(
                                             //required to search bar label and more

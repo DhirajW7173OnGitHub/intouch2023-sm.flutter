@@ -44,7 +44,7 @@ class _ReportScreenState extends State<ReportScreen> {
         selectedItemColor: CommonColor.BOTTOM_SELECT_COLOR,
         unselectedItemColor: CommonColor.BOTTOM_UNSELECT_COLOR,
         backgroundColor: Colors.white,
-        currentIndex: _selectedIndexForBottomBar!,
+        currentIndex: _selectedIndexForBottomBar,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
